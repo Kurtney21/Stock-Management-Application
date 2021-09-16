@@ -1,4 +1,3 @@
-# Stock-Management-Application
 
 <h1 align="center">Stock-Management-Application for a small stationary company</h1>
 <h3 align="center">Application Development</h3>
