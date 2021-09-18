@@ -1,16 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * @author Curstin Jade Rose (220275408)
+ * @author Kurtney Clyde Jantjies (218138105)
+ * @group: Second Year ADP 262s
  */
-
 package za.ac.cput.stock.management.dbconnection;
 
-/**
- *
- * @author Kurtney Clyde Jantjies (218138105)
- * @group: Second Year
- */
+
 public class DBConnection {
 
 }
