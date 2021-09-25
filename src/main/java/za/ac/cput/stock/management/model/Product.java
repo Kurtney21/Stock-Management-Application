@@ -4,7 +4,7 @@
  * @group: Second Year ADP 262s
  */
 
-package za.ac.cput.model;
+package za.ac.cput.stock.management.model;
 
 public class Product
 {
