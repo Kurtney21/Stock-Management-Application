@@ -3,7 +3,6 @@
  * @author Kurtney Clyde Jantjies (218138105)
  * @group: Second Year ADP 262s
  */
-
 package za.ac.cput.stock.management.dbconnection;
 
 import java.io.FileInputStream;
