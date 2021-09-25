@@ -3,8 +3,9 @@
  * @author Kurtney Clyde Jantjies (218138105)
  * @group: Second Year ADP 262s
  */
-
 package za.ac.cput.stock.management.model;
+
+import java.util.Objects;
 
 public class Customer
 {
@@ -61,6 +62,52 @@ public class Customer
     public void setEmail(String email)
     {
         this.email = email;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int hash = 5;
+        hash = 37 * hash + this.customerId;
+        hash = 37 * hash + Objects.hashCode(this.name);
+        hash = 37 * hash + Objects.hashCode(this.lastname);
+        hash = 37 * hash + Objects.hashCode(this.email);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+        {
+            return true;
+        }
+        if (obj == null)
+        {
+            return false;
+        }
+        if (getClass() != obj.getClass())
+        {
+            return false;
+        }
+        final Customer other = (Customer) obj;
+        if (this.customerId != other.customerId)
+        {
+            return false;
+        }
+        if (!Objects.equals(this.name, other.name))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.lastname, other.lastname))
+        {
+            return false;
+        }
+        if (!Objects.equals(this.email, other.email))
+        {
+            return false;
+        }
+        return true;
     }
 
     @Override
