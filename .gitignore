@@ -1,1 +1,10 @@
+# NetBeans specific files to be ignored
 /target/
+nb-configuration.xml
+/nbproject/
+
+# derby log
+/dbms/derby.log
+
+# design
+/design/Stock-Management-App-Design.drawio
