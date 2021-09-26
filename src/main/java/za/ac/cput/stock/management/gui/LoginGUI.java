@@ -22,22 +22,22 @@ public class LoginGUI extends JFrame implements ActionListener{
     private JPanel northPnl,centerPnl,logoPnl,userLoginPnl;
     private JLabel logoLbl, userNameLbl, passwordLbl, exitLbl, minimizeLbl;
     private JButton loginBtn,minBtn,extBtn;
-    private JTextField userNameTxt, passwordTxt;
+    private JTextField userNameTxt;
     private JPasswordField passwordFld;
     private ImageIcon logoIcn,userIcon,passwordIcn, loginIcn;
-    private Image extIcn, minIcn;
     private Font ft;
     
     public LoginGUI(){
-    //Initilize Components
-        setUndecorated(true);
-        initPanels();
         initImageIcon();
+        setUndecorated(true);
+       
+        //Initilize Components
+        initPanels();
+        
         initLabels();
         initButtons();
         initLoginDetails();
         
-        ////
         //setup components
         setFormating();
         setComponents();
@@ -46,12 +46,8 @@ public class LoginGUI extends JFrame implements ActionListener{
         setListenerEvents();
     }
     
-    public void initComponents(){
-        
-    }
-    
     public void initPanels(){
-        ////
+        //
         northPnl = new JPanel();
         centerPnl = new JPanel();
         logoPnl = new JPanel();
@@ -148,15 +144,6 @@ public class LoginGUI extends JFrame implements ActionListener{
         extBtn.addActionListener(this);
         minBtn.addActionListener(this);
     }
-    
-    public static void main(String[] args) {
-        try {
-        UIManager.setLookAndFeel(new FlatDarkLaf());
-        }catch (Exception ex) {
-        }
-        LoginGUI Login = new LoginGUI();
-        Login.setVisible(true);
-    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -168,5 +155,13 @@ public class LoginGUI extends JFrame implements ActionListener{
         }else{
             this.setVisible(true);
         }
+    }
+
+    public String getUserName() {
+        return userNameTxt.getText();
+    }
+
+    public String getPassword(){
+        return passwordFld.getPassword().toString();
     }
 }

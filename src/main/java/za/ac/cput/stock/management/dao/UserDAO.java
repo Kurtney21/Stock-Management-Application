@@ -8,4 +8,8 @@ package za.ac.cput.stock.management.dao;
 
 public class UserDAO {
 
+    
+    public boolean checkAuthentication(String userName, String password){
+        return true;
+    }
 }
