@@ -6,6 +6,6 @@
 
 package za.ac.cput.stock.management.controller;
 
-public class UserController {
+public class HomeController {
 
 }

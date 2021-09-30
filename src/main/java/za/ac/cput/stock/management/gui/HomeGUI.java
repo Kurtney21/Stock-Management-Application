@@ -17,9 +17,11 @@ public class HomeGUI extends JFrame implements ActionListener{
     private JPanel westPnl, northPnl, centerPnl;
     private JLabel logoLbl, authorLbl, replaceLbl;
     private ImageIcon imgIcon;
-    private JButton extBtn, minBtn, adminBtn, productLookupBtn, posBtn, reportBtn, addCustomerBtn;
+    private JButton extBtn, minBtn, adminBtn, productLookupBtn, transactionBtn, reportBtn, addCustomerBtn;
     private int x, y = 0;
     private Point currentLocation;
+    private AddCustomerGUI addCustomerPnl;
+    private AdministrationGUI adminGUI;
     
     public HomeGUI(){
         setUndecorated(true);
@@ -31,12 +33,14 @@ public class HomeGUI extends JFrame implements ActionListener{
         setLayouts();
         setComponents();
         setListenerEvents();
-    }
+    }   
     
     public void initPanels(){
         northPnl = new JPanel();
         centerPnl = new JPanel();
         westPnl = new JPanel();
+        addCustomerPnl = new AddCustomerGUI();
+        adminGUI = new AdministrationGUI();
     }
 
     public void initLabels(){
@@ -51,9 +55,9 @@ public class HomeGUI extends JFrame implements ActionListener{
     public void initButtons(){
         extBtn = new JButton("X");
         minBtn = new JButton("-");
-        adminBtn = new JButton("Adminstration");
+        adminBtn = new JButton("Administration");
         productLookupBtn = new JButton("Inventory"); 
-        posBtn = new JButton("Sales");
+        transactionBtn = new JButton("Transaction");
         reportBtn = new JButton("Sales Report"); 
         addCustomerBtn = new JButton("Add Customer");
     }
@@ -78,9 +82,9 @@ public class HomeGUI extends JFrame implements ActionListener{
         westPnl.add(logoLbl);
         westPnl.add(Box.createRigidArea(new Dimension(10, 10)));
         
-        posBtn.setMaximumSize(new Dimension(120,60));
-        westPnl.add(posBtn);
-        posBtn.setFont(ftMdm);
+        transactionBtn.setMaximumSize(new Dimension(120,60));
+        westPnl.add(transactionBtn);
+        transactionBtn.setFont(ftMdm);
         reportBtn.setMaximumSize(new Dimension(120,60));
         reportBtn.setFont(ftMdm);
         westPnl.add(reportBtn);
@@ -111,7 +115,7 @@ public class HomeGUI extends JFrame implements ActionListener{
         minBtn.addActionListener(this); 
         adminBtn.addActionListener(this); 
         productLookupBtn.addActionListener(this); 
-        posBtn.addActionListener(this);
+        transactionBtn.addActionListener(this);
         reportBtn.addActionListener(this);
         addCustomerBtn.addActionListener(this);
         
@@ -146,15 +150,19 @@ public class HomeGUI extends JFrame implements ActionListener{
             this.setVisible(true);
         }
         if(e.getActionCommand().equals("Administration")){
-        
+            adminGUI.setVisible(true);
+            this.setVisible(false);
         }
         if(e.getActionCommand().equals("Inventory")){
         
         }
         if(e.getActionCommand().equals("Add Customer")){
-        
+            centerPnl.removeAll();
+            centerPnl.add(addCustomerPnl.getAddCustomerPnl());
+            centerPnl.repaint();
+            centerPnl.revalidate();
         }
-        if(e.getActionCommand().equals("Sales")){
+        if(e.getActionCommand().equals("Transaction")){
         
         }
         if(e.getActionCommand().equals("Sales Report")){

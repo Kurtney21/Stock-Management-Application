@@ -18,8 +18,9 @@ public class Main {
         }
         //Testing Ground for View
         
-        //new HomeGUI().setVisible(true);
+        new HomeGUI().setVisible(true);
         //new LoginGUI().setVisible(true);
-        new AdministrationGUI().setVisible(true);
+        //new AdministrationGUI().setVisible(true);
+        //new SalesReportGUI().setVisible(true);
     }
 }
