@@ -57,7 +57,7 @@ public class UserDAO implements DAO<User>
     {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
+    
     @Override
     public List<User> getAll()
     {
@@ -91,5 +91,10 @@ public class UserDAO implements DAO<User>
         }
         
         return users;
+    }
+    
+    public boolean checkAuthentication(String userName, String password)
+    {
+        return true;
     }
 }
