@@ -1,7 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * @author Curstin Jade Rose (220275408)
+ * @author Kurtney Clyde Jantjies (218138105)
+ * @group: Second Year ADP 262s
  */
 
 package za.ac.cput.stock.management.client.gui;
@@ -10,11 +10,6 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-/**
- *
- * @author Kurtney Clyde Jantjies (218138105)
- * @group: Second Year
- */
 public class AdministrationGUI extends JFrame implements ActionListener{
     private Font ft, ftTitle,ftMdm, ftSml;
     private JPanel westPnl, northPnl, centerPnl, opsProductPnl, tableProductPnl,opsUserPnl, tableUserPnl;    //Center Panel ==  Parent Panel
@@ -90,21 +85,13 @@ public class AdministrationGUI extends JFrame implements ActionListener{
         backUserBtn = new JButton("Back");
     }
     
-    public void setLayouts(){
-        this.setLayout(new BorderLayout());
-        northPnl.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        westPnl.setLayout(new BoxLayout(westPnl, BoxLayout.Y_AXIS));
-        centerPnl.setLayout(new CardLayout());
-        opsProductPnl.setLayout(new BoxLayout(opsProductPnl, BoxLayout.Y_AXIS));//For Button Operations
-        opsUserPnl.setLayout(new BoxLayout(opsUserPnl, BoxLayout.Y_AXIS));
-        tableProductPnl.setLayout(new FlowLayout(1));                      //Inputs Table
-        productManagePnl.setLayout(new FlowLayout(2));
-        userManagePnl.setLayout(new FlowLayout(2));
-    }
-    
     public void setComboBox(){
         //Operation to Populate ComboBox
-        String[] categories = {"Dairy","Cold-Beverage","Canned Goods","Condiment","Breakfast Cereal"};
+        String[] categories = {"Arts & Scholistic","Bags & Backpacks",
+            "Books & Paper","File & Filling",
+            "Inks & Toners","Office Supplies","Office Automation and Electronics",
+            "Stationary","Technology",
+            "Snacks & Drinks"};
         categorieBox = new JComboBox(categories);
         String[] roles = {"ADMIN","USER"};
         roleComboBox = new JComboBox(roles);
@@ -162,6 +149,18 @@ public class AdministrationGUI extends JFrame implements ActionListener{
         scUser.setPreferredSize(new Dimension(400,300));
     }
     
+    public void setLayouts(){
+        this.setLayout(new BorderLayout());
+        northPnl.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        westPnl.setLayout(new BoxLayout(westPnl, BoxLayout.Y_AXIS));
+        centerPnl.setLayout(new CardLayout());
+        opsProductPnl.setLayout(new BoxLayout(opsProductPnl, BoxLayout.Y_AXIS));//For Button Operations
+        opsUserPnl.setLayout(new BoxLayout(opsUserPnl, BoxLayout.Y_AXIS));
+        tableProductPnl.setLayout(new FlowLayout(1));                      //Inputs Table
+        productManagePnl.setLayout(new FlowLayout(FlowLayout.LEFT));
+        userManagePnl.setLayout(new FlowLayout(2));
+    }
+    
     public void setComponents(){
         //adding Panels to JFrame
         this.add(northPnl, BorderLayout.NORTH);
@@ -190,17 +189,18 @@ public class AdministrationGUI extends JFrame implements ActionListener{
         westPnl.add(authorLbl);
         
         //Product Management
+        productManagePnl.add(Box.createRigidArea(new Dimension(0, 190)));
         tableProductPnl.add(scProduct);
         productManagePnl.add(tableProductPnl);
         productManagePnl.add(Box.createRigidArea(new Dimension(40, 0)));
         
-        opsProductPnl.add(Box.createRigidArea(new Dimension(100, 20)));
+        opsProductPnl.add(Box.createRigidArea(new Dimension(0, 10)));
         opsProductPnl.add(categorieBox);
         opsProductPnl.add(Box.createRigidArea(new Dimension(0, 60)));
         opsProductPnl.add(addProductBtn);
         opsProductPnl.add(Box.createRigidArea(new Dimension(0, 20)));
         opsProductPnl.add(updateProductBtn);
-        opsProductPnl.add(Box.createRigidArea(new Dimension(90, 200)));
+        opsProductPnl.add(Box.createRigidArea(new Dimension(0, 20)));
         opsProductPnl.add(backProductBtn);
         productManagePnl.add(opsProductPnl);
         
@@ -254,7 +254,7 @@ public class AdministrationGUI extends JFrame implements ActionListener{
     
     public void setFrameSettings(){
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(800,450);
+        this.setSize(850,450);
         this.setLocationRelativeTo(null);
     }
     
@@ -280,7 +280,24 @@ public class AdministrationGUI extends JFrame implements ActionListener{
     }
     
     public void setUserManagementListener(){
-    
+        addUserBtn.addActionListener(new ActionListener(){  
+                public void actionPerformed(ActionEvent e){  
+                        
+                }  
+            }
+        );
+        updateUserBtn.addActionListener(new ActionListener(){  
+                public void actionPerformed(ActionEvent e){  
+                        
+                }  
+            }
+        );
+        backUserBtn.addActionListener(new ActionListener(){  
+                public void actionPerformed(ActionEvent e){  
+                        
+                }  
+            }
+        ); 
     }
     
     @Override

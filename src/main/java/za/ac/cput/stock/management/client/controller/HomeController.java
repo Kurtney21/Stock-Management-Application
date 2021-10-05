@@ -5,7 +5,7 @@
  */
 package za.ac.cput.stock.management.client.controller;
 
-public class UserController 
+public class HomeController 
 {
     
 }
