@@ -43,6 +43,8 @@ public class LoginGUI extends JFrame implements ActionListener{
         setLayouts();
         setFrameSettings();
         setListenerEvents();
+        
+        this.client = new Client();
     }
     
     public void initPanels(){
@@ -159,17 +161,17 @@ public class LoginGUI extends JFrame implements ActionListener{
             User validUser = null;
             var user = new User(getUserName(), getPassword());
             
+            // Work in progress
             try
             {
-                this.client = new Client();
                 validUser = this.client.requestToLogin(user);
             }
             catch(NullPointerException ex)
             {
                 System.out.println("Server offline");
+                this.client = new Client();
                 return;
             }
-            
             
             if (validUser != null)
             {
