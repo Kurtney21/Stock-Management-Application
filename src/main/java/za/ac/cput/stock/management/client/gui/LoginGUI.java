@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.net.ConnectException;
 import javax.swing.border.EmptyBorder;
 import za.ac.cput.stock.management.client.entry.Client;
 import za.ac.cput.stock.management.common.User;
@@ -25,7 +26,7 @@ public class LoginGUI extends JFrame implements ActionListener{
     private Font ft;
     private Client client;
     
-    public LoginGUI() throws IOException{        
+    public LoginGUI(){        
         initImageIcon();
         setUndecorated(true);
        
@@ -42,8 +43,6 @@ public class LoginGUI extends JFrame implements ActionListener{
         setLayouts();
         setFrameSettings();
         setListenerEvents();
-        
-        this.client = new Client();
     }
     
     public void initPanels(){
@@ -157,8 +156,20 @@ public class LoginGUI extends JFrame implements ActionListener{
         }
         if (e.getActionCommand().equals(loginBtn.getText()))
         {
+            User validUser = null;
             var user = new User(getUserName(), getPassword());
-            var validUser = this.client.requestToLogin(user);
+            
+            try
+            {
+                this.client = new Client();
+                validUser = this.client.requestToLogin(user);
+            }
+            catch(NullPointerException ex)
+            {
+                System.out.println("Server offline");
+                return;
+            }
+            
             
             if (validUser != null)
             {

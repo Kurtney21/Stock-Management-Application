@@ -26,10 +26,17 @@ public class Client
     private ObjectInputStream in;
     private ObjectOutputStream out;
     
-    public Client() throws IOException
+    public Client()
     {
-        startConnection(this.IP, this.PORT);
-        createStreams();
+        try
+        {
+            startConnection(this.IP, this.PORT);
+            createStreams();
+        } 
+        catch (IOException ex)
+        {
+            
+        }
     }
     
     /**
