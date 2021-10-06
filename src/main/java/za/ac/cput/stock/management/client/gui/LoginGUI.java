@@ -6,14 +6,18 @@
 
 package za.ac.cput.stock.management.client.gui;
 
+import com.formdev.flatlaf.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
-import java.net.ConnectException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.border.EmptyBorder;
-import za.ac.cput.stock.management.client.entry.Client;
+import javax.swing.event.*;
 import za.ac.cput.stock.management.common.User;
+import za.ac.cput.stock.management.controller.LoginController;
 
 public class LoginGUI extends JFrame implements ActionListener{
     //variables
@@ -24,9 +28,9 @@ public class LoginGUI extends JFrame implements ActionListener{
     private JPasswordField passwordFld;
     private ImageIcon logoIcn,userIcon,passwordIcn, loginIcn;
     private Font ft;
-    private Client client;
+    private LoginController loginController;
     
-    public LoginGUI(){        
+    public LoginGUI(){
         initImageIcon();
         setUndecorated(true);
        
@@ -43,12 +47,14 @@ public class LoginGUI extends JFrame implements ActionListener{
         setLayouts();
         setFrameSettings();
         setListenerEvents();
-        
-        this.client = new Client();
+        setControllers();
+    }
+    
+    public void setControllers(){
+        loginController = new LoginController();
     }
     
     public void initPanels(){
-        //
         northPnl = new JPanel();
         centerPnl = new JPanel();
         logoPnl = new JPanel();
@@ -156,53 +162,14 @@ public class LoginGUI extends JFrame implements ActionListener{
         }else{
             this.setVisible(true);
         }
-        if (e.getActionCommand().equals(loginBtn.getText()))
-        {
-            User validUser = null;
-            var user = new User(getUserName(), getPassword());
-            
-            // Work in progress
-            try
-            {
-                validUser = this.client.requestToLogin(user);
-            }
-            catch(NullPointerException ex)
-            {
-                System.out.println("Server offline");
-                this.client = new Client();
-                return;
-            }
-            
-            if (validUser != null)
-            {
-                // admin login
-                if (validUser.getUserRole().getRoleCode() == 1 
-                        && validUser.isStatus())
-                {
-                    System.out.println(getUserName() + " logged in");
-                }
-                // employee login
-                else if (validUser.getUserRole().getRoleCode() == 2 
-                        && validUser.isStatus())
-                {
-                    System.out.println(getUserName() + " logged in.");
-                }
-                // account disabled
-                else 
-                {
-                    System.out.println("Account is disabled");
-                }
-            }
-            else
-            {
-                // the user doesnt have an account
-                System.out.println("Incorrect username or password. Try again.");
-            }
+        if(e.getActionCommand().equals("Login")){
+            //User Authentication
+           loginController.checkAuthentication(getUserName(), getPassword(), this);
         }
     }
 
     public String getUserName() {
-        return userNameTxt.getText();
+        return userNameTxt.getText().toString();
     }
 
     public String getPassword(){

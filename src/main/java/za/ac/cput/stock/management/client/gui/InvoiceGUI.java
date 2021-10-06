@@ -4,7 +4,7 @@
  * @group: Second Year ADP 262s
  */
 
-package za.ac.cput.stock.management.client.gui;
+package za.ac.cput.stock.management.gui;
 
 import java.awt.*;
 import java.awt.event.*;

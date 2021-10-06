@@ -35,7 +35,7 @@ public class Client
         } 
         catch (IOException ex)
         {
-            
+            ex.printStackTrace();
         }
     }
     

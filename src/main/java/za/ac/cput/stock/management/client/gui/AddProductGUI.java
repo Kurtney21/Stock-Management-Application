@@ -1,27 +1,29 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * @author Curstin Jade Rose (220275408)
+ * @author Kurtney Clyde Jantjies (218138105)
+ * @group: Second Year ADP 262s
  */
 
 package za.ac.cput.stock.management.client.gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import za.ac.cput.stock.management.common.UserRole;
+import za.ac.cput.stock.management.common.Categories;
 
-public class AddCustomerGUI extends JFrame implements ActionListener{
+public class AddProductGUI extends JFrame implements ActionListener{
     private JPanel main;
     private JLabel logoLbl;
     private ImageIcon img;
-    private JTextField nameTxt, surnameTxt, emailTxt;
-    private JComboBox roleBox;
+    private JTextField nameTxt, quantityTxt, priceTxt;
+    private JScrollPane sc;
+    private JComboBox catBox;
     private JButton addBtn;
     
     
-    public AddCustomerGUI(){
+    public AddProductGUI(){
     //initialize components
 	initPanels(); 
         initImageIcon();
@@ -41,9 +43,9 @@ public class AddCustomerGUI extends JFrame implements ActionListener{
     }
     
     public void initTextFields(){
-        nameTxt = new JTextField("Enter Customer Name",15);
-        surnameTxt  = new JTextField("Enter Customer Surname",15);
-        emailTxt = new JTextField("Enter Customer email",15);
+        nameTxt = new JTextField("Enter Product Name",15);
+        quantityTxt  = new JTextField("Enter Product Quantity",15);
+        priceTxt = new JTextField("Enter Product Price",15);
     }
 
     public void initLabels(){
@@ -60,7 +62,7 @@ public class AddCustomerGUI extends JFrame implements ActionListener{
     }
     
     private void initComboBox(){
-        roleBox = new JComboBox(UserRole.values());
+        catBox = new JComboBox(new Categories().getCategories().toArray());
     }
     
     public void setLayouts(){
@@ -80,11 +82,14 @@ public class AddCustomerGUI extends JFrame implements ActionListener{
        nameTxt.setAlignmentX(Component.CENTER_ALIGNMENT);
        main.add(nameTxt);
        main.add(Box.createRigidArea(new Dimension(0,10)));
-       surnameTxt.setAlignmentX(Component.CENTER_ALIGNMENT);
-       main.add(surnameTxt);
+       quantityTxt.setAlignmentX(Component.CENTER_ALIGNMENT);
+       main.add(quantityTxt);
        main.add(Box.createRigidArea(new Dimension(0,10)));
-       emailTxt.setAlignmentX(Component.CENTER_ALIGNMENT);
-       main.add(emailTxt);
+       priceTxt.setAlignmentX(Component.CENTER_ALIGNMENT);
+       main.add(priceTxt);
+       main.add(Box.createRigidArea(new Dimension(0,10)));
+       catBox.setAlignmentX(Component.CENTER_ALIGNMENT);
+       main.add(catBox);
        main.add(Box.createRigidArea(new Dimension(0,10)));
        addBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
        main.add(addBtn);
@@ -110,12 +115,12 @@ public class AddCustomerGUI extends JFrame implements ActionListener{
         return nameTxt.getText();
     }
     
-    public String getSurname() {
-        return surnameTxt.getText();
+    public String getQuantity() {
+        return quantityTxt.getText();
     }
 
-    public String getEmail() {
-        return emailTxt.getText();
+    public String getPrice() {
+        return priceTxt.getText();
     }
     
 }

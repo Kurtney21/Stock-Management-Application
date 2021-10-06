@@ -1,7 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * @author Curstin Jade Rose (220275408)
+ * @author Kurtney Clyde Jantjies (218138105)
+ * @group: Second Year ADP 262s
  */
 
 package za.ac.cput.stock.management.client.gui;
@@ -10,9 +10,9 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import za.ac.cput.stock.management.common.UserRole;
+import za.ac.cput.stock.management.common.*;
 
-public class AddCustomerGUI extends JFrame implements ActionListener{
+public class AddEmployeeGUI extends JFrame implements ActionListener{
     private JPanel main;
     private JLabel logoLbl;
     private ImageIcon img;
@@ -21,7 +21,7 @@ public class AddCustomerGUI extends JFrame implements ActionListener{
     private JButton addBtn;
     
     
-    public AddCustomerGUI(){
+    public AddEmployeeGUI(){
     //initialize components
 	initPanels(); 
         initImageIcon();
@@ -41,9 +41,9 @@ public class AddCustomerGUI extends JFrame implements ActionListener{
     }
     
     public void initTextFields(){
-        nameTxt = new JTextField("Enter Customer Name",15);
-        surnameTxt  = new JTextField("Enter Customer Surname",15);
-        emailTxt = new JTextField("Enter Customer email",15);
+        nameTxt = new JTextField("Enter Employee Name",15);
+        surnameTxt  = new JTextField("Enter Employee Surname",15);
+        emailTxt = new JTextField("Enter Employee email",15);
     }
 
     public void initLabels(){
@@ -85,6 +85,9 @@ public class AddCustomerGUI extends JFrame implements ActionListener{
        main.add(Box.createRigidArea(new Dimension(0,10)));
        emailTxt.setAlignmentX(Component.CENTER_ALIGNMENT);
        main.add(emailTxt);
+       main.add(Box.createRigidArea(new Dimension(0,10)));
+       roleBox.setAlignmentX(Component.CENTER_ALIGNMENT);
+       main.add(roleBox);
        main.add(Box.createRigidArea(new Dimension(0,10)));
        addBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
        main.add(addBtn);

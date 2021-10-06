@@ -9,6 +9,7 @@ package za.ac.cput.stock.management.client.entry;
 import com.formdev.flatlaf.FlatDarkLaf;
 import javax.swing.UIManager;
 import za.ac.cput.stock.management.client.gui.*;
+import za.ac.cput.stock.management.server.entry.Server;
 
 public class Main {
     public static void main(String[] args) {
@@ -18,9 +19,6 @@ public class Main {
         }
         //Testing Ground for View
         
-        //new HomeGUI().setVisible(true);
         new LoginGUI().setVisible(true);
-        //new AdministrationGUI().setVisible(true);
-        //new SalesReportGUI().setVisible(true);
     }
 }
