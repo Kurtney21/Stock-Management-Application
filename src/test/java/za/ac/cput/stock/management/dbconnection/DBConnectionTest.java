@@ -4,6 +4,7 @@
  */
 package za.ac.cput.stock.management.dbconnection;
 
+import za.ac.cput.stock.management.server.dbconnection.DBConnection;
 import java.sql.SQLException;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
