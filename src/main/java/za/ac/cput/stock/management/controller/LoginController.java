@@ -19,7 +19,6 @@ public class LoginController {
     private MainFrame mainFrame;
     
     public LoginController(){
-        mainFrame = new MainFrame();
         client = new Client();
     }
     
@@ -40,6 +39,8 @@ public class LoginController {
             
             if (validUser != null)
             {
+                
+                mainFrame = new MainFrame();
                 // admin login
                 if (validUser.getUserRole().getRoleCode() == 1 
                         && validUser.isStatus())

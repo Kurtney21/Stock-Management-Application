@@ -18,17 +18,26 @@ public class SelectProductPanel implements ActionListener{
     private Font ft;
     private JTable table;
     private JLabel selectLbl;
-    private JComboBox catBox;
+    private JComboBox catBox, customerBox;
     private JScrollPane sc; 
     private JButton addBtn, displayCartBtn, checkoutBtn, cartBtn,backBtn;
 
     public SelectProductPanel(){
         initPanels();
         initButtons();
+        initComboBox();
         setTable();
         setLayouts();
         setComponents();
         setListenerEvents();
+    }
+    
+    public void initComboBox(){
+        catBox = new JComboBox(new Categories().getCategories().toArray());
+        String[]dummy = {"-select customer-","jane@fosn.co","jane@fosn.co",
+            "jane@fosn.co","jane@fosn.co","jane@fosn.co","jane@fosn.co",
+            "jane@fosn.co","jane@fosn.co"};
+        customerBox = new JComboBox(dummy);
     }
     
     public void initPanels(){
@@ -39,7 +48,6 @@ public class SelectProductPanel implements ActionListener{
         ft = new Font("Roboto", Font.PLAIN|Font.BOLD,12);
         selectLbl.setFont(ft);
         selectLbl.setForeground(new Color(50,127,90));
-        catBox = new JComboBox(new Categories().getCategories().toArray());
     }
 
     public void initButtons(){
@@ -93,10 +101,16 @@ public class SelectProductPanel implements ActionListener{
         tablePnl.add(sc);
         
         //Buttons and Boxes
+        
+        
         catBox.setAlignmentX(Component.CENTER_ALIGNMENT);
-        catBox.setMaximumSize(new Dimension(200,20));
+        catBox.setMaximumSize(new Dimension(250,20));
         buttonPnl.add(catBox);
         buttonPnl.add(Box.createRigidArea(new Dimension(100,10)));
+        customerBox.setAlignmentX(Component.CENTER_ALIGNMENT);
+        customerBox.setMaximumSize(new Dimension(200,20));
+        buttonPnl.add(customerBox);
+        buttonPnl.add(Box.createRigidArea(new Dimension(0,10)));
         addBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonPnl.add(addBtn);
         buttonPnl.add(Box.createRigidArea(new Dimension(0,10)));
@@ -105,7 +119,7 @@ public class SelectProductPanel implements ActionListener{
         buttonPnl.add(Box.createRigidArea(new Dimension(0,10)));
         displayCartBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonPnl.add(displayCartBtn);
-        buttonPnl.add(Box.createRigidArea(new Dimension(100,30)));
+        buttonPnl.add(Box.createRigidArea(new Dimension(0,30)));
         backBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonPnl.add(backBtn);
     }

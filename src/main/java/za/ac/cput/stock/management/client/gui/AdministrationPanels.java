@@ -93,7 +93,7 @@ public class AdministrationPanels {
         });
         scProduct.setViewportView(productTable);
         scProduct.setBorder(new EmptyBorder(10,10,10,10));
-        scProduct.setPreferredSize(new Dimension(600,350));
+        scProduct.setPreferredSize(new Dimension(600,400));
     }
     
     public void setUserTable(){
@@ -115,7 +115,7 @@ public class AdministrationPanels {
             }
         });
         scUser.setViewportView(userTable);
-        scUser.setPreferredSize(new Dimension(600,350));
+        scUser.setPreferredSize(new Dimension(700,400));
         scUser.setBorder(new EmptyBorder(10,10,10,10));
     }
     

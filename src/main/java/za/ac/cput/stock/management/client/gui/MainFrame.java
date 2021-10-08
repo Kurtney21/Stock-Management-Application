@@ -24,7 +24,6 @@ public class MainFrame extends JFrame implements ActionListener {
             inventoryMenuItem;
     private AdministrationPanels adminGUI;
     private JButton newTransButton;
-    private SelectCustomerPanel selectCustomerPnl;
     private SelectProductPanel selectProductPanel;
     private JLabel welcomeLbl, loginIcnLbl;
     private ImageIcon loginIcn;
@@ -32,6 +31,7 @@ public class MainFrame extends JFrame implements ActionListener {
     private SalesReportPanel salesReportGUI;
     private AddCustomerPanel addCustomerPanel;
     private InventoryPanel inventoryPanel;
+    private InvoiceGUI invoiceGUI;
     private Font ft;
     
     
@@ -69,7 +69,6 @@ public class MainFrame extends JFrame implements ActionListener {
         cardPnl.add(welcomeLbl);
         transactionPanel = new JPanel();
         transactionPanel.setLayout(new CardLayout());
-        selectCustomerPnl = new SelectCustomerPanel();
         selectProductPanel = new SelectProductPanel();
         northPnl = new JPanel();
         northPnl.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -81,6 +80,7 @@ public class MainFrame extends JFrame implements ActionListener {
         welcomePnl.setLayout(new CardLayout());
         welcomePnl.add(welcomeLbl);
         inventoryPanel = new InventoryPanel();
+        invoiceGUI = new InvoiceGUI();
     }
     
     public void initButtons(){
@@ -166,16 +166,32 @@ public class MainFrame extends JFrame implements ActionListener {
             });
         invoiceMenuItem.addActionListener(new ActionListener(){  
                 public void actionPerformed(ActionEvent e){  
-                        
+                        controller.swapPanels(cardPnl, invoiceGUI.getMainPane());
                 }  
             });
     }
     
     public void listeners(){
       //  mainFrameController.logoutMenu(this, logoutMenuItem);
+      salesReportGUI.getBackBtn().addActionListener(new ActionListener(){  
+                public void actionPerformed(ActionEvent e){  
+                        controller.swapPanels(cardPnl, welcomePnl);
+                }  
+            });
+      
       adminGUI.getAddProductBtn().addActionListener(new ActionListener(){  
                 public void actionPerformed(ActionEvent e){  
                     new AddProductGUI().setVisible(true);
+                }  
+            });
+      adminGUI.getBackProductBtn().addActionListener(new ActionListener(){  
+                public void actionPerformed(ActionEvent e){  
+                    controller.swapPanels(cardPnl, welcomePnl);
+                }  
+            });
+      adminGUI.getBackUserBtn().addActionListener(new ActionListener(){  
+                public void actionPerformed(ActionEvent e){  
+                    controller.swapPanels(cardPnl, welcomePnl);
                 }  
             });
       adminGUI.getAddUserBtn().addActionListener(new ActionListener(){  
@@ -191,22 +207,12 @@ public class MainFrame extends JFrame implements ActionListener {
         
         newTransButton.addActionListener(new ActionListener(){  
                 public void actionPerformed(ActionEvent e){  
-                        controller.swapPanels(cardPnl, selectCustomerPnl.getAddCustomerPnl());
+                         controller.swapPanels(cardPnl, selectProductPanel.getAddProductPnl());
                 }  
             });
-        selectCustomerPnl.getNextBtn().addActionListener(new ActionListener(){  
+        selectProductPanel.getAddBtn().addActionListener(new ActionListener(){  
                 public void actionPerformed(ActionEvent e){  
-                        controller.swapPanels(cardPnl, selectProductPanel.getAddProductPnl());
-                }  
-            });
-        selectCustomerPnl.getBackBtn().addActionListener(new ActionListener(){  
-                public void actionPerformed(ActionEvent e){  
-                        controller.swapPanels(cardPnl, welcomePnl);
-                }  
-            });
-        selectProductPanel.getBackBtn().addActionListener(new ActionListener(){  
-                public void actionPerformed(ActionEvent e){  
-                        controller.swapPanels(cardPnl, selectCustomerPnl.getAddCustomerPnl());
+                    //link to tablesssss
                 }  
             });
     }
