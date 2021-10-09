@@ -47,8 +47,8 @@ public class SalesReportPanel {
     }
 
     public void initButtons(){
-        headingLbl = new JLabel("Sales Report:", SwingConstants.LEFT);
-        exportBtn = new JButton("Export to txt.");
+        headingLbl = new JLabel("Sales Report", SwingConstants.LEFT);
+        exportBtn = new JButton("Export to .txt");
         backBtn =  new JButton("Back");
     }
     

@@ -19,6 +19,7 @@ public class LoginController
     private Client client;
     private MainFrame mainFrame;
     
+<<<<<<< HEAD
     public LoginController() 
     {
         try
@@ -30,6 +31,10 @@ public class LoginController
         {
             JOptionPane.showMessageDialog(mainFrame, "Server Offline.");
         }
+=======
+    public LoginController(){
+        client = new Client();
+>>>>>>> e1abe7b5ed5189d8a3f21f8c89b13931bdf4aa12
     }
     
     public void checkAuthentication(String userName, String password, JFrame frame)
@@ -75,8 +80,43 @@ public class LoginController
             // account disabled
             else 
             {
+<<<<<<< HEAD
                 JOptionPane.showMessageDialog(frame, 
                     "Account disabled.");
+=======
+                
+                mainFrame = new MainFrame();
+                // admin login
+                if (validUser.getUserRole().getRoleCode() == 1 
+                        && validUser.isStatus())
+                {
+                    mainFrame.setVisible(true);
+                    mainFrame.getLoginIcnLbl().setText(userName);
+                    mainFrame.getWelcomeLbl().setText("Welcome " + userName + "!!");
+                    frame.dispose();
+                    System.out.println(userName + " logged in");
+                }
+                // employee login
+                else if (validUser.getUserRole().getRoleCode() == 2 
+                        && validUser.isStatus())
+                {
+                    mainFrame.setVisible(true);
+                    mainFrame.getAdminMenu().setVisible(false);
+                    mainFrame.getLoginIcnLbl().setText(userName);
+                    frame.dispose();
+                    System.out.println(userName + " logged in.");
+                }
+                // account disabled
+                else 
+                {
+                    System.out.println("Account is disabled");
+                }
+            }
+            else
+            {
+                // the user doesnt have an account
+                System.out.println("Incorrect username or password. Try again.");
+>>>>>>> e1abe7b5ed5189d8a3f21f8c89b13931bdf4aa12
             }
         }
         else
