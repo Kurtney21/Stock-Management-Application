@@ -6,7 +6,10 @@
 package za.ac.cput.stock.management.server.entry;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import za.ac.cput.stock.management.common.User;
+import za.ac.cput.stock.management.server.dao.CategoryDAO;
 import za.ac.cput.stock.management.server.dao.UserDAO;
 
 /**
@@ -18,6 +21,7 @@ import za.ac.cput.stock.management.server.dao.UserDAO;
 public class RequestHandler
 {
     private UserDAO userDAO;
+    private CategoryDAO categoryDAO;
     
     public RequestHandler()
     {
@@ -40,5 +44,11 @@ public class RequestHandler
     {
         User userObj = this.userDAO.getUserLogins(user);
         return userObj;
+    }
+    
+    public List getAllCategories()
+    {
+        var categories = this.categoryDAO.getAll();
+        return categories;
     }
 }

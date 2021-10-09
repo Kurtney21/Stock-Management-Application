@@ -10,7 +10,6 @@ import com.formdev.flatlaf.FlatDarkLaf;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import za.ac.cput.stock.management.controller.MainFrameController;
 import za.ac.cput.stock.management.controller.ViewController;
 
@@ -36,7 +35,7 @@ public class MainFrame extends JFrame implements ActionListener {
     
     
     public MainFrame(){
-        // mainFrameController = new MainFrameController();
+        mainFrameController = new MainFrameController();
         initComponents();
         setFrameSettings();
         controller = new ViewController();
@@ -122,14 +121,41 @@ public class MainFrame extends JFrame implements ActionListener {
         adminMenu.add(userManagementMenuItem);
     }
     
-    public void closeFrame(){
-        this.dispose();
+    public void confirmExit()
+    {
+        int confirmExit = JOptionPane.showConfirmDialog(
+                        MainFrame.this, 
+                        "Are sure you want exit?",
+                        "Exit",
+                        JOptionPane.YES_NO_OPTION);
+                
+        if (confirmExit == JOptionPane.YES_OPTION)
+        {
+           dispose();
+        }
+        else
+        {
+            setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        }
+    }
+    
+    public void closeFrame()
+    {
+        addWindowListener(new WindowAdapter()
+        {
+            @Override
+            public void windowClosing(WindowEvent we)
+            {
+                confirmExit();
+            }
+        });
     }
     
     public void switchPanels(){
+        closeFrame();
         exitMenuItem.addActionListener(new ActionListener(){  
                 public void actionPerformed(ActionEvent e){
-                    closeFrame();
+                    confirmExit();
                 }  
             });
         

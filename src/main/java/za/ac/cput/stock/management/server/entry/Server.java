@@ -25,7 +25,6 @@ public class Server
     private Socket clientSocket;            // client/server socket
     private ObjectInputStream in;           
     private ObjectOutputStream out;
-    private boolean running = false;        // Server state
     private String request = "";            // Incoming requests from client
     private RequestHandler requestHandler;  // Handles the requests made by client
     
@@ -101,7 +100,6 @@ public class Server
      */
     public void run() throws IOException
     {
-        running = true;
         try 
         {
             do
@@ -117,20 +115,27 @@ public class Server
                         out.writeObject(userObj);
                         out.flush();
                     }
+                    case "requestCategories" ->
+                    {
+                        out.writeObject(requestHandler.getAllCategories());
+                        out.flush();
+                    }
                 }
             }
-            while (running);
+            while (!"clientDisconnect".equals(request));
         }
         catch (IOException| ClassNotFoundException ex)
         {
-            ex.printStackTrace();
+            System.out.println("Client disconnected");
         } 
         finally
         {
+            System.out.println("Server shutting down.");
             in.close();
             out.close();
             clientSocket.close();
             serverSocket.close();
+            System.out.println("Shutdown complete.");
         }
     }
     

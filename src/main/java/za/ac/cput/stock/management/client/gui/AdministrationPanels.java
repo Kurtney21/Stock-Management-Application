@@ -10,8 +10,10 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import za.ac.cput.stock.management.client.entry.Client;
 import za.ac.cput.stock.management.common.Categories;
 import za.ac.cput.stock.management.common.Fonts;
+import za.ac.cput.stock.management.controller.LoginController;
 
 public class AdministrationPanels {
     private JPanel westPnl, northPnl, centerPnl, opsProductPnl, tableProductPnl,
@@ -63,11 +65,11 @@ public class AdministrationPanels {
     
     public void setComboBox(){
         //Operation to Populate ComboBox
-        String[] categories = {"Arts & Scholistic","Bags & Backpacks",
+        /*String[] categories = {"Arts & Scholistic","Bags & Backpacks",
             "Books & Paper","File & Filling",
             "Inks & Toners","Office Supplies","Office Automation and Electronics",
             "Stationary","Technology",
-            "Snacks & Drinks"};
+            "Snacks & Drinks"};*/
         categorieBox = new JComboBox(new Categories().getCategories().toArray());
         String[] roles = {"ADMIN","USER"};
         roleComboBox = new JComboBox(roles);

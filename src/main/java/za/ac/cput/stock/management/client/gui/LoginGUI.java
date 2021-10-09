@@ -6,17 +6,10 @@
 
 package za.ac.cput.stock.management.client.gui;
 
-import com.formdev.flatlaf.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.*;
-import za.ac.cput.stock.management.common.User;
 import za.ac.cput.stock.management.controller.LoginController;
 
 public class LoginGUI extends JFrame implements ActionListener{
@@ -169,7 +162,7 @@ public class LoginGUI extends JFrame implements ActionListener{
     }
 
     public String getUserName() {
-        return userNameTxt.getText().toString();
+        return userNameTxt.getText();
     }
 
     public String getPassword(){

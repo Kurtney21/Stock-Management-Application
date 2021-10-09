@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.List;
 import za.ac.cput.stock.management.common.User;
 
 /**
@@ -20,23 +21,15 @@ import za.ac.cput.stock.management.common.User;
 public class Client
 {
     private final String IP = "127.0.0.1";  // The localhost addresss
-    private final int PORT = 4444;          // Port number to communicate on
+    private int PORT = 4444;                // Port number to communicate on
     
     private Socket clientSocket;            // Client socket
     private ObjectInputStream in;
     private ObjectOutputStream out;
+    private String response = ""; 
     
     public Client()
     {
-        try
-        {
-            startConnection(this.IP, this.PORT);
-            createStreams();
-        } 
-        catch (IOException ex)
-        {
-            ex.printStackTrace();
-        }
     }
     
     /**
@@ -44,13 +37,12 @@ public class Client
      * connect to the server on the specified
      * IP address and port number.
      * 
-     * @param ip
-     * @param port
      * @throws IOException 
      */
-    private void startConnection(String ip, int port) throws IOException
+    public void startConnection() throws IOException
     {
-        clientSocket = new Socket(ip, port);
+        clientSocket = new Socket(this.IP, this.PORT);
+        createStreams();
     }
     
     /**
@@ -78,7 +70,7 @@ public class Client
      * @param user
      * @return 
      */
-    public User requestToLogin(User user)
+    public User requestLogin(User user)
     {
         User validUser = null;
         
@@ -96,5 +88,23 @@ public class Client
             System.out.println(ex.getMessage());
         }
         return validUser;
+    }
+    
+    public List<String> getCategories()
+    {
+        List<String> categories = null;
+        try
+        {
+            response = (String) in.readObject();
+            if ("requestCategories".equals(response))
+            {
+                categories = (List<String>) in.readObject();
+            }
+            
+        } catch (IOException | ClassNotFoundException ex)
+        {
+            ex.printStackTrace();
+        }
+        return categories;
     }
 }

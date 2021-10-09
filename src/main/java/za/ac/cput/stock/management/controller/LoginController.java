@@ -6,74 +6,84 @@
 
 package za.ac.cput.stock.management.controller;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.io.IOException;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import za.ac.cput.stock.management.client.entry.Client;
 import za.ac.cput.stock.management.client.gui.MainFrame;
 import za.ac.cput.stock.management.common.User;
 
 
-public class LoginController {
+public class LoginController 
+{
     private Client client;
     private MainFrame mainFrame;
     
-    public LoginController(){
-        mainFrame = new MainFrame();
-        client = new Client();
+    public LoginController() 
+    {
+        try
+        {
+            client = new Client();
+            client.startConnection();
+        } 
+        catch (IOException ex)
+        {
+            JOptionPane.showMessageDialog(mainFrame, "Server Offline.");
+        }
     }
     
-    public void checkAuthentication(String userName, String password, JFrame frame){
-         User validUser = null;
-            var user = new User(userName, password);
-            
-            // Work in progress
-            try
+    public void checkAuthentication(String userName, String password, JFrame frame)
+    {
+        User validUser = null;
+        var user = new User(userName, password);
+        
+        try
+        {
+            validUser = this.client.requestLogin(user);
+        }
+        catch(NullPointerException ex)
+        {
+            JOptionPane.showMessageDialog(frame, "Server offline.");
+            return;
+        }
+        
+        if (validUser != null)
+        {
+            mainFrame = new MainFrame();
+            // admin login
+            if (validUser.getUserRole().getRoleCode() == 1 
+                    && validUser.isStatus())
             {
-                validUser = this.client.requestToLogin(user);
+                JOptionPane.showMessageDialog(frame, 
+                        "Welcome " + userName + "!");
+                mainFrame.setVisible(true);
+                mainFrame.getLoginIcnLbl().setText(userName);
+                mainFrame.getWelcomeLbl().setText("Welcome " + userName + "!!");
+                frame.dispose();
             }
-            catch(NullPointerException ex)
+            // employee login
+            else if (validUser.getUserRole().getRoleCode() == 2 
+                    && validUser.isStatus())
             {
-                System.out.println("Server offline");
-                this.client = new Client();
+                JOptionPane.showMessageDialog(frame, 
+                        "Welcome " + userName + "!");
+                mainFrame.setVisible(true);
+                mainFrame.getAdminMenu().setVisible(false);
+                mainFrame.getLoginIcnLbl().setText(userName);
+                frame.dispose();
             }
-            
-            if (validUser != null)
+            // account disabled
+            else 
             {
-                // admin login
-                if (validUser.getUserRole().getRoleCode() == 1 
-                        && validUser.isStatus())
-                {
-                    mainFrame.setVisible(true);
-                    mainFrame.getLoginIcnLbl().setText(userName);
-                    mainFrame.getWelcomeLbl().setText("Welcome " + userName + "!!");
-                    frame.dispose();
-                    System.out.println(userName + " logged in");
-                }
-                // employee login
-                else if (validUser.getUserRole().getRoleCode() == 2 
-                        && validUser.isStatus())
-                {
-                    mainFrame.setVisible(true);
-                    mainFrame.getAdminMenu().setVisible(false);
-                    mainFrame.getLoginIcnLbl().setText(userName);
-                    frame.dispose();
-                    System.out.println(userName + " logged in.");
-                }
-                // account disabled
-                else 
-                {
-                    System.out.println("Account is disabled");
-                }
+                JOptionPane.showMessageDialog(frame, 
+                    "Account disabled.");
             }
-            else
-            {
-                // the user doesnt have an account
-                System.out.println("Incorrect username or password. Try again.");
-            }
+        }
+        else
+        {
+            // the user doesnt have an account
+            JOptionPane.showMessageDialog(frame, 
+                    "Incorrect username or password.\nTry again.");
+        }
     }
-    
-    
-    
-
 }
