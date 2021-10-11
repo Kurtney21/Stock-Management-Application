@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.List;
+import za.ac.cput.stock.management.common.Customer;
 import za.ac.cput.stock.management.common.User;
 
 /**
@@ -96,5 +98,22 @@ public class Client
             System.out.println(ex.getMessage());
         }
         return validUser;
+    }
+    
+    
+    List<Customer> list;
+    public List<Customer> getListOfCustomer(){
+        try
+        {
+            out.writeObject("requestListOfCustomers");
+            out.flush();
+            
+            list = (List<Customer>)in.readObject();
+        }
+        catch (IOException | ClassNotFoundException ex )
+        {
+            System.out.println(ex.getMessage());
+        }
+        return list;
     }
 }

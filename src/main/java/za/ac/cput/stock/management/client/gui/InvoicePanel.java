@@ -12,7 +12,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-public class InvoiceGUI implements ActionListener{
+public class InvoicePanel implements ActionListener{
 
     private JPanel mainPane, centerPnl, eastPnl, westPnl;
     private  JComboBox customerBox, transactionBox;
@@ -20,7 +20,7 @@ public class InvoiceGUI implements ActionListener{
     private JTextArea txtArea;
     private JScrollPane sc;
     
-    public InvoiceGUI(){
+    public InvoicePanel(){
         //initialize components
 	initPanels();
         initComboBox();

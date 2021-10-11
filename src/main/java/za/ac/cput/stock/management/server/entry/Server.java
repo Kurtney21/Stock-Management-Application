@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.*;
+import java.util.List;
+import za.ac.cput.stock.management.common.Customer;
 import za.ac.cput.stock.management.common.User;
 
 /**
@@ -117,9 +119,15 @@ public class Server
                         out.writeObject(userObj);
                         out.flush();
                     }
+                    case "requestListOfCustomers" ->
+                   {
+                        out.writeObject(requestHandler.requestListOfCustomers());
+                        out.flush();
+                    }
                 }
             }
             while (running);
+            System.out.println("Server Jumps Out");
         }
         catch (IOException| ClassNotFoundException ex)
         {

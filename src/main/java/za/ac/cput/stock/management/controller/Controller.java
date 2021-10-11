@@ -8,17 +8,25 @@ package za.ac.cput.stock.management.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import za.ac.cput.stock.management.client.entry.Client;
 import za.ac.cput.stock.management.client.gui.MainFrame;
+import za.ac.cput.stock.management.common.Customer;
 import za.ac.cput.stock.management.common.User;
 
 
-public class LoginController {
+public class Controller {
     private Client client;
     private MainFrame mainFrame;
     
-    public LoginController(){
+    public Controller(){
         client = new Client();
     }
     
@@ -39,8 +47,13 @@ public class LoginController {
             
             if (validUser != null)
             {
-                
-                mainFrame = new MainFrame();
+                try {
+                    mainFrame = new MainFrame();
+                    onStart();
+                } 
+                catch (SQLException ex) {
+                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 // admin login
                 if (validUser.getUserRole().getRoleCode() == 1 
                         && validUser.isStatus())
@@ -73,6 +86,42 @@ public class LoginController {
                 System.out.println("Incorrect username or password. Try again.");
             }
     }
+    
+    public void onStart(){
+        populateTables();
+    }
+    
+    public void populateTables(){
+        try {
+            populateCustomerTable(mainFrame.getAddCustomerPanel().getTable());
+        } catch (SQLException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    //populates Customer Table
+        public void populateCustomerTable(JTable table) throws SQLException{
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+            int rowCount = model.getRowCount();
+            //Remove rows one by one from the end of the table
+            for (int i = rowCount - 1; i >= 0; i--) {
+                model.removeRow(i);
+            }
+            
+            List<Customer> list = client.getListOfCustomer();//Read Products from DB method (getAllProducts)
+            if(list!=null){
+                Object[] rowData = new Object[4];
+                for(int i = 0; i < list.size();i++){
+                    rowData[0] = list.get(i).getCustomerId();
+                    rowData[1] = list.get(i).getName();
+                    rowData[2] = list.get(i).getLastname();
+                    rowData[3] = list.get(i).getEmail();
+                    model.addRow(rowData);
+                }
+            }else{
+                System.out.println("List is Empty");
+            }
+            
+        }
     
     
     

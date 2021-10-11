@@ -5,9 +5,10 @@
  */
 package za.ac.cput.stock.management.common;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Customer
+public class Customer implements Serializable
 {
     int customerId;
     String name;

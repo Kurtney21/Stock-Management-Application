@@ -9,6 +9,8 @@ package za.ac.cput.stock.management.client.gui;
 import com.formdev.flatlaf.FlatDarkLaf;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.SQLException;
+import javax.accessibility.AccessibleContext;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import za.ac.cput.stock.management.controller.MainFrameController;
@@ -31,18 +33,18 @@ public class MainFrame extends JFrame implements ActionListener {
     private SalesReportPanel salesReportGUI;
     private AddCustomerPanel addCustomerPanel;
     private InventoryPanel inventoryPanel;
-    private InvoiceGUI invoiceGUI;
+    private InvoicePanel invoiceGUI;
     private Font ft;
     
     
-    public MainFrame(){
+    public MainFrame() throws SQLException{
         // mainFrameController = new MainFrameController();
         initComponents();
         setFrameSettings();
         controller = new ViewController();
     }
     
-    private void initComponents(){
+    private void initComponents() throws SQLException{
         initLabels();
         initPanels();
         initButtons();
@@ -61,7 +63,7 @@ public class MainFrame extends JFrame implements ActionListener {
         loginIcnLbl.setIcon(loginIcn);
     }
     
-    private void initPanels(){
+    private void initPanels() throws SQLException{
         adminGUI = new AdministrationPanels();
         cardPnl = new JPanel();
         cardPnl.setLayout(new CardLayout());
@@ -80,7 +82,7 @@ public class MainFrame extends JFrame implements ActionListener {
         welcomePnl.setLayout(new CardLayout());
         welcomePnl.add(welcomeLbl);
         inventoryPanel = new InventoryPanel();
-        invoiceGUI = new InvoiceGUI();
+        invoiceGUI = new InvoicePanel();
     }
     
     public void initButtons(){
@@ -272,5 +274,81 @@ public class MainFrame extends JFrame implements ActionListener {
             System.out.println(ex.getMessage());
         }
     }
+
+    public JPanel getCardPnl() {
+        return cardPnl;
+    }
+
+    public JPanel getTransactionPanel() {
+        return transactionPanel;
+    }
+
+    public JPanel getNorthPnl() {
+        return northPnl;
+    }
+
+    public JPanel getWelcomePnl() {
+        return welcomePnl;
+    }
+
+    public ViewController getController() {
+        return controller;
+    }
+
+    public JMenu getFileMenu() {
+        return fileMenu;
+    }
+
+    public JMenuItem getAddCustomerMenuItem() {
+        return addCustomerMenuItem;
+    }
+
+    public JMenuItem getSalesReportMenuItem() {
+        return salesReportMenuItem;
+    }
+
+    public JMenuItem getInventoryMenuItem() {
+        return inventoryMenuItem;
+    }
+
+    public AdministrationPanels getAdminGUI() {
+        return adminGUI;
+    }
+
+    public JButton getNewTransButton() {
+        return newTransButton;
+    }
+
+    public SelectProductPanel getSelectProductPanel() {
+        return selectProductPanel;
+    }
+
+    public ImageIcon getLoginIcn() {
+        return loginIcn;
+    }
+
+    public MainFrameController getMainFrameController() {
+        return mainFrameController;
+    }
+
+    public SalesReportPanel getSalesReportGUI() {
+        return salesReportGUI;
+    }
+
+    public AddCustomerPanel getAddCustomerPanel() {
+        return addCustomerPanel;
+    }
+
+    public InventoryPanel getInventoryPanel() {
+        return inventoryPanel;
+    }
+
+    public InvoicePanel getInvoiceGUI() {
+        return invoiceGUI;
+    }
+
+    public Font getFt() {
+        return ft;
+    }   
 
 }

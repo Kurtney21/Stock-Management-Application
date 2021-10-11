@@ -10,6 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import za.ac.cput.stock.management.server.dbconnection.DBConnection;
 import za.ac.cput.stock.management.common.Customer;
 
@@ -43,6 +45,8 @@ public class CustomerDAO implements DAO<Customer>
         }
         return cus;
     }
+    
+    
 
     @Override
     public Customer delete(Customer t)

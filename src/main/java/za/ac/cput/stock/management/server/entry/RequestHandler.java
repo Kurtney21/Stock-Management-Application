@@ -6,7 +6,10 @@
 package za.ac.cput.stock.management.server.entry;
 
 import java.sql.SQLException;
+import java.util.List;
+import za.ac.cput.stock.management.common.Customer;
 import za.ac.cput.stock.management.common.User;
+import za.ac.cput.stock.management.server.dao.CustomerDAO;
 import za.ac.cput.stock.management.server.dao.UserDAO;
 
 /**
@@ -18,12 +21,14 @@ import za.ac.cput.stock.management.server.dao.UserDAO;
 public class RequestHandler
 {
     private UserDAO userDAO;
+    private CustomerDAO customerDAO;
     
     public RequestHandler()
     {
         try
         {
             userDAO = new UserDAO();
+            customerDAO = new CustomerDAO();
         } 
         catch (SQLException ex)
         {
@@ -40,5 +45,10 @@ public class RequestHandler
     {
         User userObj = this.userDAO.getUserLogins(user);
         return userObj;
+    }
+    
+    public List<Customer> requestListOfCustomers(){
+        List<Customer> custList = this.customerDAO.getAll();
+        return custList;
     }
 }

@@ -14,11 +14,11 @@ import za.ac.cput.stock.management.server.entry.Server;
 public class Main {
     public static void main(String[] args) {
         try {
-        UIManager.setLookAndFeel(new FlatDarkLaf());
-        }catch (Exception ex) {
+                UIManager.setLookAndFeel(new FlatDarkLaf());
+                new LoginGUI().setVisible(true);
         }
-        //Testing Ground for View
-        
-        new LoginGUI().setVisible(true);
+        catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 }

@@ -17,7 +17,7 @@ import javax.imageio.ImageIO;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.*;
 import za.ac.cput.stock.management.common.User;
-import za.ac.cput.stock.management.controller.LoginController;
+import za.ac.cput.stock.management.controller.Controller;
 
 public class LoginGUI extends JFrame implements ActionListener{
     //variables
@@ -28,7 +28,7 @@ public class LoginGUI extends JFrame implements ActionListener{
     private JPasswordField passwordFld;
     private ImageIcon logoIcn,userIcon,passwordIcn, loginIcn;
     private Font ft;
-    private LoginController loginController;
+    private Controller loginController;
     
     public LoginGUI(){
         initImageIcon();
@@ -51,7 +51,7 @@ public class LoginGUI extends JFrame implements ActionListener{
     }
     
     public void setControllers(){
-        loginController = new LoginController();
+        loginController = new Controller();
     }
     
     public void initPanels(){
