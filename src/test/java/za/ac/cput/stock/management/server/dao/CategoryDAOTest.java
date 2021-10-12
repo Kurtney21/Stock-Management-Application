@@ -31,6 +31,7 @@ public class CategoryDAOTest
 
     /**
      * Test of getAll method, of class CategoryDAO.
+     * @throws java.sql.SQLException
      */
     @Test
     public void testGetAll() throws SQLException

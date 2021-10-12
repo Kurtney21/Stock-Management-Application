@@ -23,7 +23,7 @@ public class CategoryDAO implements DAO
     }
 
     @Override
-    public Object add(Object t)
+    public boolean add(Object t)
     {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -35,7 +35,7 @@ public class CategoryDAO implements DAO
     }
 
     @Override
-    public Object update(Object t)
+    public boolean update(Object t)
     {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -52,9 +52,9 @@ public class CategoryDAO implements DAO
         {
             while (rs.next())
             {
-                // int categoryId = rs.getInt(1);
-                String categoryName = rs.getString(2);
-                this.categories.add(categoryName);
+                String category = rs.getString(1);
+                
+                this.categories.add(category);
             }
         }
         catch (SQLException sqle)

@@ -37,7 +37,6 @@ public class ClientTest
     {
         System.out.println("startConnection");
         Client instance = new Client();
-        instance.startConnection();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -59,14 +58,14 @@ public class ClientTest
     }
 
     /**
-     * Test of getCategories method, of class Client.
+     * Test of requestCategories method, of class Client.
      */
     @Test
-    public void testGetCategories()
+    public void testRequestCategories()
     {
         System.out.println("getCategories");
         Client client = new Client();
         
-        System.out.println(client.getCategories());
+        System.out.println(client.requestCategories());
     }
 }

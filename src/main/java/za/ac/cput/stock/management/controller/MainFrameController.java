@@ -9,19 +9,16 @@ package za.ac.cput.stock.management.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JMenuItem;
-import za.ac.cput.stock.management.client.entry.Client;
 import za.ac.cput.stock.management.client.gui.LoginGUI;
 import za.ac.cput.stock.management.client.gui.MainFrame;
 
 public class MainFrameController 
 {
-    private Client client;
     MainFrame mainFrame;
     
     public MainFrameController()
     {
         // mainFrame = new MainFrame();
-        this.client = new Client();
     }
     
     public void logoutMenu(MainFrame frame, JMenuItem item)

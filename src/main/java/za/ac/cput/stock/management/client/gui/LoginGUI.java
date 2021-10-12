@@ -10,7 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.border.EmptyBorder;
-import za.ac.cput.stock.management.controller.LoginController;
+import za.ac.cput.stock.management.controller.Controller;
 
 public class LoginGUI extends JFrame implements ActionListener{
     //variables
@@ -21,7 +21,7 @@ public class LoginGUI extends JFrame implements ActionListener{
     private JPasswordField passwordFld;
     private ImageIcon logoIcn,userIcon,passwordIcn, loginIcn;
     private Font ft;
-    private LoginController loginController;
+    private Controller controller;
     
     public LoginGUI(){
         initImageIcon();
@@ -44,7 +44,7 @@ public class LoginGUI extends JFrame implements ActionListener{
     }
     
     public void setControllers(){
-        loginController = new LoginController();
+        controller = new Controller();
     }
     
     public void initPanels(){
@@ -157,7 +157,7 @@ public class LoginGUI extends JFrame implements ActionListener{
         }
         if(e.getActionCommand().equals("Login")){
             //User Authentication
-           loginController.checkAuthentication(getUserName(), getPassword(), this);
+           controller.checkAuthentication(getUserName(), getPassword(), this);
         }
     }
 

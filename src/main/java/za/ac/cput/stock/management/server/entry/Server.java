@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.*;
+import za.ac.cput.stock.management.common.Customer;
+import za.ac.cput.stock.management.common.Product;
+import za.ac.cput.stock.management.common.Transaction;
 import za.ac.cput.stock.management.common.User;
 
 /**
@@ -117,7 +120,89 @@ public class Server
                     }
                     case "requestCategories" ->
                     {
-                        out.writeObject(requestHandler.getAllCategories());
+                        var categories = requestHandler.getCategories();
+                        out.writeObject(categories);
+                        out.flush();
+                    }
+                    case "requestProducts" ->
+                    {
+                        var products = requestHandler.getProducts();
+                        out.writeObject(products);
+                        out.flush();
+                    }
+                    case "requestVendors" -> 
+                    {
+                        var vendors = requestHandler.getVendors();
+                        out.writeObject(vendors);
+                        out.flush();
+                    }
+                    case "requestCustomers" ->
+                    {
+                        var customers = requestHandler.getCustomers();
+                        out.writeObject(customers);
+                        out.flush();
+                    }
+                    case "requestUsers" ->
+                    {
+                        var users = requestHandler.getUsers();
+                        out.writeObject(users);
+                        out.flush();
+                    }
+                    case "requestTransactions" ->
+                    {
+                        var transactions = requestHandler.getTransactions();
+                        out.writeObject(transactions);
+                        out.flush();
+                    }
+                    case "requestAddProduct" ->
+                    {
+                        var product = (Product) in.readObject();
+                        boolean addProduct = requestHandler.addProduct(product);
+                        out.writeBoolean(addProduct);
+                        out.flush();
+                    }
+                    case "requestUpdateProduct" ->
+                    {
+                        var product = (Product) in.readObject();
+                        boolean updateProduct = requestHandler.updateProduct(product);
+                        out.writeBoolean(updateProduct);
+                        out.flush();
+                    }
+                    case "requestAddTransaction" ->
+                    {
+                        var product = (Product)in.readObject();
+                        var customer = (Customer) in.readObject();
+                        var user = (User) in.readObject();
+                        
+                        int totalQuantity = in.readInt();
+                        double totalPrice = in.readDouble();
+                        
+                        int addTransaction = requestHandler.addTransaction(
+                                product, 
+                                customer, 
+                                user,
+                                totalQuantity,
+                                totalPrice);
+                        
+                        out.writeInt(addTransaction);
+                        out.flush();
+                    }
+                    case "requestUpdateStockQuantity" ->
+                    {
+                        var transaction = (Transaction) in.readObject();
+                        boolean updateStockQuantity = 
+                                requestHandler.updateStockQuantity(transaction);
+                        
+                        out.writeBoolean(updateStockQuantity);
+                        out.flush();
+                    }
+                    case "requestProductsByCategory" ->
+                    {
+                        String category = (String) in.readObject();
+                        var productsByCategory = 
+                                requestHandler.getProductsByCategory(category);
+                        
+                        out.writeObject(productsByCategory);
                         out.flush();
                     }
                 }

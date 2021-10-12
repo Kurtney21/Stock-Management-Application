@@ -52,8 +52,9 @@ public class SalesReportPanel {
         backBtn =  new JButton("Back");
     }
     
+    // FIXME
     public void initComboBox(){
-        categorieBox = new JComboBox(new Categories().getCategories().toArray());
+        categorieBox = new JComboBox();
     }
     
     public void setProductTable(){
