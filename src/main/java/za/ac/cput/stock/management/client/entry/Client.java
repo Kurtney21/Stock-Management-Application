@@ -102,6 +102,7 @@ public class Client
     
     
     List<Customer> list;
+    List<User> userList;
     public List<Customer> getListOfCustomer(){
         try
         {
@@ -115,5 +116,37 @@ public class Client
             System.out.println(ex.getMessage());
         }
         return list;
+    }
+    
+    public List<User> getListOfUsers(){
+        try
+        {
+            out.writeObject("requestListOfUsers");
+            out.flush();
+            
+            userList = (List<User>)in.readObject();
+        }
+        catch (IOException | ClassNotFoundException ex )
+        {
+            System.out.println(ex.getMessage());
+        }
+        return userList;
+    }
+    
+    public Customer addCustomer(Customer customer){
+        try
+        {
+            out.writeObject("requestToAddCustomer");
+            out.flush();
+            out.writeObject(customer);
+            out.flush();
+            
+            customer = (Customer)in.readObject();
+        }
+        catch (IOException | ClassNotFoundException ex )
+        {
+            System.out.println(ex.getMessage());
+        }
+        return customer;
     }
 }

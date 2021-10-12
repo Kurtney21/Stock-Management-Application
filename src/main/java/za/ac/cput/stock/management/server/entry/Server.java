@@ -124,6 +124,18 @@ public class Server
                         out.writeObject(requestHandler.requestListOfCustomers());
                         out.flush();
                     }
+                   case "requestListOfUsers" ->
+                   {
+                        out.writeObject(requestHandler.requestListOfUsers());
+                        out.flush();
+                    }
+                   case "requestToAddCustomer" ->
+                   {
+                        var obj = (Customer)in.readObject();
+                        var customerObj = requestHandler.addCustomer(obj);
+                        out.writeObject(customerObj);
+                        out.flush();
+                    }
                 }
             }
             while (running);

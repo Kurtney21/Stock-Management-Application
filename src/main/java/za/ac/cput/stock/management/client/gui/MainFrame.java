@@ -13,8 +13,8 @@ import java.sql.SQLException;
 import javax.accessibility.AccessibleContext;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import za.ac.cput.stock.management.controller.MainFrameController;
-import za.ac.cput.stock.management.controller.ViewController;
+import za.ac.cput.stock.management.controller.*;
+import za.ac.cput.stock.management.controller.*;
 
 public class MainFrame extends JFrame implements ActionListener {
     private JPanel cardPnl, transactionPanel, northPnl, welcomePnl;
@@ -34,6 +34,9 @@ public class MainFrame extends JFrame implements ActionListener {
     private AddCustomerPanel addCustomerPanel;
     private InventoryPanel inventoryPanel;
     private InvoicePanel invoiceGUI;
+    private AddEmployeeGUI addEmployeeGUI;
+    private AddCustomerGUI addCustomerGUI;
+    private AddProductGUI addProductGUI;
     private Font ft;
     
     
@@ -61,6 +64,7 @@ public class MainFrame extends JFrame implements ActionListener {
         loginIcnLbl = new JLabel("$Username");
         loginIcn = new ImageIcon("resources/userLogin.png");
         loginIcnLbl.setIcon(loginIcn);
+        
     }
     
     private void initPanels() throws SQLException{
@@ -83,6 +87,11 @@ public class MainFrame extends JFrame implements ActionListener {
         welcomePnl.add(welcomeLbl);
         inventoryPanel = new InventoryPanel();
         invoiceGUI = new InvoicePanel();
+        
+        //Pop-up GUIs
+        addCustomerGUI = new AddCustomerGUI();
+        addEmployeeGUI = new AddEmployeeGUI();
+        addProductGUI = new AddProductGUI();
     }
     
     public void initButtons(){
@@ -183,7 +192,7 @@ public class MainFrame extends JFrame implements ActionListener {
       
       adminGUI.getAddProductBtn().addActionListener(new ActionListener(){  
                 public void actionPerformed(ActionEvent e){  
-                    new AddProductGUI().setVisible(true);
+                    addProductGUI.setVisible(true);
                 }  
             });
       adminGUI.getBackProductBtn().addActionListener(new ActionListener(){  
@@ -198,12 +207,12 @@ public class MainFrame extends JFrame implements ActionListener {
             });
       adminGUI.getAddUserBtn().addActionListener(new ActionListener(){  
                 public void actionPerformed(ActionEvent e){
-                    new AddEmployeeGUI().setVisible(true);
+                    addEmployeeGUI.setVisible(true);
                 }  
             });
       addCustomerPanel.getAddBtn().addActionListener(new ActionListener(){  
                 public void actionPerformed(ActionEvent e){  
-                    new AddCustomerGUI().setVisible(true);
+                    addCustomerGUI.setVisible(true);
                 }  
             });
         
@@ -225,7 +234,7 @@ public class MainFrame extends JFrame implements ActionListener {
     public void setFrameSettings(){
         this.setSize(1000,500);
         this.setLocationRelativeTo(null);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
     
     @Override
@@ -351,4 +360,17 @@ public class MainFrame extends JFrame implements ActionListener {
         return ft;
     }   
 
+    public AddEmployeeGUI getAddEmployeeGUI() {
+        return addEmployeeGUI;
+    }
+
+    public AddCustomerGUI getAddCustomerGUI() {
+        return addCustomerGUI;
+    }
+
+    public AddProductGUI getAddProductGUI() {
+        return addProductGUI;
+    }
+
+    
 }
