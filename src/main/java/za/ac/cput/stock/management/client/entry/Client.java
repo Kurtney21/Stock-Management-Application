@@ -320,4 +320,20 @@ public class Client
         }
         return productsByCategory;
     }
+    
+    List<Customer> list;
+    public List<Customer> getListOfCustomer(){
+        try
+        {
+            out.writeObject("requestListOfCustomers");
+            out.flush();
+            
+            list = (List<Customer>)in.readObject();
+        }
+        catch (IOException | ClassNotFoundException ex )
+        {
+            System.out.println(ex.getMessage());
+        }
+        return list;
+    }
 }

@@ -21,7 +21,7 @@ public class LoginGUI extends JFrame implements ActionListener{
     private JPasswordField passwordFld;
     private ImageIcon logoIcn,userIcon,passwordIcn, loginIcn;
     private Font ft;
-    private Controller controller;
+    private Controller controller = new Controller();
     
     public LoginGUI(){
         initImageIcon();
@@ -40,11 +40,6 @@ public class LoginGUI extends JFrame implements ActionListener{
         setLayouts();
         setFrameSettings();
         setListenerEvents();
-        setControllers();
-    }
-    
-    public void setControllers(){
-        controller = new Controller();
     }
     
     public void initPanels(){

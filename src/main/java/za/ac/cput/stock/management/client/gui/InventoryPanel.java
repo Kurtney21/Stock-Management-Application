@@ -43,7 +43,7 @@ public class InventoryPanel {
         inventoryTable.setModel(new DefaultTableModel(
                 new Object[][]{},
                 new String[]{
-                        "ID","Name","Quantity","Price","In-Stock"}
+                        "ID","Name","Quantity","Price","Vendor"}
         ){
             public boolean isCellEditable() {
                 return false;

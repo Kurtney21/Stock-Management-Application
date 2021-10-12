@@ -12,6 +12,7 @@ import java.net.*;
 import za.ac.cput.stock.management.common.Customer;
 import za.ac.cput.stock.management.common.Product;
 import za.ac.cput.stock.management.common.Transaction;
+import za.ac.cput.stock.management.common.Customer;
 import za.ac.cput.stock.management.common.User;
 
 /**
@@ -203,12 +204,16 @@ public class Server
                                 requestHandler.getProductsByCategory(category);
                         
                         out.writeObject(productsByCategory);
+                    }
+                    case "requestListOfCustomers" ->
+                    {
+                        out.writeObject(requestHandler.requestListOfCustomers());
                         out.flush();
                     }
                 }
-            }
-            while (!"clientDisconnect".equals(request));
+            }while (!"clientDisconnect".equals(request));
         }
+                    
         catch (IOException| ClassNotFoundException ex)
         {
             System.out.println("Client disconnected");
