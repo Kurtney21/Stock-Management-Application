@@ -54,16 +54,9 @@ public class SelectProductPanel implements ActionListener
 
     public void initButtons(){
         addBtn = new JButton("Add");
-        addBtn.setToolTipText("Add A Product to the Cart");
-        displayCartBtn = new JButton("Display Cart");
-        displayCartBtn.setToolTipText("Click here to display Cart");
-        checkoutBtn = new JButton("Checkout");
-        checkoutBtn.setToolTipText("Continue With Selected Products!");
-        cartBtn = new JButton("Cart");
-        cartBtn.setIcon(new ImageIcon("resources/cart.png"));
+        addBtn.setToolTipText("Add New Transaction");
         backBtn = new JButton("Back");
         backBtn.setToolTipText("Back to DashBoard");
-        
     }
 
     public void setTable(){
@@ -129,33 +122,17 @@ public class SelectProductPanel implements ActionListener
         tablePnl.add(sc);
         
         //Buttons and Boxes
-        
-        
-        catBox.setAlignmentX(Component.CENTER_ALIGNMENT);
-        catBox.setMaximumSize(new Dimension(250,20));
-        buttonPnl.add(catBox);
-        buttonPnl.add(Box.createRigidArea(new Dimension(100,10)));
-        customerBox.setAlignmentX(Component.CENTER_ALIGNMENT);
-        customerBox.setMaximumSize(new Dimension(200,20));
-        buttonPnl.add(customerBox);
         buttonPnl.add(Box.createRigidArea(new Dimension(0,10)));
         addBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonPnl.add(addBtn);
         buttonPnl.add(Box.createRigidArea(new Dimension(0,10)));
-        checkoutBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-        buttonPnl.add(checkoutBtn);
         buttonPnl.add(Box.createRigidArea(new Dimension(0,10)));
-        displayCartBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-        buttonPnl.add(displayCartBtn);
-        buttonPnl.add(Box.createRigidArea(new Dimension(0,30)));
         backBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         buttonPnl.add(backBtn);
     }
     
     public void setListenerEvents(){
         addBtn.addActionListener(this);
-        checkoutBtn.addActionListener(this);
-        displayCartBtn.addActionListener(this);
         backBtn.addActionListener(this);
     }
     
@@ -208,7 +185,11 @@ public class SelectProductPanel implements ActionListener
                 "Customer:", customerBox
             };
             
-            int confirm = JOptionPane.showConfirmDialog(null, inputs, null, JOptionPane.OK_CANCEL_OPTION);
+            int confirm = JOptionPane.showConfirmDialog(
+                    null, 
+                    inputs, 
+                    "Add New Transaction", 
+                    JOptionPane.OK_CANCEL_OPTION);
             
             if(confirm == JOptionPane.OK_OPTION)
             {
@@ -290,18 +271,6 @@ public class SelectProductPanel implements ActionListener
 
     public JButton getAddBtn() {
         return addBtn;
-    }
-
-    public JButton getDisplayCartBtn() {
-        return displayCartBtn;
-    }
-
-    public JButton getCheckoutBtn() {
-        return checkoutBtn;
-    }
-
-    public JButton getCartBtn() {
-        return cartBtn;
     }
 
     public JButton getBackBtn() {

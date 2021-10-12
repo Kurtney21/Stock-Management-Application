@@ -8,9 +8,11 @@ package za.ac.cput.stock.management.client.gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.SQLException;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import za.ac.cput.stock.management.controller.Controller;
 
 public class AddCustomerPanel implements ActionListener{
     private JPanel addCustomerPnl, tablePnl, buttonPnl;
@@ -18,8 +20,7 @@ public class AddCustomerPanel implements ActionListener{
     private JScrollPane sc; 
     private JButton addBtn, updateBtn;
 
-    public AddCustomerPanel(){
-        
+    public AddCustomerPanel() {
         initPanels();
         initButtons();
         setTable();
@@ -39,7 +40,7 @@ public class AddCustomerPanel implements ActionListener{
         updateBtn = new JButton("Update");
     }
 
-    public void setTable(){
+    public void setTable() {
         table = new JTable(new DefaultTableModel(
             new Object[][]{}, 
             new String[]{
@@ -104,7 +105,8 @@ public class AddCustomerPanel implements ActionListener{
     public JButton getAddBtn() {
         return addBtn;
     }
-    
-    
-    
+
+    public JTable getTable() {
+        return table;
+    }
 }

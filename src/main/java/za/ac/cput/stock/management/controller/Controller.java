@@ -6,9 +6,12 @@
 
 package za.ac.cput.stock.management.controller;
 
+import java.sql.SQLException;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import za.ac.cput.stock.management.client.entry.Client;
 import za.ac.cput.stock.management.client.gui.MainFrame;
 import za.ac.cput.stock.management.common.Customer;
@@ -83,6 +86,55 @@ public class Controller
         return validUser;
     }
     
+    public void onStart(){
+        populateTables();
+    }
+    
+    public void populateTables()
+    {
+        try 
+        {
+            populateCustomerTable(mainFrame.getAddCustomerPanel().getTable());
+        } 
+        catch (SQLException ex) 
+        {
+            ex.printStackTrace();
+        }
+    }
+    
+    public List<Product> getProducts()
+    {
+        return client.requestProducts();
+    }
+    
+    //populates Customer Table
+    public void populateCustomerTable(JTable table) throws SQLException
+    {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        int rowCount = model.getRowCount();
+        //Remove rows one by one from the end of the table
+        for (int i = rowCount - 1; i >= 0; i--) {
+            model.removeRow(i);
+        }
+
+        List<Customer> list = client.getListOfCustomer();//Read Products from DB method (getAllProducts)
+        if(list!=null)
+        {
+            Object[] rowData = new Object[4];
+            for(int i = 0; i < list.size();i++){
+                rowData[0] = list.get(i).getCustomerId();
+                rowData[1] = list.get(i).getName();
+                rowData[2] = list.get(i).getLastname();
+                rowData[3] = list.get(i).getEmail();
+                model.addRow(rowData);
+            }
+        }
+        else
+        {
+            System.out.println("List is Empty");
+        }
+    }
+    
     public Object [] getCategories()
     {
         return client.requestCategories().toArray();
@@ -91,11 +143,6 @@ public class Controller
     public Object [] getVendors()
     {
         return client.requestVendors().toArray();
-    }
-    
-    public List<Product> getProducts()
-    {
-        return client.requestProducts();
     }
     
     public List<Customer> getCustomers()
@@ -109,7 +156,7 @@ public class Controller
     }
 
     public User getValidUser()
-    {
+    {   
         return validUser;
     }
     
@@ -129,7 +176,7 @@ public class Controller
             String productName = getProducts().get(i).getProuductName();
             productNames[i] = productName;
         }
-        
+            
         return productNames;
     }
     
@@ -169,7 +216,7 @@ public class Controller
         if(isAddProduct)
         {
             JOptionPane.showMessageDialog(mainFrame, "Inserted a new record.");
-        }
+}
         else
         {
             JOptionPane.showMessageDialog(mainFrame, "Error.");

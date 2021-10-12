@@ -116,14 +116,48 @@ public class AddProductGUI extends JFrame implements ActionListener{
     {
         if (e.getSource().equals(addBtn))
         {
+            if (!isEmpty()) return;
+            
             controller.addProduct(
                     getName(), 
                     getQuantity(),
                     getPrice(),
                     getVendor(), 
                     getCategory());
+            
+            clearFields();
         }
     }
+    
+    public void clearFields()
+    {
+        nameTxt.setText("");
+        quantityTxt.setText("");
+        priceTxt.setText("");
+    }
+    
+    public boolean isEmpty()
+    {
+        boolean isEmpty = true;
+        
+        if (getName().trim().equals(""))
+        {
+            JOptionPane.showMessageDialog(null, "Product Name can't be empty.");
+            isEmpty = false;
+        }
+        else if (quantityTxt.getText().trim().equals(""))
+        {
+            JOptionPane.showMessageDialog(null, "Quantity can't be empty.");
+            isEmpty = false;
+        }
+        else if (priceTxt.getText().trim().equals(""))
+        {
+            JOptionPane.showMessageDialog(null, "Price can't be empty.");
+            isEmpty = false;
+        }
+        
+        return isEmpty;
+    }    
 
     public String getName() {
         return nameTxt.getText();

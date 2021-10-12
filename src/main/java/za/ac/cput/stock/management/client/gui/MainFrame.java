@@ -30,18 +30,18 @@ public class MainFrame extends JFrame implements ActionListener {
     private SalesReportPanel salesReportGUI;
     private AddCustomerPanel addCustomerPanel;
     private InventoryPanel inventoryPanel;
-    private InvoiceGUI invoiceGUI;
+    private InvoicePanel invoiceGUI;
     private Font ft;
     
     
-    public MainFrame(){
-        mainFrameController = new MainFrameController();
+    public MainFrame() {
+        // mainFrameController = new MainFrameController();
         initComponents();
         setFrameSettings();
         controller = new ViewController();
     }
     
-    private void initComponents(){
+    private void initComponents() {
         initLabels();
         initPanels();
         initButtons();
@@ -60,7 +60,7 @@ public class MainFrame extends JFrame implements ActionListener {
         loginIcnLbl.setIcon(loginIcn);
     }
     
-    private void initPanels(){
+    private void initPanels() {
         adminGUI = new AdministrationPanels();
         cardPnl = new JPanel();
         cardPnl.setLayout(new CardLayout());
@@ -79,7 +79,7 @@ public class MainFrame extends JFrame implements ActionListener {
         welcomePnl.setLayout(new CardLayout());
         welcomePnl.add(welcomeLbl);
         inventoryPanel = new InventoryPanel();
-        invoiceGUI = new InvoiceGUI();
+        invoiceGUI = new InvoicePanel();
     }
     
     public void initButtons(){
@@ -197,50 +197,66 @@ public class MainFrame extends JFrame implements ActionListener {
             });
     }
     
-    public void listeners(){
+    public void listeners()
+    {
       //  mainFrameController.logoutMenu(this, logoutMenuItem);
-      salesReportGUI.getBackBtn().addActionListener(new ActionListener(){  
-                public void actionPerformed(ActionEvent e){  
-                        controller.swapPanels(cardPnl, welcomePnl);
-                }  
-            });
+      salesReportGUI.getBackBtn().addActionListener(new ActionListener()
+      {
+          public void actionPerformed(ActionEvent e)
+          {
+              controller.swapPanels(cardPnl, welcomePnl);
+          }
+      });
       
-      adminGUI.getAddProductBtn().addActionListener(new ActionListener(){  
-                public void actionPerformed(ActionEvent e){  
-                    new AddProductGUI().setVisible(true);
-                }  
-            });
-      adminGUI.getBackProductBtn().addActionListener(new ActionListener(){  
-                public void actionPerformed(ActionEvent e){  
-                    controller.swapPanels(cardPnl, welcomePnl);
-                }  
-            });
-      adminGUI.getBackUserBtn().addActionListener(new ActionListener(){  
-                public void actionPerformed(ActionEvent e){  
-                    controller.swapPanels(cardPnl, welcomePnl);
-                }  
-            });
-      adminGUI.getAddUserBtn().addActionListener(new ActionListener(){  
-                public void actionPerformed(ActionEvent e){
-                    new AddEmployeeGUI().setVisible(true);
-                }  
-            });
-      addCustomerPanel.getAddBtn().addActionListener(new ActionListener(){  
-                public void actionPerformed(ActionEvent e){  
-                    new AddCustomerGUI().setVisible(true);
-                }  
-            });
-        
-        newTransButton.addActionListener(new ActionListener(){  
-                public void actionPerformed(ActionEvent e){  
-                         controller.swapPanels(cardPnl, selectProductPanel.getAddProductPnl());
-                }  
-            });
-        selectProductPanel.getAddBtn().addActionListener(new ActionListener(){  
-                public void actionPerformed(ActionEvent e){  
-                    //link to tablesssss
-                }  
-            });
+      adminGUI.getAddProductBtn().addActionListener(new ActionListener()
+      {
+          public void actionPerformed(ActionEvent e)
+          {
+              new AddProductGUI().setVisible(true);
+          }
+      });
+      adminGUI.getBackProductBtn().addActionListener(new ActionListener()
+      {
+          public void actionPerformed(ActionEvent e)
+          {
+              controller.swapPanels(cardPnl, welcomePnl);
+          }
+      });
+      adminGUI.getBackUserBtn().addActionListener(new ActionListener()
+      {
+          public void actionPerformed(ActionEvent e)
+          {
+              controller.swapPanels(cardPnl, welcomePnl);
+          }
+      });
+      adminGUI.getAddUserBtn().addActionListener(new ActionListener()
+      {
+          public void actionPerformed(ActionEvent e)
+          {
+              new AddEmployeeGUI().setVisible(true);
+          }
+      });
+      addCustomerPanel.getAddBtn().addActionListener(new ActionListener()
+      {
+          public void actionPerformed(ActionEvent e)
+          {
+              new AddCustomerGUI().setVisible(true);
+          }
+      });
+      newTransButton.addActionListener(new ActionListener()
+      {
+          public void actionPerformed(ActionEvent e)
+          {  
+                 controller.swapPanels(cardPnl, selectProductPanel.getAddProductPnl());
+          }
+      });
+      selectProductPanel.getBackBtn().addActionListener(new ActionListener()
+      {
+          public void actionPerformed(ActionEvent e)
+          {
+              controller.swapPanels(cardPnl, welcomePnl);
+          }
+      });
     }
     
     public void setComponents(){
@@ -299,4 +315,79 @@ public class MainFrame extends JFrame implements ActionListener {
         }
     }
 
+    public JPanel getCardPnl() {
+        return cardPnl;
+    }
+
+    public JPanel getTransactionPanel() {
+        return transactionPanel;
+    }
+
+    public JPanel getNorthPnl() {
+        return northPnl;
+    }
+
+    public JPanel getWelcomePnl() {
+        return welcomePnl;
+    }
+
+    public ViewController getController() {
+        return controller;
+    }
+
+    public JMenu getFileMenu() {
+        return fileMenu;
+    }
+
+    public JMenuItem getAddCustomerMenuItem() {
+        return addCustomerMenuItem;
+    }
+
+    public JMenuItem getSalesReportMenuItem() {
+        return salesReportMenuItem;
+    }
+
+    public JMenuItem getInventoryMenuItem() {
+        return inventoryMenuItem;
+    }
+
+    public AdministrationPanels getAdminGUI() {
+        return adminGUI;
+    }
+
+    public JButton getNewTransButton() {
+        return newTransButton;
+    }
+
+    public SelectProductPanel getSelectProductPanel() {
+        return selectProductPanel;
+    }
+
+    public ImageIcon getLoginIcn() {
+        return loginIcn;
+    }
+
+    public MainFrameController getMainFrameController() {
+        return mainFrameController;
+    }
+
+    public SalesReportPanel getSalesReportGUI() {
+        return salesReportGUI;
+    }
+
+    public AddCustomerPanel getAddCustomerPanel() {
+        return addCustomerPanel;
+    }
+
+    public InventoryPanel getInventoryPanel() {
+        return inventoryPanel;
+    }
+
+    public InvoicePanel getInvoiceGUI() {
+        return invoiceGUI;
+    }
+
+    public Font getFt() {
+        return ft;
+    }   
 }

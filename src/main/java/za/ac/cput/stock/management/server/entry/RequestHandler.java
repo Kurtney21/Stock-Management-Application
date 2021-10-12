@@ -15,6 +15,8 @@ import za.ac.cput.stock.management.server.dao.CategoryDAO;
 import za.ac.cput.stock.management.server.dao.CustomerDAO;
 import za.ac.cput.stock.management.server.dao.ProductDAO;
 import za.ac.cput.stock.management.server.dao.TransactionDAO;
+import za.ac.cput.stock.management.common.User;
+import za.ac.cput.stock.management.server.dao.CustomerDAO;
 import za.ac.cput.stock.management.server.dao.UserDAO;
 import za.ac.cput.stock.management.server.dao.VendorDAO;
 
@@ -124,5 +126,11 @@ public class RequestHandler
     public boolean updateStockQuantity(Transaction transaction)
     {
         return this.transactionDAO.updateStockQuantity(transaction);
+    }
+        
+    public List<Customer> requestListOfCustomers()
+    {
+        List<Customer> custList = this.customerDAO.getAll();
+        return custList;
     }
 }

@@ -194,29 +194,36 @@ public class AdministrationPanels implements ActionListener, ItemListener
     {
         if (e.getSource().equals(updateProductBtn))
         {
-            int row = productTable.getSelectedRow();
-            
-            String productId = String.valueOf(getTableModel().getValueAt(row, 0));
-            int id = Integer.parseInt(productId);
-            
-            String productName = String.valueOf(getTableModel().getValueAt(row, 1));
-            
-            String quantity = String.valueOf(getTableModel().getValueAt(row, 2));
-            int quan = Integer.parseInt(quantity);
-            
-            String price = String.valueOf(getTableModel().getValueAt(row, 3));
-            double pri = Double.parseDouble(price);
-            
-            String vendor = String.valueOf(getTableModel().getValueAt(row, 4));
-            String category = categorieBox.getSelectedItem().toString();
-            
-            controller.updateProduct(
-                    id,
-                    productName, 
-                    category,
-                    vendor, 
-                    quan, 
-                    pri);
+            try
+            {
+                int row = productTable.getSelectedRow();
+                
+                String productId = String.valueOf(getTableModel().getValueAt(row, 0));
+                int id = Integer.parseInt(productId);
+
+                String productName = String.valueOf(getTableModel().getValueAt(row, 1));
+
+                String quantity = String.valueOf(getTableModel().getValueAt(row, 2));
+                int quan = Integer.parseInt(quantity);
+
+                String price = String.valueOf(getTableModel().getValueAt(row, 3));
+                double pri = Double.parseDouble(price);
+
+                String vendor = String.valueOf(getTableModel().getValueAt(row, 4));
+                String category = categorieBox.getSelectedItem().toString();
+
+                controller.updateProduct(
+                        id,
+                        productName, 
+                        category,
+                        vendor, 
+                        quan, 
+                        pri);
+            }
+            catch (ArrayIndexOutOfBoundsException ex)
+            {
+                JOptionPane.showMessageDialog(null, "No record selected.");
+            }
         }
     }
     
