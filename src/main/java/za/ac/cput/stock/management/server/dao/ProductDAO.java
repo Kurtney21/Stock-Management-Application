@@ -93,7 +93,7 @@ public class ProductDAO implements DAO<Product>
     {
         products = new ArrayList<>();
         
-        String query = "SELECT * FROM Products";
+        String query = "SELECT * FROM Products ORDER BY Product_Name";
         
         try (var pst = this.conn.prepareStatement(query);
                 ResultSet rs = pst.executeQuery())
@@ -130,7 +130,8 @@ public class ProductDAO implements DAO<Product>
     {
         productsCategory = new ArrayList<>();
         
-        String query = "SELECT * FROM Products WHERE Category = ?";
+        String query = "SELECT * FROM Products WHERE Category = ? "
+                + "ORDER BY Product_Name";
         
         try (var pst = this.conn.prepareStatement(query))
         {

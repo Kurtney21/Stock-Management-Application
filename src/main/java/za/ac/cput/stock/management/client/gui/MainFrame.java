@@ -23,7 +23,7 @@ public class MainFrame extends JFrame implements ActionListener {
             inventoryMenuItem;
     private AdministrationPanels adminGUI;
     private JButton newTransButton;
-    private SelectProductPanel selectProductPanel;
+    private TransactionPanel selectProductPanel;
     private JLabel welcomeLbl, loginIcnLbl;
     private ImageIcon loginIcn;
     private MainFrameController mainFrameController;
@@ -68,7 +68,7 @@ public class MainFrame extends JFrame implements ActionListener {
         cardPnl.add(welcomeLbl);
         transactionPanel = new JPanel();
         transactionPanel.setLayout(new CardLayout());
-        selectProductPanel = new SelectProductPanel();
+        selectProductPanel = new TransactionPanel();
         northPnl = new JPanel();
         northPnl.setLayout(new FlowLayout(FlowLayout.LEFT));
         this.add(northPnl, BorderLayout.NORTH);
@@ -359,7 +359,7 @@ public class MainFrame extends JFrame implements ActionListener {
         return newTransButton;
     }
 
-    public SelectProductPanel getSelectProductPanel() {
+    public TransactionPanel getSelectProductPanel() {
         return selectProductPanel;
     }
 

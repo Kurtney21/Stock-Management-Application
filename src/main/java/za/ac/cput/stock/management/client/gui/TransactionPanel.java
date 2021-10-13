@@ -14,7 +14,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.table.DefaultTableModel;
 import za.ac.cput.stock.management.controller.Controller;
 
-public class SelectProductPanel implements ActionListener
+public class TransactionPanel implements ActionListener
 {
     private JPanel addProductPnl, tablePnl, buttonPnl;
     private Font ft;
@@ -27,7 +27,7 @@ public class SelectProductPanel implements ActionListener
     private JTextField priceTxt;
     private Controller controller = new Controller();
 
-    public SelectProductPanel(){
+    public TransactionPanel(){
         initPanels();
         initButtons();
         initComboBox();
@@ -100,7 +100,7 @@ public class SelectProductPanel implements ActionListener
                 record.getCustomerId(),
                 record.getUserId(),
                 record.getTotalQuantity(),
-                record.getTotalPrice()
+                Math.round(record.getTotalPrice()*100.00)/100.00
             });
         }
     }
@@ -173,7 +173,8 @@ public class SelectProductPanel implements ActionListener
                             .get(productBox.getSelectedIndex())
                             .getProductPrice();
                     Integer quantity = (Integer) quantitySpinner.getValue();
-                    String total = String.valueOf(price*quantity);
+                    String total = String.valueOf(Math.round(
+                            (price*quantity)*100.00)/100.00);
                     priceTxt.setText(total);
                 }
             });

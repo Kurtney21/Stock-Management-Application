@@ -10,8 +10,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 import za.ac.cput.stock.management.server.dbconnection.DBConnection;
 import za.ac.cput.stock.management.common.Customer;
 
@@ -69,7 +67,7 @@ public class CustomerDAO implements DAO<Customer>
     {
         this.customers = new ArrayList<>();
         
-        String query = "SELECT * FROM Customers";
+        String query = "SELECT * FROM Customers ORDER BY Customer_Name";
         
         try (var pst = this.conn.prepareStatement(query);
                 ResultSet rs = pst.executeQuery())

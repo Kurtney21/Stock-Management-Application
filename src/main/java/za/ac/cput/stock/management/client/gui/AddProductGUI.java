@@ -49,7 +49,7 @@ public class AddProductGUI extends JFrame implements ActionListener{
 
     public void initLabels(){
         logoLbl = new JLabel("");
-        logoLbl.setIcon(img);             //
+        logoLbl.setIcon(img);
     }
 
     public void initButtons(){
@@ -61,8 +61,7 @@ public class AddProductGUI extends JFrame implements ActionListener{
         img = new ImageIcon("resources/user.png");
     }
     
-    // FIXME
-    private void initComboBox(){
+    public void initComboBox(){
         catBox = new JComboBox(controller.getCategories());
         vendorBox = new JComboBox(controller.getVendors());
     }
@@ -140,19 +139,32 @@ public class AddProductGUI extends JFrame implements ActionListener{
     {
         boolean isEmpty = true;
         
-        if (getName().trim().equals(""))
+        if (getName().trim().equals("") || getName().equals("Enter Product Name"))
         {
             JOptionPane.showMessageDialog(null, "Product Name can't be empty.");
             isEmpty = false;
         }
-        else if (quantityTxt.getText().trim().equals(""))
+        else if (quantityTxt.getText().trim().equals("") || 
+                quantityTxt.getText().equals("Enter Product Quantity"))
         {
             JOptionPane.showMessageDialog(null, "Quantity can't be empty.");
             isEmpty = false;
         }
-        else if (priceTxt.getText().trim().equals(""))
+        else if (priceTxt.getText().trim().equals("") || 
+                priceTxt.getText().equals("Enter Product Price"))
         {
             JOptionPane.showMessageDialog(null, "Price can't be empty.");
+            isEmpty = false;
+        }
+        else if (getPrice() == 0)
+        {
+            JOptionPane.showMessageDialog(null, "Price can't be 0.");
+            isEmpty = false;
+        }
+        else if (getQuantity() < 0)
+        {
+            JOptionPane.showMessageDialog(null, "Please enter a valid quantity "
+                    + "amount.");
             isEmpty = false;
         }
         

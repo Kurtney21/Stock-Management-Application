@@ -87,7 +87,7 @@ public class UserDAO implements DAO<User>
     {
         this.users = new ArrayList<>();
         
-        String query = "SELECT * FROM Users";
+        String query = "SELECT * FROM Users ORDER BY Username";
         
         try (var pst = this.conn.prepareStatement(query);
                 ResultSet rs = pst.executeQuery())
