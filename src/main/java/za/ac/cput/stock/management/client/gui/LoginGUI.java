@@ -6,17 +6,10 @@
 
 package za.ac.cput.stock.management.client.gui;
 
-import com.formdev.flatlaf.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.*;
-import za.ac.cput.stock.management.common.User;
 import za.ac.cput.stock.management.controller.Controller;
 
 public class LoginGUI extends JFrame implements ActionListener{
@@ -28,7 +21,7 @@ public class LoginGUI extends JFrame implements ActionListener{
     private JPasswordField passwordFld;
     private ImageIcon logoIcn,userIcon,passwordIcn, loginIcn;
     private Font ft;
-    private Controller loginController;
+    private Controller controller = new Controller();
     
     public LoginGUI(){
         initImageIcon();
@@ -47,11 +40,6 @@ public class LoginGUI extends JFrame implements ActionListener{
         setLayouts();
         setFrameSettings();
         setListenerEvents();
-        setControllers();
-    }
-    
-    public void setControllers(){
-        loginController = new Controller();
     }
     
     public void initPanels(){
@@ -164,12 +152,12 @@ public class LoginGUI extends JFrame implements ActionListener{
         }
         if(e.getActionCommand().equals("Login")){
             //User Authentication
-           loginController.checkAuthentication(getUserName(), getPassword(), this);
+           controller.checkAuthentication(getUserName(), getPassword(), this);
         }
     }
 
     public String getUserName() {
-        return userNameTxt.getText().toString();
+        return userNameTxt.getText();
     }
 
     public String getPassword(){

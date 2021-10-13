@@ -11,6 +11,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import za.ac.cput.stock.management.common.Fonts;
+import za.ac.cput.stock.management.controller.Controller;
 
 /**
  *
@@ -20,9 +21,10 @@ import za.ac.cput.stock.management.common.Fonts;
 public class InventoryPanel {
 
     private JPanel mainPane, northPnl, eastPnl, centerPnl;
-    private JTable table;
+    private JTable inventoryTable;
     private JScrollPane pane;
     private JLabel heading = new JLabel("Inventory");
+    private Controller controller = new Controller();
     
     public InventoryPanel(){
         mainPane = new JPanel();
@@ -36,21 +38,42 @@ public class InventoryPanel {
     }
     
     private void setTable(){
-        table = new JTable();
+        inventoryTable = new JTable();
         pane = new JScrollPane();
-        table.setModel(new DefaultTableModel(
+        inventoryTable.setModel(new DefaultTableModel(
                 new Object[][]{},
                 new String[]{
-                        "ID","Name","Quantity","Price","In-Stock"}
+                        "ID","Name","Quantity","Price","Vendor"}
         ){
             public boolean isCellEditable() {
                 return false;
             }
         
         });
-        pane.setViewportView(table);
+        
+        getTableModel();
+        populateTable();
+        
+        pane.setViewportView(inventoryTable);
         pane.setBorder(new EmptyBorder(10,10,10,10));
         pane.setSize(600,400);
+    }
+    
+    public void populateTable()
+    {
+        int productsLen = controller.getProducts().size();
+        
+        for (int i = 0; i < productsLen; i++)
+        {
+            var record = controller.getProducts().get(i);
+            getTableModel().addRow(new Object[] {
+                record.getProductId(), 
+                record.getProuductName(), 
+                record.getStockQuantity(), 
+                record.getProductPrice(),
+                record.getVendor()
+            });
+        }
     }
     
     public void setLayouts(){
@@ -74,5 +97,8 @@ public class InventoryPanel {
         return mainPane;
     }
     
-    
+    public DefaultTableModel getTableModel()
+    {
+        return (DefaultTableModel) inventoryTable.getModel();
+    }
 }
