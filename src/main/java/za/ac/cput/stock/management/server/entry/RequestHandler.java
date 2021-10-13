@@ -51,15 +51,4 @@ public class RequestHandler
         List<Customer> custList = this.customerDAO.getAll();
         return custList;
     }
-    
-    public List<User> requestListOfUsers(){
-        List<User> userList = this.userDAO.getAll();
-        return userList;
-    }
-    
-    public Customer addCustomer(Customer customer){
-        customer = this.customerDAO.add(customer);
-        System.out.println("Added!!!");
-        return customer;
-    }
 }

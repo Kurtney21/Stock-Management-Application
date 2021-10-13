@@ -7,7 +7,6 @@
 package za.ac.cput.stock.management.client.entry;
 
 import com.formdev.flatlaf.FlatDarkLaf;
-import java.util.ArrayList;
 import javax.swing.UIManager;
 import za.ac.cput.stock.management.client.gui.*;
 import za.ac.cput.stock.management.server.entry.Server;

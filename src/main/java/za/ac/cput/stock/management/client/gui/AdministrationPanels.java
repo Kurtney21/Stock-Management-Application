@@ -103,7 +103,7 @@ public class AdministrationPanels {
             new Object [][] {
             },
             new String [] {
-                "User_ID", "Username", "Password", "Role_ID","Status"
+                "ID", "NAME", "SURNAME", "ROLE","STATUS"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -201,11 +201,4 @@ public class AdministrationPanels {
         return backUserBtn;
     }
 
-    public JTable getProductTable() {
-        return productTable;
-    }
-
-    public JTable getUserTable() {
-        return userTable;
-    }
 }

@@ -57,8 +57,7 @@ public class CustomerDAO implements DAO<Customer>
     @Override
     public Customer update(Customer t)
     {
-        //String updateQuery = "UPDATE CUSTOMERS SET CUSTOMER_NAME = ?, CUSTOMER_SURNAME = ?, CUSTOMER_  = ? WHERE CUSTOMER_ = ?";
-        return new Customer();
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override

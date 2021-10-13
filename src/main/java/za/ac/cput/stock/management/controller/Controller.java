@@ -23,7 +23,7 @@ import za.ac.cput.stock.management.common.User;
 
 
 public class Controller {
-    private static Client client;
+    private Client client;
     private MainFrame mainFrame;
     
     public Controller(){
@@ -31,7 +31,7 @@ public class Controller {
     }
     
     public void checkAuthentication(String userName, String password, JFrame frame){
-        User validUser = null;
+         User validUser = null;
             var user = new User(userName, password);
             
             // Work in progress
@@ -89,18 +89,15 @@ public class Controller {
     
     public void onStart(){
         populateTables();
-        setListeners();
     }
     
     public void populateTables(){
         try {
             populateCustomerTable(mainFrame.getAddCustomerPanel().getTable());
-            populateUserTable(mainFrame.getAdminGUI().getUserTable());
         } catch (SQLException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
     //populates Customer Table
         public void populateCustomerTable(JTable table) throws SQLException{
             DefaultTableModel model = (DefaultTableModel) table.getModel();
@@ -123,81 +120,10 @@ public class Controller {
             }else{
                 System.out.println("List is Empty");
             }
-        }
-        
-        //populates User Table
-        public void populateUserTable(JTable table) throws SQLException{
-            DefaultTableModel model = (DefaultTableModel) table.getModel();
-            int rowCount = model.getRowCount();
-            //Remove rows one by one from the end of the table
-            for (int i = rowCount - 1; i >= 0; i--) {
-                model.removeRow(i);
-            }
-            
-            List<User> list = client.getListOfUsers(); //Read Products from DB method (getAllUsers)
-            if(list!=null){
-                Object[] rowData = new Object[5];
-                for(int i = 0; i < list.size();i++){
-                    rowData[0] = list.get(i).getUserId();
-                    rowData[1] = list.get(i).getUsername();
-                    rowData[2] = list.get(i).getPassword();
-                    rowData[3] = list.get(i).getUserRole();
-                    rowData[4] = list.get(i).isStatus();
-                    model.addRow(rowData);
-                }
-            }else{
-                System.out.println("List is Empty");
-            }
-        }
-        
-        public void setListeners(){
-            setUserManagementListener();
-        }
-        
-        public int genID(ArrayList<?> list){
-            int uniqueID = 0;
-            uniqueID += list.size();
-            return uniqueID;
-        }
-        
-        //User Management
-        public void setUserManagementListener(){
-            mainFrame.getAddCustomerGUI().getAddBtn().addActionListener(new ActionListener(){
-                @Override
-                public void actionPerformed(ActionEvent ea){
-                    String name = mainFrame.getAddCustomerGUI().getName();
-                    String surname = mainFrame.getAddCustomerGUI().getSurname();
-                    String email = mainFrame.getAddCustomerGUI().getEmail();
-                    int uniqueID = 1;
-                    uniqueID += client.getListOfCustomer().size();
-                    System.out.println(uniqueID);
-                    Customer cust = new Customer(uniqueID,name, surname,email);
-                    client.addCustomer(cust);
-                    System.out.println(cust);
-                    try {
-                        populateCustomerTable(mainFrame.getAddCustomerPanel().getTable());
-                        mainFrame.getAddCustomerGUI().dispose();
-                    } catch (SQLException ex) {
-                        Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            });
-        }
-        
-        public static void main(String[] args) {
             
         }
-        
-        //Sales Report
-        public void setSalesReportListener(){
-        
-        }
-        //Add Customer
-        public void setAddListener(){
-        
-        }
-        //Invoice
-        public void setInvoiceListener(){
-        
-        }
+    
+    
+    
+
 }
