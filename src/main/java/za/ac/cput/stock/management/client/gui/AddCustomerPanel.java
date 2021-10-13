@@ -20,7 +20,7 @@ public class AddCustomerPanel implements ActionListener{
     private JScrollPane sc; 
     private JButton addBtn, updateBtn;
 
-    public AddCustomerPanel() throws SQLException{
+    public AddCustomerPanel() {
         initPanels();
         initButtons();
         setTable();
@@ -40,7 +40,7 @@ public class AddCustomerPanel implements ActionListener{
         updateBtn = new JButton("Update");
     }
 
-    public void setTable() throws SQLException{
+    public void setTable() {
         table = new JTable(new DefaultTableModel(
             new Object[][]{}, 
             new String[]{
@@ -109,5 +109,4 @@ public class AddCustomerPanel implements ActionListener{
     public JTable getTable() {
         return table;
     }
-    
 }

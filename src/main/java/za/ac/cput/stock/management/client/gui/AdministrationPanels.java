@@ -7,13 +7,17 @@
 package za.ac.cput.stock.management.client.gui;
 
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import za.ac.cput.stock.management.common.Categories;
-import za.ac.cput.stock.management.common.Fonts;
+import javax.swing.table.DefaultTableModel;
+import za.ac.cput.stock.management.controller.Controller;
 
-public class AdministrationPanels {
+public class AdministrationPanels implements ActionListener, ItemListener
+{
     private JPanel westPnl, northPnl, centerPnl, opsProductPnl, tableProductPnl,
             opsUserPnl, tableUserPnl, mainContainer;    //Center Panel ==  Parent Panel
     private JPanel productManagePnl, userManagePnl;
@@ -29,6 +33,7 @@ public class AdministrationPanels {
             updateProductBtn, backProductBtn, addUserBtn, updateUserBtn, backUserBtn;
     private int x, y = 0;
     private Point currentLocation;
+    private Controller controller = new Controller();
     
     public AdministrationPanels(){
         setComboBox();
@@ -53,7 +58,8 @@ public class AdministrationPanels {
 
     public void initButtons(){
         addProductBtn = new JButton("Add");  
-        updateProductBtn = new JButton("Update");  
+        updateProductBtn = new JButton("Update");
+        updateProductBtn.addActionListener(this);
         backProductBtn = new JButton("Back"); 
         
         addUserBtn = new JButton("Add");  
@@ -63,37 +69,59 @@ public class AdministrationPanels {
     
     public void setComboBox(){
         //Operation to Populate ComboBox
-        String[] categories = {"Arts & Scholistic","Bags & Backpacks",
-            "Books & Paper","File & Filling",
-            "Inks & Toners","Office Supplies","Office Automation and Electronics",
-            "Stationary","Technology",
-            "Snacks & Drinks"};
-        categorieBox = new JComboBox(new Categories().getCategories().toArray());
+        categorieBox = new JComboBox(controller.getCategories());
+        categorieBox.addItemListener(this);
         String[] roles = {"ADMIN","USER"};
         roleComboBox = new JComboBox(roles);
     }
     
-    public void setProductTable(){
+    public void setProductTable()
+    {
         scProduct = new JScrollPane();
         productTable = new JTable();
         productTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-            },
-            new String [] {
-                "ID", "NAME", "QUANTITY", "PRICE"
-            }
-        ) {
+                new Object [][] {
+                },
+                new String [] {
+                    "ID", "NAME", "QUANTITY", "PRICE", "VENDOR"
+                })
+        {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, true, true, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        
+        getTableModel();
+        populateTable();
+        
         scProduct.setViewportView(productTable);
         scProduct.setBorder(new EmptyBorder(10,10,10,10));
         scProduct.setPreferredSize(new Dimension(600,400));
+    }
+    
+    public void populateTable()    
+    {
+        String category = categorieBox.getSelectedItem().toString();
+        int productCategoryLen = 
+                controller.getProductsByCategory(category).size();
+
+        getTableModel().setRowCount(0);
+
+        for (int i = 0; i < productCategoryLen; i++)
+        {
+            var record = controller.getProductsByCategory(category).get(i);
+            getTableModel().addRow(new Object[] {
+                record.getProductId(), 
+                record.getProuductName(), 
+                record.getStockQuantity(), 
+                record.getProductPrice(),
+                record.getVendor()
+            });
+        }
     }
     
     public void setUserTable(){
@@ -103,7 +131,7 @@ public class AdministrationPanels {
             new Object [][] {
             },
             new String [] {
-                "User_ID", "Username", "Password", "Role_ID","Status"
+                "ID", "NAME", "SURNAME", "ROLE","STATUS"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -160,6 +188,53 @@ public class AdministrationPanels {
         opsUserPnl.add(backUserBtn);
         userManagePnl.add(opsUserPnl);
     }
+    
+    @Override
+    public void actionPerformed(ActionEvent e)
+    {
+        if (e.getSource().equals(updateProductBtn))
+        {
+            try
+            {
+                int row = productTable.getSelectedRow();
+                
+                String productId = String.valueOf(getTableModel().getValueAt(row, 0));
+                int id = Integer.parseInt(productId);
+
+                String productName = String.valueOf(getTableModel().getValueAt(row, 1));
+
+                String quantity = String.valueOf(getTableModel().getValueAt(row, 2));
+                int quan = Integer.parseInt(quantity);
+
+                String price = String.valueOf(getTableModel().getValueAt(row, 3));
+                double pri = Double.parseDouble(price);
+
+                String vendor = String.valueOf(getTableModel().getValueAt(row, 4));
+                String category = categorieBox.getSelectedItem().toString();
+
+                controller.updateProduct(
+                        id,
+                        productName, 
+                        category,
+                        vendor, 
+                        quan, 
+                        pri);
+            }
+            catch (ArrayIndexOutOfBoundsException ex)
+            {
+                JOptionPane.showMessageDialog(null, "No record selected.");
+            }
+        }
+    }
+    
+    @Override
+    public void itemStateChanged(ItemEvent e)
+    {
+        if (e.getStateChange() == ItemEvent.SELECTED)
+        {
+            populateTable();
+        }
+    }
 
     public JPanel getProductManagePnl() {
         return productManagePnl;
@@ -201,11 +276,8 @@ public class AdministrationPanels {
         return backUserBtn;
     }
 
-    public JTable getProductTable() {
-        return productTable;
-    }
-
-    public JTable getUserTable() {
-        return userTable;
+    public DefaultTableModel getTableModel()
+    {
+        return(DefaultTableModel) productTable.getModel();
     }
 }

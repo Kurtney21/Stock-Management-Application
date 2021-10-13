@@ -39,8 +39,10 @@ public class UserDAO implements DAO<User>
      * @return 
      */
     @Override
-    public User add(User user)
+    public boolean add(User user)
     {
+        boolean isAdd = false;
+        
         String query = "INSERT INTO Users VALUES(?,?,?,?,?)";
         
         try (var pst = this.conn.prepareStatement(query))
@@ -52,12 +54,14 @@ public class UserDAO implements DAO<User>
             pst.setBoolean(5, user.isStatus());
             
             pst.executeUpdate();
+            
+            isAdd = true;
         }
         catch (SQLException sqle)
         {
             System.out.println("add user db error: " + sqle.getMessage());
         }
-        return user;
+        return isAdd;
     }
 
     @Override
@@ -67,7 +71,7 @@ public class UserDAO implements DAO<User>
     }
 
     @Override
-    public User update(User user)
+    public boolean update(User user)
     {
         throw new UnsupportedOperationException("Not supported yet.");
     }

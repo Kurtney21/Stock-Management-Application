@@ -9,12 +9,9 @@ package za.ac.cput.stock.management.client.gui;
 import com.formdev.flatlaf.FlatDarkLaf;
 import java.awt.*;
 import java.awt.event.*;
-import java.sql.SQLException;
-import javax.accessibility.AccessibleContext;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import za.ac.cput.stock.management.controller.*;
-import za.ac.cput.stock.management.controller.*;
+import za.ac.cput.stock.management.controller.MainFrameController;
+import za.ac.cput.stock.management.controller.ViewController;
 
 public class MainFrame extends JFrame implements ActionListener {
     private JPanel cardPnl, transactionPanel, northPnl, welcomePnl;
@@ -34,20 +31,17 @@ public class MainFrame extends JFrame implements ActionListener {
     private AddCustomerPanel addCustomerPanel;
     private InventoryPanel inventoryPanel;
     private InvoicePanel invoiceGUI;
-    private AddEmployeeGUI addEmployeeGUI;
-    private AddCustomerGUI addCustomerGUI;
-    private AddProductGUI addProductGUI;
     private Font ft;
     
     
-    public MainFrame() throws SQLException{
+    public MainFrame() {
         // mainFrameController = new MainFrameController();
         initComponents();
         setFrameSettings();
         controller = new ViewController();
     }
     
-    private void initComponents() throws SQLException{
+    private void initComponents() {
         initLabels();
         initPanels();
         initButtons();
@@ -64,10 +58,9 @@ public class MainFrame extends JFrame implements ActionListener {
         loginIcnLbl = new JLabel("$Username");
         loginIcn = new ImageIcon("resources/userLogin.png");
         loginIcnLbl.setIcon(loginIcn);
-        
     }
     
-    private void initPanels() throws SQLException{
+    private void initPanels() {
         adminGUI = new AdministrationPanels();
         cardPnl = new JPanel();
         cardPnl.setLayout(new CardLayout());
@@ -87,11 +80,6 @@ public class MainFrame extends JFrame implements ActionListener {
         welcomePnl.add(welcomeLbl);
         inventoryPanel = new InventoryPanel();
         invoiceGUI = new InvoicePanel();
-        
-        //Pop-up GUIs
-        addCustomerGUI = new AddCustomerGUI();
-        addEmployeeGUI = new AddEmployeeGUI();
-        addProductGUI = new AddProductGUI();
     }
     
     public void initButtons(){
@@ -133,14 +121,41 @@ public class MainFrame extends JFrame implements ActionListener {
         adminMenu.add(userManagementMenuItem);
     }
     
-    public void closeFrame(){
-        this.dispose();
+    public void confirmExit()
+    {
+        int confirmExit = JOptionPane.showConfirmDialog(
+                        MainFrame.this, 
+                        "Are sure you want exit?",
+                        "Exit",
+                        JOptionPane.YES_NO_OPTION);
+                
+        if (confirmExit == JOptionPane.YES_OPTION)
+        {
+           dispose();
+        }
+        else
+        {
+            setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        }
+    }
+    
+    public void closeFrame()
+    {
+        addWindowListener(new WindowAdapter()
+        {
+            @Override
+            public void windowClosing(WindowEvent we)
+            {
+                confirmExit();
+            }
+        });
     }
     
     public void switchPanels(){
+        closeFrame();
         exitMenuItem.addActionListener(new ActionListener(){  
                 public void actionPerformed(ActionEvent e){
-                    closeFrame();
+                    confirmExit();
                 }  
             });
         
@@ -182,50 +197,66 @@ public class MainFrame extends JFrame implements ActionListener {
             });
     }
     
-    public void listeners(){
+    public void listeners()
+    {
       //  mainFrameController.logoutMenu(this, logoutMenuItem);
-      salesReportGUI.getBackBtn().addActionListener(new ActionListener(){  
-                public void actionPerformed(ActionEvent e){  
-                        controller.swapPanels(cardPnl, welcomePnl);
-                }  
-            });
+      salesReportGUI.getBackBtn().addActionListener(new ActionListener()
+      {
+          public void actionPerformed(ActionEvent e)
+          {
+              controller.swapPanels(cardPnl, welcomePnl);
+          }
+      });
       
-      adminGUI.getAddProductBtn().addActionListener(new ActionListener(){  
-                public void actionPerformed(ActionEvent e){  
-                    addProductGUI.setVisible(true);
-                }  
-            });
-      adminGUI.getBackProductBtn().addActionListener(new ActionListener(){  
-                public void actionPerformed(ActionEvent e){  
-                    controller.swapPanels(cardPnl, welcomePnl);
-                }  
-            });
-      adminGUI.getBackUserBtn().addActionListener(new ActionListener(){  
-                public void actionPerformed(ActionEvent e){  
-                    controller.swapPanels(cardPnl, welcomePnl);
-                }  
-            });
-      adminGUI.getAddUserBtn().addActionListener(new ActionListener(){  
-                public void actionPerformed(ActionEvent e){
-                    addEmployeeGUI.setVisible(true);
-                }  
-            });
-      addCustomerPanel.getAddBtn().addActionListener(new ActionListener(){  
-                public void actionPerformed(ActionEvent e){  
-                    addCustomerGUI.setVisible(true);
-                }  
-            });
-        
-        newTransButton.addActionListener(new ActionListener(){  
-                public void actionPerformed(ActionEvent e){  
-                         controller.swapPanels(cardPnl, selectProductPanel.getAddProductPnl());
-                }  
-            });
-        selectProductPanel.getAddBtn().addActionListener(new ActionListener(){  
-                public void actionPerformed(ActionEvent e){  
-                    //link to tablesssss
-                }  
-            });
+      adminGUI.getAddProductBtn().addActionListener(new ActionListener()
+      {
+          public void actionPerformed(ActionEvent e)
+          {
+              new AddProductGUI().setVisible(true);
+          }
+      });
+      adminGUI.getBackProductBtn().addActionListener(new ActionListener()
+      {
+          public void actionPerformed(ActionEvent e)
+          {
+              controller.swapPanels(cardPnl, welcomePnl);
+          }
+      });
+      adminGUI.getBackUserBtn().addActionListener(new ActionListener()
+      {
+          public void actionPerformed(ActionEvent e)
+          {
+              controller.swapPanels(cardPnl, welcomePnl);
+          }
+      });
+      adminGUI.getAddUserBtn().addActionListener(new ActionListener()
+      {
+          public void actionPerformed(ActionEvent e)
+          {
+              new AddEmployeeGUI().setVisible(true);
+          }
+      });
+      addCustomerPanel.getAddBtn().addActionListener(new ActionListener()
+      {
+          public void actionPerformed(ActionEvent e)
+          {
+              new AddCustomerGUI().setVisible(true);
+          }
+      });
+      newTransButton.addActionListener(new ActionListener()
+      {
+          public void actionPerformed(ActionEvent e)
+          {  
+                 controller.swapPanels(cardPnl, selectProductPanel.getAddProductPnl());
+          }
+      });
+      selectProductPanel.getBackBtn().addActionListener(new ActionListener()
+      {
+          public void actionPerformed(ActionEvent e)
+          {
+              controller.swapPanels(cardPnl, welcomePnl);
+          }
+      });
     }
     
     public void setComponents(){
@@ -234,7 +265,7 @@ public class MainFrame extends JFrame implements ActionListener {
     public void setFrameSettings(){
         this.setSize(1000,500);
         this.setLocationRelativeTo(null);
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
     
     @Override
@@ -359,18 +390,4 @@ public class MainFrame extends JFrame implements ActionListener {
     public Font getFt() {
         return ft;
     }   
-
-    public AddEmployeeGUI getAddEmployeeGUI() {
-        return addEmployeeGUI;
-    }
-
-    public AddCustomerGUI getAddCustomerGUI() {
-        return addCustomerGUI;
-    }
-
-    public AddProductGUI getAddProductGUI() {
-        return addProductGUI;
-    }
-
-    
 }

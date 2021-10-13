@@ -9,7 +9,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.*;
-import java.util.List;
+import za.ac.cput.stock.management.common.Customer;
+import za.ac.cput.stock.management.common.Product;
+import za.ac.cput.stock.management.common.Transaction;
 import za.ac.cput.stock.management.common.Customer;
 import za.ac.cput.stock.management.common.User;
 
@@ -27,7 +29,6 @@ public class Server
     private Socket clientSocket;            // client/server socket
     private ObjectInputStream in;           
     private ObjectOutputStream out;
-    private boolean running = false;        // Server state
     private String request = "";            // Incoming requests from client
     private RequestHandler requestHandler;  // Handles the requests made by client
     
@@ -103,7 +104,6 @@ public class Server
      */
     public void run() throws IOException
     {
-        running = true;
         try 
         {
             do
@@ -119,38 +119,113 @@ public class Server
                         out.writeObject(userObj);
                         out.flush();
                     }
+                    case "requestCategories" ->
+                    {
+                        var categories = requestHandler.getCategories();
+                        out.writeObject(categories);
+                        out.flush();
+                    }
+                    case "requestProducts" ->
+                    {
+                        var products = requestHandler.getProducts();
+                        out.writeObject(products);
+                        out.flush();
+                    }
+                    case "requestVendors" -> 
+                    {
+                        var vendors = requestHandler.getVendors();
+                        out.writeObject(vendors);
+                        out.flush();
+                    }
+                    case "requestCustomers" ->
+                    {
+                        var customers = requestHandler.getCustomers();
+                        out.writeObject(customers);
+                        out.flush();
+                    }
+                    case "requestUsers" ->
+                    {
+                        var users = requestHandler.getUsers();
+                        out.writeObject(users);
+                        out.flush();
+                    }
+                    case "requestTransactions" ->
+                    {
+                        var transactions = requestHandler.getTransactions();
+                        out.writeObject(transactions);
+                        out.flush();
+                    }
+                    case "requestAddProduct" ->
+                    {
+                        var product = (Product) in.readObject();
+                        boolean addProduct = requestHandler.addProduct(product);
+                        out.writeBoolean(addProduct);
+                        out.flush();
+                    }
+                    case "requestUpdateProduct" ->
+                    {
+                        var product = (Product) in.readObject();
+                        boolean updateProduct = requestHandler.updateProduct(product);
+                        out.writeBoolean(updateProduct);
+                        out.flush();
+                    }
+                    case "requestAddTransaction" ->
+                    {
+                        var product = (Product)in.readObject();
+                        var customer = (Customer) in.readObject();
+                        var user = (User) in.readObject();
+                        
+                        int totalQuantity = in.readInt();
+                        double totalPrice = in.readDouble();
+                        
+                        int addTransaction = requestHandler.addTransaction(
+                                product, 
+                                customer, 
+                                user,
+                                totalQuantity,
+                                totalPrice);
+                        
+                        out.writeInt(addTransaction);
+                        out.flush();
+                    }
+                    case "requestUpdateStockQuantity" ->
+                    {
+                        var transaction = (Transaction) in.readObject();
+                        boolean updateStockQuantity = 
+                                requestHandler.updateStockQuantity(transaction);
+                        
+                        out.writeBoolean(updateStockQuantity);
+                        out.flush();
+                    }
+                    case "requestProductsByCategory" ->
+                    {
+                        String category = (String) in.readObject();
+                        var productsByCategory = 
+                                requestHandler.getProductsByCategory(category);
+                        
+                        out.writeObject(productsByCategory);
+                    }
                     case "requestListOfCustomers" ->
-                   {
+                    {
                         out.writeObject(requestHandler.requestListOfCustomers());
                         out.flush();
                     }
-                   case "requestListOfUsers" ->
-                   {
-                        out.writeObject(requestHandler.requestListOfUsers());
-                        out.flush();
-                    }
-                   case "requestToAddCustomer" ->
-                   {
-                        var obj = (Customer)in.readObject();
-                        var customerObj = requestHandler.addCustomer(obj);
-                        out.writeObject(customerObj);
-                        out.flush();
-                    }
                 }
-            }
-            while (running);
-            System.out.println("Server Jumps Out");
+            }while (!"clientDisconnect".equals(request));
         }
+                    
         catch (IOException| ClassNotFoundException ex)
         {
-            ex.printStackTrace();
+            System.out.println("Client disconnected");
         } 
         finally
         {
+            System.out.println("Server shutting down.");
             in.close();
             out.close();
             clientSocket.close();
             serverSocket.close();
+            System.out.println("Shutdown complete.");
         }
     }
     

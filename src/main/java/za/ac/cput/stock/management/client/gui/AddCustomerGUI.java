@@ -106,40 +106,6 @@ public class AddCustomerGUI extends JFrame implements ActionListener{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public JPanel getMain() {
-        return main;
-    }
-
-    public JLabel getLogoLbl() {
-        return logoLbl;
-    }
-
-    public ImageIcon getImg() {
-        return img;
-    }
-
-    public JTextField getNameTxt() {
-        return nameTxt;
-    }
-
-    public JTextField getSurnameTxt() {
-        return surnameTxt;
-    }
-
-    public JTextField getEmailTxt() {
-        return emailTxt;
-    }
-
-    public JComboBox getRoleBox() {
-        return roleBox;
-    }
-
-    public JButton getAddBtn() {
-        return addBtn;
-    }
-
-    
-    
     public String getName() {
         return nameTxt.getText();
     }

@@ -26,8 +26,10 @@ public class CustomerDAO implements DAO<Customer>
     }
     
     @Override
-    public Customer add(Customer cus)
+    public boolean add(Customer cus)
     {
+        boolean isAdd = false;
+        
         String query = "INSERT INTO Customers VALUES (?,?,?,?)";
         
         try (var pst = this.conn.prepareStatement(query))
@@ -38,12 +40,14 @@ public class CustomerDAO implements DAO<Customer>
             pst.setString(4, cus.getEmail());
             
             pst.executeUpdate();
+            
+            isAdd = true;
         }
         catch (SQLException sqle)
         {
             System.out.println("add customer error db: " + sqle.getMessage());
         }
-        return cus;
+        return isAdd;
     }
     
     
@@ -55,10 +59,9 @@ public class CustomerDAO implements DAO<Customer>
     }
 
     @Override
-    public Customer update(Customer t)
+    public boolean update(Customer t)
     {
-        //String updateQuery = "UPDATE CUSTOMERS SET CUSTOMER_NAME = ?, CUSTOMER_SURNAME = ?, CUSTOMER_  = ? WHERE CUSTOMER_ = ?";
-        return new Customer();
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override

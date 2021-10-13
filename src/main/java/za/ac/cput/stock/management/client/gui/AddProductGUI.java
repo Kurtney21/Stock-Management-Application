@@ -8,10 +8,8 @@ package za.ac.cput.stock.management.client.gui;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import za.ac.cput.stock.management.common.Categories;
+import za.ac.cput.stock.management.controller.Controller;
 
 public class AddProductGUI extends JFrame implements ActionListener{
     private JPanel main;
@@ -19,8 +17,9 @@ public class AddProductGUI extends JFrame implements ActionListener{
     private ImageIcon img;
     private JTextField nameTxt, quantityTxt, priceTxt;
     private JScrollPane sc;
-    private JComboBox catBox;
+    private JComboBox catBox, vendorBox;
     private JButton addBtn;
+    private Controller controller= new Controller();
     
     
     public AddProductGUI(){
@@ -55,14 +54,17 @@ public class AddProductGUI extends JFrame implements ActionListener{
 
     public void initButtons(){
         addBtn = new JButton("Add");
+        addBtn.addActionListener(this);
     }
     
     public void initImageIcon(){
         img = new ImageIcon("resources/user.png");
     }
     
+    // FIXME
     private void initComboBox(){
-        catBox = new JComboBox(new Categories().getCategories().toArray());
+        catBox = new JComboBox(controller.getCategories());
+        vendorBox = new JComboBox(controller.getVendors());
     }
     
     public void setLayouts(){
@@ -88,6 +90,9 @@ public class AddProductGUI extends JFrame implements ActionListener{
        priceTxt.setAlignmentX(Component.CENTER_ALIGNMENT);
        main.add(priceTxt);
        main.add(Box.createRigidArea(new Dimension(0,10)));
+       vendorBox.setAlignmentX(Component.CENTER_ALIGNMENT);
+       main.add(vendorBox);
+       main.add(Box.createRigidArea(new Dimension(0,10)));
        catBox.setAlignmentX(Component.CENTER_ALIGNMENT);
        main.add(catBox);
        main.add(Box.createRigidArea(new Dimension(0,10)));
@@ -107,20 +112,74 @@ public class AddProductGUI extends JFrame implements ActionListener{
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void actionPerformed(ActionEvent e) 
+    {
+        if (e.getSource().equals(addBtn))
+        {
+            if (!isEmpty()) return;
+            
+            controller.addProduct(
+                    getName(), 
+                    getQuantity(),
+                    getPrice(),
+                    getVendor(), 
+                    getCategory());
+            
+            clearFields();
+        }
     }
+    
+    public void clearFields()
+    {
+        nameTxt.setText("");
+        quantityTxt.setText("");
+        priceTxt.setText("");
+    }
+    
+    public boolean isEmpty()
+    {
+        boolean isEmpty = true;
+        
+        if (getName().trim().equals(""))
+        {
+            JOptionPane.showMessageDialog(null, "Product Name can't be empty.");
+            isEmpty = false;
+        }
+        else if (quantityTxt.getText().trim().equals(""))
+        {
+            JOptionPane.showMessageDialog(null, "Quantity can't be empty.");
+            isEmpty = false;
+        }
+        else if (priceTxt.getText().trim().equals(""))
+        {
+            JOptionPane.showMessageDialog(null, "Price can't be empty.");
+            isEmpty = false;
+        }
+        
+        return isEmpty;
+    }    
 
     public String getName() {
         return nameTxt.getText();
     }
     
-    public String getQuantity() {
-        return quantityTxt.getText();
+    public int getQuantity() 
+    {
+        return Integer.parseInt(quantityTxt.getText());
     }
 
-    public String getPrice() {
-        return priceTxt.getText();
+    public double getPrice() 
+    {
+        return Double.parseDouble(priceTxt.getText());
     }
     
+    public String getVendor()
+    {
+        return vendorBox.getSelectedItem().toString();
+    }
+    
+    public String getCategory()
+    {
+        return catBox.getSelectedItem().toString();
+    }
 }

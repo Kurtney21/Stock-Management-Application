@@ -16,28 +16,25 @@ SET SCHEMA StockManagementDB;
 -- Create Tables --
 
 CREATE TABLE StockManagementDB.Categories (
-    category_id INT,
     category VARCHAR(100),
-    PRIMARY KEY (category_id)
+    PRIMARY KEY (category)
 );
 
 CREATE TABLE StockManagementDB.Vendors (
-    vendor_id INT,
     vendor VARCHAR(100),
-    PRIMARY KEY (vendor_id)
+    PRIMARY KEY (vendor)
 );
 
 CREATE TABLE StockManagementDB.Products (
-    product_id INT,
-    category_id INT,
-    vendor_id INT,
+    product_id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+    category VARCHAR(100),
+    vendor VARCHAR(100),
     product_name VARCHAR(100),
-    product_description VARCHAR(255),
     stock_quantity INT,
     price DOUBLE,
     PRIMARY KEY (product_id),
-    FOREIGN KEY (category_id) REFERENCES Categories(category_id),
-    FOREIGN KEY (vendor_id) REFERENCES Vendors(vendor_id)
+    FOREIGN KEY (category) REFERENCES Categories(category),
+    FOREIGN KEY (vendor) REFERENCES Vendors(vendor)
 );
 
 CREATE TABLE StockManagementDB.UserRole (
@@ -47,7 +44,7 @@ CREATE TABLE StockManagementDB.UserRole (
 );
 
 CREATE TABLE StockManagementDB.Users (
-    user_id INT,
+    user_id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     role_id INT,
     username VARCHAR(50),
     password VARCHAR(50),
@@ -57,7 +54,7 @@ CREATE TABLE StockManagementDB.Users (
 );
 
 CREATE TABLE StockManagementDB.Customers (
-    customer_id INT,
+    customer_id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     customer_name VARCHAR(50),
     customer_lastname VARCHAR(50),
     customer_email VARCHAR(50),
@@ -65,7 +62,7 @@ CREATE TABLE StockManagementDB.Customers (
 );
 
 CREATE TABLE StockManagementDB.Transactions (
-    transaction_id INT,
+    transaction_id INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     product_id INT,
     customer_id INT,
     user_id INT,
@@ -116,6 +113,19 @@ SELECT
 FROM Products 
 INNER JOIN Categories ON Products.category_id = Categories.category_id
 WHERE category = 'Bread' AND stock_quantity > 0;
+
+-- Invoice --
+SELECT 
+    Transaction_Id,
+    Product_Name, 
+    Transaction_Quantity, 
+    Transaction_Total
+FROM Transactions
+INNER JOIN Products 
+    ON PRODUCTS.PRODUCT_ID = TRANSACTIONS.PRODUCT_ID
+INNER JOIN Customers
+    ON CUSTOMERS.Customer_Id = TRANSACTIONS.CUSTOMER_ID
+WHERE Customer_Name = 'William';
 
 -- Select Order by --
 SELECT product_name FROM Products ORDER BY product_name ASC;

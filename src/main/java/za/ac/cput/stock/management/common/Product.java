@@ -5,24 +5,23 @@
  */
 package za.ac.cput.stock.management.common;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Product
+public class Product implements Serializable
 {
-    int productId;
-    String prouductName;
-    String productDescription;
-    String category;
-    String vendor;
-    int stockQuantity;
-    double productPrice;
+    private int productId;
+    private String prouductName;
+    private String category;
+    private String vendor;
+    private int stockQuantity;
+    private double productPrice;
     
     public Product() {}
 
     public Product(
             int productId, 
-            String prouductName, 
-            String productDescription, 
+            String prouductName,
             String category,
             String vendor,
             int stockQuantity, 
@@ -30,7 +29,20 @@ public class Product
     {
         this.productId = productId;
         this.prouductName = prouductName;
-        this.productDescription = productDescription;
+        this.category = category;
+        this.vendor = vendor;
+        this.stockQuantity = stockQuantity;
+        this.productPrice = productPrice;
+    }
+    
+    public Product( 
+            String prouductName,
+            String category,
+            String vendor,
+            int stockQuantity, 
+            double productPrice)
+    {
+        this.prouductName = prouductName;
         this.category = category;
         this.vendor = vendor;
         this.stockQuantity = stockQuantity;
@@ -55,16 +67,6 @@ public class Product
     public void setProuductName(String prouductName)
     {
         this.prouductName = prouductName;
-    }
-
-    public String getProductDescription()
-    {
-        return productDescription;
-    }
-
-    public void setProductDescription(String productDescription)
-    {
-        this.productDescription = productDescription;
     }
 
     public String getCategory()
@@ -113,7 +115,6 @@ public class Product
         int hash = 5;
         hash = 79 * hash + this.productId;
         hash = 79 * hash + Objects.hashCode(this.prouductName);
-        hash = 79 * hash + Objects.hashCode(this.productDescription);
         hash = 79 * hash + Objects.hashCode(this.category);
         hash = 79 * hash + Objects.hashCode(this.vendor);
         hash = 79 * hash + this.stockQuantity;
@@ -153,10 +154,6 @@ public class Product
         {
             return false;
         }
-        if (!Objects.equals(this.productDescription, other.productDescription))
-        {
-            return false;
-        }
         if (!Objects.equals(this.category, other.category))
         {
             return false;
@@ -174,7 +171,6 @@ public class Product
         StringBuilder sb = new StringBuilder();
         sb.append("Product{productId=").append(productId);
         sb.append(", prouductName=").append(prouductName);
-        sb.append(", productDescription=").append(productDescription);
         sb.append(", category=").append(category);
         sb.append(", vendor=").append(vendor);
         sb.append(", stockQuantity=").append(stockQuantity);
