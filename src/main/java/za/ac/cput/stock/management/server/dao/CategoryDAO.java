@@ -45,7 +45,7 @@ public class CategoryDAO implements DAO
     {
         this.categories = new ArrayList<>();
         
-        String query = "SELECT * FROM categories";
+        String query = "SELECT * FROM Categories ORDER BY Category";
         
         try (var pst = conn.prepareStatement(query);
                 ResultSet rs = pst.executeQuery())

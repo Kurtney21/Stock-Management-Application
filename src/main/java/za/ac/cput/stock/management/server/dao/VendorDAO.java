@@ -45,7 +45,7 @@ public class VendorDAO implements DAO
     {
         this.vendors = new ArrayList<>();
         
-        String query = "SELECT * FROM Vendors";
+        String query = "SELECT * FROM Vendors ORDER BY Vendor";
         
         try (var pst = this.conn.prepareStatement(query);
                 ResultSet rs = pst.executeQuery())

@@ -88,7 +88,7 @@ public class CustomerDAO implements DAO<Customer>
     {
         this.customers = new ArrayList<>();
         
-        String query = "SELECT * FROM Customers";
+        String query = "SELECT * FROM Customers ORDER BY Customer_Name";
         
         try (var pst = this.conn.prepareStatement(query);
                 ResultSet rs = pst.executeQuery())

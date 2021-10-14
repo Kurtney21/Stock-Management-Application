@@ -116,7 +116,7 @@ public class TransactionDAO implements DAO
     {
         transactions = new ArrayList<>();
         
-        String query = "SELECT * FROM Transactions";
+        String query = "SELECT * FROM Transactions ORDER BY Transaction_Id";
         
         try (var pst = this.conn.prepareStatement(query);
                 ResultSet rs = pst.executeQuery())
