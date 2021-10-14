@@ -116,16 +116,16 @@ WHERE category = 'Bread' AND stock_quantity > 0;
 
 -- Invoice --
 SELECT 
-    Transaction_Id,
+    Transaction_ID,
     Product_Name, 
-    Transaction_Quantity, 
-    Transaction_Total
+    TRANSACTION_QUANTITY,
+    TRANSACTION_TOTAL
 FROM Transactions
 INNER JOIN Products 
     ON PRODUCTS.PRODUCT_ID = TRANSACTIONS.PRODUCT_ID
 INNER JOIN Customers
     ON CUSTOMERS.Customer_Id = TRANSACTIONS.CUSTOMER_ID
-WHERE Customer_Name = 'William';
+WHERE Customer_Name = 'Joe';
 
 -- Sales Report --
 SELECT

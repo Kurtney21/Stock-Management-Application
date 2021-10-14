@@ -8,7 +8,9 @@ package za.ac.cput.stock.management.server.entry;
 import java.sql.SQLException;
 import java.util.List;
 import za.ac.cput.stock.management.common.Customer;
+import za.ac.cput.stock.management.common.Invoice;
 import za.ac.cput.stock.management.common.Product;
+import za.ac.cput.stock.management.common.Sale;
 import za.ac.cput.stock.management.common.Transaction;
 import za.ac.cput.stock.management.common.User;
 import za.ac.cput.stock.management.server.dao.CategoryDAO;
@@ -17,6 +19,7 @@ import za.ac.cput.stock.management.server.dao.ProductDAO;
 import za.ac.cput.stock.management.server.dao.TransactionDAO;
 import za.ac.cput.stock.management.common.User;
 import za.ac.cput.stock.management.server.dao.CustomerDAO;
+import za.ac.cput.stock.management.server.dao.SalesReportDAO;
 import za.ac.cput.stock.management.server.dao.UserDAO;
 import za.ac.cput.stock.management.server.dao.VendorDAO;
 
@@ -34,6 +37,7 @@ public class RequestHandler
     private VendorDAO vendorDAO;
     private CustomerDAO customerDAO;
     private TransactionDAO transactionDAO;
+    private SalesReportDAO salesDAO;
     
     public RequestHandler()
     {
@@ -45,6 +49,7 @@ public class RequestHandler
             vendorDAO = new VendorDAO();
             customerDAO = new CustomerDAO();
             transactionDAO = new TransactionDAO();
+            salesDAO  = new SalesReportDAO();
         } 
         catch (SQLException ex)
         {
@@ -146,5 +151,14 @@ public class RequestHandler
     public boolean updateUser(User user)
     {
         return this.userDAO.update(user);
+    }
+
+    public List<Sale> getSales(){
+        return this.salesDAO.getAll();
+    }
+    
+    public List<Invoice> getCustomerInvoices(String customerName){
+        return this.salesDAO.getCustomerInvoice(customerName);
+        
     }
 }

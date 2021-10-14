@@ -6,19 +6,15 @@
 
 package za.ac.cput.stock.management.controller;
 
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import za.ac.cput.stock.management.client.entry.Client;
 import za.ac.cput.stock.management.client.gui.MainFrame;
-import za.ac.cput.stock.management.common.Customer;
-import za.ac.cput.stock.management.common.Product;
-import za.ac.cput.stock.management.common.Transaction;
-import za.ac.cput.stock.management.common.User;
-import za.ac.cput.stock.management.common.UserRole;
+import za.ac.cput.stock.management.common.*;
 
 
 public class Controller 
@@ -26,6 +22,7 @@ public class Controller
     static final Client client = new Client();
     private MainFrame mainFrame;
     private static User validUser;              // valid user object
+
     
     public User checkAuthentication(
             String userName, 
@@ -321,5 +318,23 @@ public class Controller
             JOptionPane.showMessageDialog(mainFrame, "Error. ");
         }
         return isUpdateUser;
+    }
+    
+    public List<Sale> getSales(){
+        return client.requestSales();
+    }
+    
+    
+    public String getSalesTotal(){
+        ArrayList<Sale> sale = (ArrayList<Sale>) getSales();
+        double total = 0;
+        for(int i = 0; i < sale.size();i++){
+            total += sale.get(i).getSubTotal();
+        }
+        return String.valueOf(Math.round(total*100.00)/100.00);
+    }
+    
+    public List<Invoice> getInvoices(String name){
+        return client.requestCustomerInvoices(name);
     }
 }

@@ -5,18 +5,13 @@
  */
 package za.ac.cput.stock.management.server.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.sql.*;
+import java.util.*;
+import java.util.logging.*;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import za.ac.cput.stock.management.server.dbconnection.DBConnection;
-import za.ac.cput.stock.management.common.Customer;
+import za.ac.cput.stock.management.common.*;
 
 public class CustomerDAO implements DAO<Customer>
 {
@@ -112,4 +107,45 @@ public class CustomerDAO implements DAO<Customer>
         
         return customers;
     }
+    
+//    public List<Transaction> getTransactionByCustomerID(int id)
+//    {
+//        List transaction = new ArrayList<>();
+//        
+//        String query = "SELECT * FROM TRANSACTIONS WHERE CUSTOMER_ID = ? "
+//                + "ORDER BY TRANSACTION_ID";
+//        
+//        try (var pst = this.conn.prepareStatement(query))
+//        {
+//            pst.setInt(1, id);
+//            
+//            ResultSet rs = pst.executeQuery();
+//            
+//            while (rs.next())
+//            {
+//                int productId = rs.getInt(1);
+//                String categoryName = rs.getString(2);
+//                String vendor = rs.getString(3);
+//                String productName = rs.getString(4);
+//                int stockQuantity = rs.getInt(5);
+//                double price = rs.getDouble(6);
+//                
+//                var obj = new Product(
+//                        productId, 
+//                        productName, 
+//                        categoryName,
+//                        vendor,
+//                        stockQuantity, 
+//                        price);
+//                
+//                this.productsCategory.add(obj);
+//            }
+//            rs.close();
+//        }
+//        catch (SQLException sqle)
+//        {
+//            sqle.printStackTrace();
+//        }
+//        return productsCategory;
+//    }
 }

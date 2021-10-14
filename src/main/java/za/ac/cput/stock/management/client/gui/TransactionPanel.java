@@ -8,6 +8,9 @@ package za.ac.cput.stock.management.client.gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
@@ -25,6 +28,7 @@ public class TransactionPanel implements ActionListener
     private JButton addBtn, displayCartBtn, checkoutBtn, cartBtn,backBtn;
     private JSpinner quantitySpinner;
     private JTextField priceTxt;
+    private SalesReportPanel salesReport = new SalesReportPanel();
     private Controller controller = new Controller();
 
     public TransactionPanel(){

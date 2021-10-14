@@ -238,6 +238,17 @@ public class Server
                         out.writeBoolean(updateUser);
                         out.flush();
                     }
+                    case "requestSales" ->
+                    {
+                        out.writeObject(requestHandler.getSales());
+                        out.flush();
+                    }
+                    case "requestCustomerInvoice" ->
+                    {
+                        String customerName = (String) in.readObject();
+                        out.writeObject(requestHandler.getCustomerInvoices(customerName));
+                        out.flush();
+                    }
                 }
             }while (!"clientDisconnect".equals(request));
         }
