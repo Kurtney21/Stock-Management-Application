@@ -6,10 +6,13 @@
 package za.ac.cput.stock.management.server.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import za.ac.cput.stock.management.server.dbconnection.DBConnection;
@@ -30,14 +33,15 @@ public class CustomerDAO implements DAO<Customer>
     {
         boolean isAdd = false;
         
-        String query = "INSERT INTO Customers VALUES (?,?,?,?)";
+        String query = "INSERT INTO Customers "
+                    + "(CUSTOMER_NAME, CUSTOMER_LASTNAME, CUSTOMER_EMAIL) "
+                    + "VALUES (?,?,?)";
         
         try (var pst = this.conn.prepareStatement(query))
         {
-            pst.setInt(1, cus.getCustomerId());
-            pst.setString(2, cus.getName());
-            pst.setString(3, cus.getLastname());
-            pst.setString(4, cus.getEmail());
+            pst.setString(1, cus.getName());
+            pst.setString(2, cus.getLastname());
+            pst.setString(3, cus.getEmail());
             
             pst.executeUpdate();
             
@@ -61,7 +65,22 @@ public class CustomerDAO implements DAO<Customer>
     @Override
     public boolean update(Customer t)
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+        String updateQuery = "UPDATE CUSTOMERS SET"
+                    + " CUSTOMER_NAME = ?, CUSTOMER_LASTNAME = ?, CUSTOMER_EMAIL = ?"
+                    + " WHERE CUSTOMER_ID = ?";
+        boolean isUpdate = false;
+        try (PreparedStatement ps = conn.prepareStatement(updateQuery)){
+            ps.setString(1, t.getName());
+            ps.setString(2, t.getLastname());
+            ps.setString(3, t.getEmail());
+            ps.setInt(4, t.getCustomerId());
+            
+            ps.executeUpdate();
+            isUpdate = true;
+        } catch (SQLException ex) {
+            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return isUpdate;
     }
 
     @Override

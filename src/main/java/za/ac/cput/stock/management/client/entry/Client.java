@@ -318,22 +318,27 @@ public class Client
         {
             ex.printStackTrace();
         }
+        
         return productsByCategory;
     }
     
-    List<Customer> list;
-    public List<Customer> getListOfCustomer(){
+    public boolean requestAddCustomer(Customer customer)
+    {
+        boolean isAddCustomer = false;
+        
         try
         {
-            out.writeObject("requestListOfCustomers");
+            out.writeObject("requestAddCustomer");
+            out.flush();
+            out.writeObject(customer);
             out.flush();
             
-            list = (List<Customer>)in.readObject();
-        }
-        catch (IOException | ClassNotFoundException ex )
+            isAddCustomer = in.readBoolean();
+        } 
+        catch (IOException ex)
         {
-            System.out.println(ex.getMessage());
+            ex.printStackTrace();
         }
-        return list;
+        return isAddCustomer;
     }
 }

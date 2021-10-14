@@ -207,7 +207,14 @@ public class Server
                     }
                     case "requestListOfCustomers" ->
                     {
-                        out.writeObject(requestHandler.requestListOfCustomers());
+                        out.writeObject(requestHandler.getCustomers());
+                        out.flush();
+                    }
+                    case "requestAddCustomer" ->
+                    {
+                        var customer = (Customer) in.readObject();
+                        boolean addProduct = requestHandler.addCustomer(customer);
+                        out.writeBoolean(addProduct);
                         out.flush();
                     }
                 }

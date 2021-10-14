@@ -236,13 +236,6 @@ public class MainFrame extends JFrame implements ActionListener {
               new AddEmployeeGUI().setVisible(true);
           }
       });
-      addCustomerPanel.getAddBtn().addActionListener(new ActionListener()
-      {
-          public void actionPerformed(ActionEvent e)
-          {
-              new AddCustomerGUI().setVisible(true);
-          }
-      });
       newTransButton.addActionListener(new ActionListener()
       {
           public void actionPerformed(ActionEvent e)

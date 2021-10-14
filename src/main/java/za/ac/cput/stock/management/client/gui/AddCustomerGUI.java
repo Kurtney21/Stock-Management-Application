@@ -8,9 +8,13 @@ package za.ac.cput.stock.management.client.gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.SQLException;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+import za.ac.cput.stock.management.common.Customer;
 import za.ac.cput.stock.management.common.UserRole;
+import za.ac.cput.stock.management.controller.Controller;
 
 public class AddCustomerGUI extends JFrame implements ActionListener{
     private JPanel main;
@@ -19,7 +23,7 @@ public class AddCustomerGUI extends JFrame implements ActionListener{
     private JTextField nameTxt, surnameTxt, emailTxt;
     private JComboBox roleBox;
     private JButton addBtn;
-    
+    private Controller controller = new Controller();
     
     public AddCustomerGUI(){
     //initialize components
@@ -43,7 +47,7 @@ public class AddCustomerGUI extends JFrame implements ActionListener{
     public void initTextFields(){
         nameTxt = new JTextField("Enter Customer Name",15);
         surnameTxt  = new JTextField("Enter Customer Surname",15);
-        emailTxt = new JTextField("Enter Customer email",15);
+        emailTxt = new JTextField("Enter Customer Email",15);
     }
 
     public void initLabels(){
@@ -91,8 +95,35 @@ public class AddCustomerGUI extends JFrame implements ActionListener{
        main.add(Box.createRigidArea(new Dimension(0,10)));
     }
     
+    public void populateCustomerTable(JTable table) throws SQLException
+    {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        int rowCount = model.getRowCount();
+        //Remove rows one by one from the end of the table
+        for (int i = rowCount - 1; i >= 0; i--) {
+            model.removeRow(i);
+        }
+
+        java.util.List<Customer> list = controller.getCustomers();//Read Products from DB method (getAllProducts)
+        if(list!=null)
+        {
+            Object[] rowData = new Object[4];
+            for(int i = 0; i < list.size();i++){
+                rowData[0] = list.get(i).getCustomerId();
+                rowData[1] = list.get(i).getName();
+                rowData[2] = list.get(i).getLastname();
+                rowData[3] = list.get(i).getEmail();
+                model.addRow(rowData);
+            }
+        }
+        else
+        {
+            System.out.println("List is Empty");
+        }
+    }
+    
     public void setListenerEvents(){
-        
+        addBtn.addActionListener(this);
     }
     
     public void setFrameSettings(){
@@ -101,21 +132,31 @@ public class AddCustomerGUI extends JFrame implements ActionListener{
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     public String getName() {
-        return nameTxt.getText();
+        return this.nameTxt.getText();
     }
     
     public String getSurname() {
-        return surnameTxt.getText();
+        return this.surnameTxt.getText();
     }
 
     public String getEmail() {
-        return emailTxt.getText();
+        return this.emailTxt.getText();
     }
     
+    public static void main(String[] args) {
+        new AddCustomerGUI().setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getActionCommand().equals("Add")){
+            String name = getName(); 
+            String lastname = getSurname();
+            String email = getEmail();
+            
+            controller.addCustomer(name, lastname, email);
+            this.dispose();
+        }
+    }
 }

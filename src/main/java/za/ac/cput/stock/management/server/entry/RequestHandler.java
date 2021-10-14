@@ -103,6 +103,11 @@ public class RequestHandler
         return this.productDAO.add(product);
     }
     
+    public boolean addCustomer(Customer customer)
+    {
+        return this.customerDAO.add(customer);
+    }
+    
     public int addTransaction(
             Product product, 
             Customer customer, 
@@ -126,11 +131,5 @@ public class RequestHandler
     public boolean updateStockQuantity(Transaction transaction)
     {
         return this.transactionDAO.updateStockQuantity(transaction);
-    }
-        
-    public List<Customer> requestListOfCustomers()
-    {
-        List<Customer> custList = this.customerDAO.getAll();
-        return custList;
     }
 }

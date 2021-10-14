@@ -6,10 +6,12 @@ package za.ac.cput.stock.management.server.dao;
 
 import java.sql.SQLException;
 import java.util.List;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeAll;
 import za.ac.cput.stock.management.common.Customer;
 
 
@@ -18,6 +20,14 @@ public class CustomerDAOTest
     
     public CustomerDAOTest()
     {
+    }
+
+    @BeforeAll
+    public static void setUpClass() throws Exception {
+    }
+
+    @AfterAll
+    public static void tearDownClass() throws Exception {
     }
     
     @BeforeEach
@@ -37,13 +47,11 @@ public class CustomerDAOTest
     public void testAdd() throws SQLException
     {
         System.out.println("add");
-        Customer cus = null;
+        Customer cus = new Customer("Jake","Blake","jakeblake@pin.com");
         CustomerDAO instance = new CustomerDAO();
-        boolean expResult = false;
+        boolean expResult = true;
         boolean result = instance.add(cus);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -69,13 +77,11 @@ public class CustomerDAOTest
     public void testUpdate() throws SQLException
     {
         System.out.println("update");
-        Customer t = null;
+        Customer t = new Customer(1,"Joe", "Joe", "joejoe@mkf.com");
         CustomerDAO instance = new CustomerDAO();
-        boolean expResult = false;
+        boolean expResult = true;
         boolean result = instance.update(t);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**

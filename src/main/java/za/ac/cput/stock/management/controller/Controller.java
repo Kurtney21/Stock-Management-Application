@@ -92,14 +92,6 @@ public class Controller
     
     public void populateTables()
     {
-        try 
-        {
-            populateCustomerTable(mainFrame.getAddCustomerPanel().getTable());
-        } 
-        catch (SQLException ex) 
-        {
-            ex.printStackTrace();
-        }
     }
     
     public List<Product> getProducts()
@@ -108,32 +100,7 @@ public class Controller
     }
     
     //populates Customer Table
-    public void populateCustomerTable(JTable table) throws SQLException
-    {
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
-        int rowCount = model.getRowCount();
-        //Remove rows one by one from the end of the table
-        for (int i = rowCount - 1; i >= 0; i--) {
-            model.removeRow(i);
-        }
-
-        List<Customer> list = client.getListOfCustomer();//Read Products from DB method (getAllProducts)
-        if(list!=null)
-        {
-            Object[] rowData = new Object[4];
-            for(int i = 0; i < list.size();i++){
-                rowData[0] = list.get(i).getCustomerId();
-                rowData[1] = list.get(i).getName();
-                rowData[2] = list.get(i).getLastname();
-                rowData[3] = list.get(i).getEmail();
-                model.addRow(rowData);
-            }
-        }
-        else
-        {
-            System.out.println("List is Empty");
-        }
-    }
+    
     
     public Object [] getCategories()
     {
@@ -306,8 +273,19 @@ public class Controller
         }
     }
     
+    
     public List<Product> getProductsByCategory(String category)
     {
         return client.requestProductsByCategory(category);
+    }
+    
+    //Add Customer
+    public void addCustomer(
+            String custName,
+            String custLastname,
+            String custEmail)
+    {
+        Customer customer = new Customer(custName, custLastname, custEmail);
+        client.requestAddCustomer(customer);
     }
 }
