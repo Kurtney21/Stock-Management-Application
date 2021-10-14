@@ -93,7 +93,7 @@ public class UserDAOTest
     @Test
     public void testUpdate() throws SQLException {
         System.out.println("update");
-        User user = new User(4,"Admin", "admin", UserRole.ADMIN,true);
+        User user = new User(4,"admin", "admin", UserRole.ADMIN,true);
         UserDAO instance = new UserDAO();
         boolean expResult = true;
         boolean result = instance.update(user);

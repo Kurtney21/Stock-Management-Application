@@ -108,6 +108,11 @@ public class RequestHandler
         return this.customerDAO.add(customer);
     }
     
+    public boolean addUser(User user)
+    {
+        return this.userDAO.add(user);
+    }
+    
     public int addTransaction(
             Product product, 
             Customer customer, 
@@ -131,5 +136,15 @@ public class RequestHandler
     public boolean updateStockQuantity(Transaction transaction)
     {
         return this.transactionDAO.updateStockQuantity(transaction);
+    }
+    
+    public boolean updateCustomer(Customer customer)
+    {
+        return this.customerDAO.update(customer);
+    }
+    
+    public boolean updateUser(User user)
+    {
+        return this.userDAO.update(user);
     }
 }

@@ -20,6 +20,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import za.ac.cput.stock.management.common.Customer;
 import za.ac.cput.stock.management.common.User;
+import za.ac.cput.stock.management.common.UserRole;
 import za.ac.cput.stock.management.controller.Controller;
 
 public class AdministrationPanels implements ActionListener, ItemListener
@@ -36,7 +37,7 @@ public class AdministrationPanels implements ActionListener, ItemListener
     private ImageIcon logoIcn;
     private JComboBox categorieBox, roleComboBox;
     private JButton  productManageBtn, userManageBtn,  addProductBtn, 
-            updateProductBtn, backProductBtn, addUserBtn, updateUserBtn, backUserBtn;
+            updateProductBtn, backProductBtn, addUserBtn, updateUserBtn, refreshUserBtn;
     private PopTables popTable = new PopTables();
     private int x, y = 0;
     private Point currentLocation;
@@ -46,6 +47,7 @@ public class AdministrationPanels implements ActionListener, ItemListener
         setComboBox();
         initPanels();
         initButtons();
+        setListeners();
         setProductTable();
         setUserTable();
         setLayouts();
@@ -71,7 +73,7 @@ public class AdministrationPanels implements ActionListener, ItemListener
         
         addUserBtn = new JButton("Add");  
         updateUserBtn = new JButton("Update");  
-        backUserBtn = new JButton("Back");
+        refreshUserBtn = new JButton("Refresh");
     }
     
     public void setComboBox(){
@@ -138,7 +140,7 @@ public class AdministrationPanels implements ActionListener, ItemListener
                 new Object [][] {
                 },
                 new String [] {
-                    "ID", "NAME", "SURNAME", "ROLE","STATUS"
+                    "ID", "NAME", "PASSWORD", "ROLE","STATUS"
                 }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -169,6 +171,32 @@ public class AdministrationPanels implements ActionListener, ItemListener
         userManagePnl.setLayout(new FlowLayout(FlowLayout.LEFT));
     }
     
+    public void setListeners(){
+        addUserBtn.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent ea){
+                new AddEmployeeGUI().setVisible(true);
+            }
+        });
+        updateUserBtn.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent ea){
+                updateUser();
+            }
+        });
+        refreshUserBtn.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent ea){
+                try {
+                    popTable.populateUserTable(userTable);
+                } catch (SQLException ex) {
+                    Logger.getLogger(AdministrationPanels.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+    
+    }
+    
     public void setComponents(){
         //Product Management
         tableProductPnl.add(scProduct);
@@ -197,7 +225,7 @@ public class AdministrationPanels implements ActionListener, ItemListener
         opsUserPnl.add(Box.createRigidArea(new Dimension(0, 20)));
         opsUserPnl.add(updateUserBtn);
         opsUserPnl.add(Box.createRigidArea(new Dimension(0, 20)));
-        opsUserPnl.add(backUserBtn);
+        opsUserPnl.add(refreshUserBtn);
         userManagePnl.add(opsUserPnl);
     }
     
@@ -247,6 +275,38 @@ public class AdministrationPanels implements ActionListener, ItemListener
             populateTable();
         }
     }
+    
+     public void updateUser(){
+        try{
+            int row = userTable.getSelectedRow();
+
+            String usID = String.valueOf(getUserTableModel().getValueAt(row, 0));
+            int id = Integer.parseInt(usID);
+
+            String usName = String.valueOf(getUserTableModel().getValueAt(row, 1));
+            String usPassword = String.valueOf(getUserTableModel().getValueAt(row, 2));
+
+            String userRole = String.valueOf(getUserTableModel().getValueAt(row, 3));
+            UserRole role = getUserRole(userRole);
+
+            boolean userStatus = Boolean.parseBoolean(String.valueOf(getUserTableModel().getValueAt(row, 4)));
+
+            User user = new User(id, usName, usPassword, role,userStatus);
+            controller.updateUser(new User(id, usName, usPassword, role,userStatus));
+        }catch (ArrayIndexOutOfBoundsException ex){
+            JOptionPane.showMessageDialog(null, "No record selected.");
+        }
+    }
+     
+     public UserRole getUserRole(String role){
+        if(role.equals("ADMIN")){
+            return UserRole.ADMIN;
+        }
+        else{
+           return UserRole.USER;
+        }
+     }
+     
 
     public JPanel getProductManagePnl() {
         return productManagePnl;
@@ -284,12 +344,13 @@ public class AdministrationPanels implements ActionListener, ItemListener
         return updateUserBtn;
     }
 
-    public JButton getBackUserBtn() {
-        return backUserBtn;
-    }
-
     public DefaultTableModel getTableModel()
     {
         return(DefaultTableModel) productTable.getModel();
     }
+    public DefaultTableModel getUserTableModel()
+    {
+        return(DefaultTableModel) userTable.getModel();
+    }
+    
 }

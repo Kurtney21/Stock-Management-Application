@@ -18,6 +18,7 @@ import za.ac.cput.stock.management.common.Customer;
 import za.ac.cput.stock.management.common.Product;
 import za.ac.cput.stock.management.common.Transaction;
 import za.ac.cput.stock.management.common.User;
+import za.ac.cput.stock.management.common.UserRole;
 
 
 public class Controller 
@@ -280,12 +281,45 @@ public class Controller
     }
     
     //Add Customer
-    public void addCustomer(
-            String custName,
-            String custLastname,
-            String custEmail)
-    {
+    public void addCustomer(String custName,String custLastname, String custEmail){
         Customer customer = new Customer(custName, custLastname, custEmail);
         client.requestAddCustomer(customer);
+    }
+    
+    //Update Customer
+    public boolean updateCustomer(int custID, String custName, String custLastname, String custEmail){
+        Customer customer = new Customer(custID,custName,custLastname,custEmail);
+        boolean isUpdateCustomer = client.requestUpdateCustomer(customer);
+        
+        if (isUpdateCustomer)
+        {
+            JOptionPane.showMessageDialog(mainFrame, "Updated record.");
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(mainFrame, "Error. ");
+        }
+        return isUpdateCustomer;
+    }
+    
+    //Add Employee || User
+    //Add Customer
+    public void addEmployee(User user){
+        client.requestAddUser(user);
+    }
+    
+    //Update User
+    public boolean updateUser(User user){
+        boolean isUpdateUser = client.requestUpdateUser(user);
+        
+        if (isUpdateUser)
+        {
+            JOptionPane.showMessageDialog(mainFrame, "Updated record.");
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(mainFrame, "Error. ");
+        }
+        return isUpdateUser;
     }
 }

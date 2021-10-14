@@ -33,7 +33,7 @@ public class CustomerDAO implements DAO<Customer>
     {
         boolean isAdd = false;
         
-        String query = "INSERT INTO Customers "
+        String query = "INSERT INTO CUSTOMERS "
                     + "(CUSTOMER_NAME, CUSTOMER_LASTNAME, CUSTOMER_EMAIL) "
                     + "VALUES (?,?,?)";
         
