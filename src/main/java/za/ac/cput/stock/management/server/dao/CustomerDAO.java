@@ -10,6 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import za.ac.cput.stock.management.server.dbconnection.DBConnection;
@@ -55,10 +57,19 @@ public class CustomerDAO implements DAO<Customer>
     }
 
     @Override
-    public Customer update(Customer t)
+    public Customer update(Customer c)
     {
-        //String updateQuery = "UPDATE CUSTOMERS SET CUSTOMER_NAME = ?, CUSTOMER_SURNAME = ?, CUSTOMER_  = ? WHERE CUSTOMER_ = ?";
-        return new Customer();
+        String updateQuery = "UPDATE CUSTOMERS SET CUSTOMER_NAME = ?, CUSTOMER_LASTNAME  = ? WHERE CUSTOMER_EMAIL = ?";
+        try(var ps = conn.prepareStatement(updateQuery)){
+                ps.setString(1, c.getName());
+            ps.setString(2, c.getLastname());
+            ps.setString(3, c.getEmail());
+
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return c;
     }
 
     @Override
