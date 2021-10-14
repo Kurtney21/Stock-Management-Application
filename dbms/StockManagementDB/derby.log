@@ -1,7 +1,7 @@
-Wed Sep 29 20:10:00 SAST 2021 : Apache Derby Network Server - 10.14.2.0 - (1828579) started and ready to accept connections on port 1527
+Thu Oct 14 08:54:12 SAST 2021 : Apache Derby Network Server - 10.14.2.0 - (1828579) started and ready to accept connections on port 1527
 ----------------------------------------------------------------
-Wed Sep 29 20:11:25 SAST 2021:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-017c-32bf-beae-fffff00a5962 
+Thu Oct 14 08:54:12 SAST 2021:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-017c-7d94-6f8d-fffff00a5962 
 on database directory /home/curstinjr/Documents/CPUT/Second Year/Projects/App Dev Practice 2/TERM 4/Stock-Management-Application/dbms/StockManagementDB/StockManagementDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@30946e09 
 Loaded from file:/opt/Apache-Derby/db-derby-10.14.2.0-bin/lib/derby.jar
 java.vendor=Oracle Corporation
@@ -9,12 +9,12 @@ java.runtime.version=17+35-LTS-2724
 user.dir=/opt/Apache-Derby/db-derby-10.14.2.0-bin
 os.name=Linux
 os.arch=amd64
-os.version=5.14.8-arch1-1
+os.version=5.14.11-arch1-1
 derby.system.home=/home/curstinjr/Documents/CPUT/Second Year/Projects/App Dev Practice 2/TERM 4/Stock-Management-Application/dbms/StockManagementDB
 Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
-Wed Sep 29 20:12:12 SAST 2021: Shutting down Derby engine
+Thu Oct 14 08:54:32 SAST 2021: Shutting down Derby engine
 ----------------------------------------------------------------
-Wed Sep 29 20:12:12 SAST 2021:
-Shutting down instance a816c00e-017c-32bf-beae-fffff00a5962 on database directory /home/curstinjr/Documents/CPUT/Second Year/Projects/App Dev Practice 2/TERM 4/Stock-Management-Application/dbms/StockManagementDB/StockManagementDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@30946e09 
+Thu Oct 14 08:54:32 SAST 2021:
+Shutting down instance a816c00e-017c-7d94-6f8d-fffff00a5962 on database directory /home/curstinjr/Documents/CPUT/Second Year/Projects/App Dev Practice 2/TERM 4/Stock-Management-Application/dbms/StockManagementDB/StockManagementDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@30946e09 
 ----------------------------------------------------------------

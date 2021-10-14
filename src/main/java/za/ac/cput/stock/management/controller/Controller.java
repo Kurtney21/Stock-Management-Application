@@ -265,7 +265,7 @@ public class Controller
         
         if (isUpdateProduct)
         {
-            JOptionPane.showMessageDialog(mainFrame, "Updated stock.");
+            JOptionPane.showMessageDialog(mainFrame, "Added New Transaction.");
         }
         else
         {

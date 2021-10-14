@@ -215,13 +215,13 @@ public class MainFrame extends JFrame implements ActionListener {
               new AddProductGUI().setVisible(true);
           }
       });
-      adminGUI.getBackProductBtn().addActionListener(new ActionListener()
+      /*adminGUI.getBackProductBtn().addActionListener(new ActionListener()
       {
           public void actionPerformed(ActionEvent e)
           {
               controller.swapPanels(cardPnl, welcomePnl);
           }
-      });
+      });*/
       adminGUI.getBackUserBtn().addActionListener(new ActionListener()
       {
           public void actionPerformed(ActionEvent e)

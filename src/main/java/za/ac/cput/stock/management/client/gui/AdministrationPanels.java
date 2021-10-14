@@ -36,7 +36,7 @@ public class AdministrationPanels implements ActionListener, ItemListener
     private ImageIcon logoIcn;
     private JComboBox categorieBox, roleComboBox;
     private JButton  productManageBtn, userManageBtn,  addProductBtn, 
-            updateProductBtn, backProductBtn, addUserBtn, updateUserBtn, backUserBtn;
+            updateProductBtn, refreshBtn, addUserBtn, updateUserBtn, backUserBtn;
     private PopTables popTable = new PopTables();
     private int x, y = 0;
     private Point currentLocation;
@@ -67,7 +67,8 @@ public class AdministrationPanels implements ActionListener, ItemListener
         addProductBtn = new JButton("Add");  
         updateProductBtn = new JButton("Update");
         updateProductBtn.addActionListener(this);
-        backProductBtn = new JButton("Back"); 
+        refreshBtn = new JButton("Refresh");
+        refreshBtn.addActionListener(this);
         
         addUserBtn = new JButton("Add");  
         updateUserBtn = new JButton("Update");  
@@ -182,7 +183,7 @@ public class AdministrationPanels implements ActionListener, ItemListener
         opsProductPnl.add(Box.createRigidArea(new Dimension(0, 20)));
         opsProductPnl.add(updateProductBtn);
         opsProductPnl.add(Box.createRigidArea(new Dimension(0, 20)));
-        opsProductPnl.add(backProductBtn);
+        opsProductPnl.add(refreshBtn);
         productManagePnl.add(opsProductPnl);
         
         //User Management
@@ -237,6 +238,10 @@ public class AdministrationPanels implements ActionListener, ItemListener
                 JOptionPane.showMessageDialog(null, "No record selected.");
             }
         }
+        else if (e.getSource().equals(refreshBtn))
+        {
+            populateTable();
+        }
     }
     
     @Override
@@ -272,8 +277,8 @@ public class AdministrationPanels implements ActionListener, ItemListener
         return updateProductBtn;
     }
 
-    public JButton getBackProductBtn() {
-        return backProductBtn;
+    public JButton getRefreshBtn() {
+        return refreshBtn;
     }
 
     public JButton getAddUserBtn() {
