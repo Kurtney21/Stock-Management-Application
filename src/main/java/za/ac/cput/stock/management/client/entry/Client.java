@@ -341,4 +341,64 @@ public class Client
         }
         return isAddCustomer;
     }
+    
+    public boolean requestUpdateCustomer(Customer customer)
+    {
+        boolean isUpdateCustomer = false;
+        
+        try
+        {
+            out.writeObject("requestUpdateCustomer");
+            out.flush();
+            out.writeObject(customer);
+            out.flush();
+            
+            isUpdateCustomer = in.readBoolean();
+        } 
+        catch (IOException ex)
+        {
+            ex.printStackTrace();
+        }
+        return isUpdateCustomer;
+    }
+    
+    public boolean requestAddUser(User user)
+    {
+        boolean isAddUser = false;
+        
+        try
+        {
+            out.writeObject("requestAddUser");
+            out.flush();
+            out.writeObject(user);
+            out.flush();
+            
+            isAddUser = in.readBoolean();
+        } 
+        catch (IOException ex)
+        {
+            ex.printStackTrace();
+        }
+        return isAddUser;
+    }
+    
+        public boolean requestUpdateUser(User user)
+    {
+        boolean isUpdateUser = false;
+        
+        try
+        {
+            out.writeObject("requestUpdateUser");
+            out.flush();
+            out.writeObject(user);
+            out.flush();
+            
+            isUpdateUser = in.readBoolean();
+        } 
+        catch (IOException ex)
+        {
+            ex.printStackTrace();
+        }
+        return isUpdateUser;
+    }
 }

@@ -18,7 +18,7 @@ import javax.swing.table.DefaultTableModel;
 import za.ac.cput.stock.management.common.Customer;
 import za.ac.cput.stock.management.controller.Controller;
 
-public class AddCustomerPanel{
+public class AddCustomerPanel extends JFrame{
     private JPanel addCustomerPnl, tablePnl, buttonPnl;
     private JTable table;
     private JScrollPane sc; 
@@ -78,7 +78,7 @@ public class AddCustomerPanel{
     }
     
     public void setComponents(){
-        
+        this.add(addCustomerPnl);
         addCustomerPnl.add(tablePnl);
         tablePnl.add(Box.createRigidArea(new Dimension(0,50)));
         tablePnl.add(sc);
@@ -103,6 +103,12 @@ public class AddCustomerPanel{
                 new AddCustomerGUI().setVisible(true);
             }
         });
+        updateBtn.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent ea){
+                updateCustomer();
+            }
+        });
         refreshBtn.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent ea){
@@ -115,7 +121,28 @@ public class AddCustomerPanel{
         });
     }
     
+    public void updateCustomer(){
+        try
+            {
+                int row = table.getSelectedRow();
+                
+                String cusID = String.valueOf(getTableModel().getValueAt(row, 0));
+                int id = Integer.parseInt(cusID);
+                String cusName = String.valueOf(getTableModel().getValueAt(row, 1));
+                String cusLastname = String.valueOf(getTableModel().getValueAt(row, 2));
+                String cusEmail = String.valueOf(getTableModel().getValueAt(row, 3));
 
+                controller.updateCustomer(id, cusName, cusLastname, cusEmail);
+            }
+            catch (ArrayIndexOutOfBoundsException ex)
+            {
+                JOptionPane.showMessageDialog(null, "No record selected.");
+            }
+    }
+    public static void main(String[] args) {
+        new AddCustomerPanel();
+    }
+    
     public JPanel getAddCustomerPnl() {
         return addCustomerPnl;
     }
@@ -134,5 +161,10 @@ public class AddCustomerPanel{
 
     public JTable getTable() {
         return table;
+    }
+    
+    public DefaultTableModel getTableModel()
+    {
+        return(DefaultTableModel) table.getModel();
     }
 }

@@ -217,6 +217,27 @@ public class Server
                         out.writeBoolean(addProduct);
                         out.flush();
                     }
+                    case "requestUpdateCustomer" ->
+                    {
+                        var customer = (Customer) in.readObject();
+                        boolean updateCustomer = requestHandler.updateCustomer(customer);
+                        out.writeBoolean(updateCustomer);
+                        out.flush();
+                    }
+                    case "requestAddUser" ->
+                    {
+                        var user = (User) in.readObject();
+                        boolean addUser = requestHandler.addUser(user);
+                        out.writeBoolean(addUser);
+                        out.flush();
+                    }
+                    case "requestUpdateUser" ->
+                    {
+                        var user = (User) in.readObject();
+                        boolean updateUser = requestHandler.updateUser(user);
+                        out.writeBoolean(updateUser);
+                        out.flush();
+                    }
                 }
             }while (!"clientDisconnect".equals(request));
         }

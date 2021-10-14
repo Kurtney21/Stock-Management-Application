@@ -6,12 +6,9 @@
 
 package za.ac.cput.stock.management.controller;
 
-import java.sql.SQLException;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 import za.ac.cput.stock.management.client.entry.Client;
 import za.ac.cput.stock.management.client.gui.MainFrame;
 import za.ac.cput.stock.management.common.Customer;
@@ -280,12 +277,45 @@ public class Controller
     }
     
     //Add Customer
-    public void addCustomer(
-            String custName,
-            String custLastname,
-            String custEmail)
-    {
+    public void addCustomer(String custName,String custLastname, String custEmail){
         Customer customer = new Customer(custName, custLastname, custEmail);
         client.requestAddCustomer(customer);
+    }
+    
+    //Update Customer
+    public boolean updateCustomer(int custID, String custName, String custLastname, String custEmail){
+        Customer customer = new Customer(custID,custName,custLastname,custEmail);
+        boolean isUpdateCustomer = client.requestUpdateCustomer(customer);
+        
+        if (isUpdateCustomer)
+        {
+            JOptionPane.showMessageDialog(mainFrame, "Updated record.");
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(mainFrame, "Error. ");
+        }
+        return isUpdateCustomer;
+    }
+    
+    //Add Employee || User
+    //Add Customer
+    public void addEmployee(User user){
+        client.requestAddUser(user);
+    }
+    
+    //Update User
+    public boolean updateUser(User user){
+        boolean isUpdateUser = client.requestUpdateUser(user);
+        
+        if (isUpdateUser)
+        {
+            JOptionPane.showMessageDialog(mainFrame, "Updated record.");
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(mainFrame, "Error. ");
+        }
+        return isUpdateUser;
     }
 }

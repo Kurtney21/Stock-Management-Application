@@ -48,13 +48,6 @@ public class ClientTest
     public void testRequestLogin()
     {
         System.out.println("requestLogin");
-        User user = null;
-        Client instance = new Client();
-        User expResult = null;
-        User result = instance.requestLogin(user);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -64,8 +57,5 @@ public class ClientTest
     public void testRequestCategories()
     {
         System.out.println("getCategories");
-        Client client = new Client();
-        
-        System.out.println(client.requestCategories());
     }
 }
