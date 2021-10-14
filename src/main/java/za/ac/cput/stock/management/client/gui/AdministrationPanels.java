@@ -37,6 +37,7 @@ public class AdministrationPanels implements ActionListener, ItemListener
     private JComboBox categorieBox, roleComboBox;
     private JButton  productManageBtn, userManageBtn,  addProductBtn, 
             updateProductBtn, backProductBtn, addUserBtn, updateUserBtn, backUserBtn;
+    private PopTables popTable = new PopTables();
     private int x, y = 0;
     private Point currentLocation;
     private Controller controller = new Controller();
@@ -131,55 +132,30 @@ public class AdministrationPanels implements ActionListener, ItemListener
     }
     
     public void setUserTable(){
-        try {
-            scUser = new JScrollPane();
-            userTable = new JTable();
-            userTable.setModel(new javax.swing.table.DefaultTableModel(
-                    new Object [][] {
-                    },
-                    new String [] {
-                        "ID", "NAME", "SURNAME", "ROLE","STATUS"
-                    }
-            ) {
-                boolean[] canEdit = new boolean [] {
-                    false, true, true, true, true
-                };
-                
-                public boolean isCellEditable(int rowIndex, int columnIndex) {
-                    return canEdit [columnIndex];
+        scUser = new JScrollPane();
+        userTable = new JTable();
+        userTable.setModel(new javax.swing.table.DefaultTableModel(
+                new Object [][] {
+                },
+                new String [] {
+                    "ID", "NAME", "SURNAME", "ROLE","STATUS"
                 }
-            });
-            scUser.setViewportView(userTable);
-            scUser.setPreferredSize(new Dimension(700,400));
-            scUser.setBorder(new EmptyBorder(10,10,10,10));
-            populateUserTable(userTable);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        scUser.setViewportView(userTable);
+        scUser.setPreferredSize(new Dimension(700,400));
+        scUser.setBorder(new EmptyBorder(10,10,10,10));
+        try {
+            popTable.populateUserTable(userTable);
         } catch (SQLException ex) {
             Logger.getLogger(AdministrationPanels.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    public void populateUserTable(JTable table) throws SQLException{
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
-        int rowCount = model.getRowCount();
-        //Remove rows one by one from the end of the table
-        for (int i = rowCount - 1; i >= 0; i--) {
-            model.removeRow(i);
-        }
-
-        ArrayList<User> list = (ArrayList<User>) controller.getUsers();//Read Products from DB method (getAllProducts)
-        if(list != null){
-            Object[] rowData = new Object[5];
-            for(int i = 0; i < list.size();i++){
-                rowData[0] = list.get(i).getUserId();
-                rowData[1] = list.get(i).getUsername();
-                rowData[2] = list.get(i).getPassword();
-                rowData[3] = list.get(i).getUserRole();
-                rowData[4] = list.get(i).isStatus();
-                model.addRow(rowData);
-            }
-        }
-        else{
-            System.out.println("List is Empty");
         }
     }
     
