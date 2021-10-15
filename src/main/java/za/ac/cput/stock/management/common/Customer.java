@@ -25,6 +25,14 @@ public class Customer implements Serializable
         this.email = email;
     }
 
+    public Customer(String name, String lastname, String email) {
+        this.name = name;
+        this.lastname = lastname;
+        this.email = email;
+    }
+    
+    
+
     public int getCustomerId()
     {
         return customerId;

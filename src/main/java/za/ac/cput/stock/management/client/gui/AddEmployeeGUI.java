@@ -11,15 +11,16 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import za.ac.cput.stock.management.common.*;
+import za.ac.cput.stock.management.controller.Controller;
 
 public class AddEmployeeGUI extends JFrame implements ActionListener{
     private JPanel main;
     private JLabel logoLbl;
     private ImageIcon img;
-    private JTextField nameTxt, surnameTxt, emailTxt;
+    private JTextField usernameTxt, passwordTxt;
     private JComboBox roleBox;
     private JButton addBtn;
-    
+    private Controller controller = new Controller();
     
     public AddEmployeeGUI(){
     //initialize components
@@ -41,9 +42,8 @@ public class AddEmployeeGUI extends JFrame implements ActionListener{
     }
     
     public void initTextFields(){
-        nameTxt = new JTextField("Enter Employee Name",15);
-        surnameTxt  = new JTextField("Enter Employee Surname",15);
-        emailTxt = new JTextField("Enter Employee email",15);
+        usernameTxt = new JTextField("Enter Employee User Name",15);
+        passwordTxt  = new JTextField("Enter Employee Password",15);
     }
 
     public void initLabels(){
@@ -77,14 +77,11 @@ public class AddEmployeeGUI extends JFrame implements ActionListener{
        logoLbl.setAlignmentX(Component.CENTER_ALIGNMENT);
        main.add(logoLbl);
        main.add(Box.createRigidArea(new Dimension(0,10)));
-       nameTxt.setAlignmentX(Component.CENTER_ALIGNMENT);
-       main.add(nameTxt);
+       usernameTxt.setAlignmentX(Component.CENTER_ALIGNMENT);
+       main.add(usernameTxt);
        main.add(Box.createRigidArea(new Dimension(0,10)));
-       surnameTxt.setAlignmentX(Component.CENTER_ALIGNMENT);
-       main.add(surnameTxt);
-       main.add(Box.createRigidArea(new Dimension(0,10)));
-       emailTxt.setAlignmentX(Component.CENTER_ALIGNMENT);
-       main.add(emailTxt);
+       passwordTxt.setAlignmentX(Component.CENTER_ALIGNMENT);
+       main.add(passwordTxt);
        main.add(Box.createRigidArea(new Dimension(0,10)));
        roleBox.setAlignmentX(Component.CENTER_ALIGNMENT);
        main.add(roleBox);
@@ -95,7 +92,7 @@ public class AddEmployeeGUI extends JFrame implements ActionListener{
     }
     
     public void setListenerEvents(){
-        
+        addBtn.addActionListener(this);
     }
     
     public void setFrameSettings(){
@@ -106,19 +103,42 @@ public class AddEmployeeGUI extends JFrame implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public String getName() {
-        return nameTxt.getText();
-    }
-    
-    public String getSurname() {
-        return surnameTxt.getText();
-    }
-
-    public String getEmail() {
-        return emailTxt.getText();
+        if(e.getActionCommand().equals("Add")){
+            if (!isEmpty()) return;
+           User user = new User(getUserName(),getPassword(), getRole(), true);
+           controller.addEmployee(user);
+           this.dispose();
+        }
     }
     
+     public boolean isEmpty()
+    {
+        boolean isEmpty = true;
+        
+        if (getUserName().trim().equals("") || getUserName().equals("Enter Employee User Name"))
+        {
+            JOptionPane.showMessageDialog(null, "Employee Name can't be empty.");
+            isEmpty = false;
+        }
+        else if (getPassword().trim().equals("") || 
+                getPassword().equals("Enter Employee Password"))
+        {
+            JOptionPane.showMessageDialog(null, "Password can't be empty.");
+            isEmpty = false;
+        }
+        
+        return isEmpty;
+    }    
+
+    public String getUserName() {
+        return usernameTxt.getText();
+    }
+    
+    public String getPassword() {
+        return passwordTxt.getText();
+    }
+    
+    public UserRole getRole() {
+      return (UserRole) roleBox.getSelectedItem();
+    }
 }

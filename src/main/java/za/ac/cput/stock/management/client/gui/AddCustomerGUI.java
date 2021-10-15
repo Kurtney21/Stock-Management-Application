@@ -8,9 +8,13 @@ package za.ac.cput.stock.management.client.gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.SQLException;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+import za.ac.cput.stock.management.common.Customer;
 import za.ac.cput.stock.management.common.UserRole;
+import za.ac.cput.stock.management.controller.Controller;
 
 public class AddCustomerGUI extends JFrame implements ActionListener{
     private JPanel main;
@@ -19,7 +23,7 @@ public class AddCustomerGUI extends JFrame implements ActionListener{
     private JTextField nameTxt, surnameTxt, emailTxt;
     private JComboBox roleBox;
     private JButton addBtn;
-    
+    private Controller controller = new Controller();
     
     public AddCustomerGUI(){
     //initialize components
@@ -43,7 +47,7 @@ public class AddCustomerGUI extends JFrame implements ActionListener{
     public void initTextFields(){
         nameTxt = new JTextField("Enter Customer Name",15);
         surnameTxt  = new JTextField("Enter Customer Surname",15);
-        emailTxt = new JTextField("Enter Customer email",15);
+        emailTxt = new JTextField("Enter Customer Email",15);
     }
 
     public void initLabels(){
@@ -91,8 +95,37 @@ public class AddCustomerGUI extends JFrame implements ActionListener{
        main.add(Box.createRigidArea(new Dimension(0,10)));
     }
     
-    public void setListenerEvents(){
+    public void populateCustomerTable(JTable table)
+    {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        int rowCount = model.getRowCount();
+        //Remove rows one by one from the end of the table
+        for (int i = rowCount - 1; i >= 0; i--) {
+            model.removeRow(i);
+        }
         
+        //Read Products from DB method (getAllProducts)
+        int customersLen = controller.getCustomers().size();
+        if(customersLen == 0)
+        {
+            var record = controller.getCustomers();
+            Object[] rowData = new Object[4];
+            for(int i = 0; i < customersLen;i++){
+                rowData[0] = record.get(i).getCustomerId();
+                rowData[1] = record.get(i).getName();
+                rowData[2] = record.get(i).getLastname();
+                rowData[3] = record.get(i).getEmail();
+                model.addRow(rowData);
+            }
+        }
+        else
+        {
+            System.out.println("List is Empty");
+        }
+    }
+    
+    public void setListenerEvents(){
+        addBtn.addActionListener(this);
     }
     
     public void setFrameSettings(){
@@ -100,56 +133,54 @@ public class AddCustomerGUI extends JFrame implements ActionListener{
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public JPanel getMain() {
-        return main;
-    }
-
-    public JLabel getLogoLbl() {
-        return logoLbl;
-    }
-
-    public ImageIcon getImg() {
-        return img;
-    }
-
-    public JTextField getNameTxt() {
-        return nameTxt;
-    }
-
-    public JTextField getSurnameTxt() {
-        return surnameTxt;
-    }
-
-    public JTextField getEmailTxt() {
-        return emailTxt;
-    }
-
-    public JComboBox getRoleBox() {
-        return roleBox;
-    }
-
-    public JButton getAddBtn() {
-        return addBtn;
-    }
-
     
-    
+    public boolean isEmpty()
+    {
+        boolean isEmpty = true;
+        
+        if (getName().trim().equals("") || getName().equals("Enter Customer Name"))
+        {
+            JOptionPane.showMessageDialog(null, "Name Name can't be empty.");
+            isEmpty = false;
+        }
+        else if (getSurname().trim().equals("") || 
+                getSurname().equals("Enter Customer Surname"))
+        {
+            JOptionPane.showMessageDialog(null, "Surname can't be empty.");
+            isEmpty = false;
+        }
+        else if (getEmail().trim().equals("") || 
+                getEmail().equals("Enter Customer Email"))
+        {
+            JOptionPane.showMessageDialog(null, "Email can't be empty.");
+            isEmpty = false;
+        }
+        
+        return isEmpty;
+    }  
+
     public String getName() {
-        return nameTxt.getText();
+        return this.nameTxt.getText();
     }
     
     public String getSurname() {
-        return surnameTxt.getText();
+        return this.surnameTxt.getText();
     }
 
     public String getEmail() {
-        return emailTxt.getText();
+        return this.emailTxt.getText();
     }
-    
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getActionCommand().equals("Add")){
+            if (!isEmpty()) return;
+            String name = getName(); 
+            String lastname = getSurname();
+            String email = getEmail();
+            
+            controller.addCustomer(name, lastname, email);
+            this.dispose();
+        }
+    }
 }

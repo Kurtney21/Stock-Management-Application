@@ -8,15 +8,14 @@ package za.ac.cput.stock.management.controller;
 
 import javax.swing.*;
 
-public class ViewController {
-    
-    
-    
-    public void swapPanels(JPanel oldPanel, JPanel newPanel){ //oldPanel == panel with cardlayout
-                oldPanel.removeAll();
-                oldPanel.add(newPanel);
-                oldPanel.repaint();
-                oldPanel.revalidate();
+public class ViewController 
+{    
+    public void swapPanels(JPanel oldPanel, JPanel newPanel)
+    { 
+        //oldPanel == panel with cardlayout
+        oldPanel.removeAll();
+        oldPanel.add(newPanel);
+        oldPanel.repaint();
+        oldPanel.revalidate();
     }
-
 }

@@ -17,6 +17,7 @@ import za.ac.cput.stock.management.common.Product;
 public class ProductDAO implements DAO<Product>
 {
     private ArrayList<Product> products;
+    private ArrayList<Product> productsCategory;
     private Connection conn;
     
     public ProductDAO() throws SQLException
@@ -25,28 +26,31 @@ public class ProductDAO implements DAO<Product>
     }
 
     @Override
-    public Product add(Product product)
+    public boolean add(Product product)
     {
-        String query = "INSERT INTO Products VALUES (?,?,?,?,?,?,?)";
+        boolean isAdd = false;
+        
+        String query = "INSERT INTO Products "
+                + "(Category, Vendor, Product_Name, Stock_Quantity, Price) "
+                + "VALUES (?,?,?,?,?)";
         
         try (var pst = this.conn.prepareStatement(query))
         {
-            pst.setInt(1, product.getProductId());
-            pst.setInt(2, Integer.parseInt(product.getCategory()));
-            pst.setInt(3, Integer.parseInt(product.getVendor()));
-            pst.setString(4, product.getProuductName());
-            pst.setString(5, product.getProductDescription());
-            pst.setInt(6, product.getStockQuantity());
-            pst.setDouble(7, product.getProductPrice());
+            pst.setString(1, product.getCategory());
+            pst.setString(2, product.getVendor());
+            pst.setString(3, product.getProuductName());
+            pst.setInt(4, product.getStockQuantity());
+            pst.setDouble(5, product.getProductPrice());
             
             pst.executeUpdate();
+            
+            isAdd = true;
         }
         catch (SQLException sqle)
         {
             System.out.println("add product db error: " + sqle.getMessage());
         }
-        
-        return product;
+        return isAdd;
     }
 
     @Override
@@ -56,9 +60,32 @@ public class ProductDAO implements DAO<Product>
     }
 
     @Override
-    public Product update(Product t)
+    public boolean update(Product product)
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+        boolean isUpdate = false;
+        
+        String query = "UPDATE Products SET "
+                + "Product_Name = ?,"
+                + "Stock_Quantity = ?, "
+                + "Price = ? "
+                + "WHERE Product_Id = ?";
+        
+        try (var pst = this.conn.prepareStatement(query))
+        {
+            pst.setString(1, product.getProuductName());
+            pst.setInt(2, product.getStockQuantity());
+            pst.setDouble(3, product.getProductPrice());
+            pst.setInt(4, product.getProductId());
+            
+            pst.executeUpdate();
+            
+            isUpdate = true;
+        } 
+        catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+        return isUpdate;
     }
 
     @Override
@@ -66,7 +93,7 @@ public class ProductDAO implements DAO<Product>
     {
         products = new ArrayList<>();
         
-        String query = "SELECT * FROM Products";
+        String query = "SELECT * FROM Products ORDER BY Product_Name";
         
         try (var pst = this.conn.prepareStatement(query);
                 ResultSet rs = pst.executeQuery())
@@ -74,19 +101,17 @@ public class ProductDAO implements DAO<Product>
             while (rs.next())
             {
                 int productId = rs.getInt(1);
-                int categoryId = rs.getInt(2);
-                int vendorId = rs.getInt(3);
+                String category = rs.getString(2);
+                String vendor = rs.getString(3);
                 String productName = rs.getString(4);
-                String productDescrip = rs.getString(5);
-                int stockQuantity = rs.getInt(6);
-                double price = rs.getDouble(7);
+                int stockQuantity = rs.getInt(5);
+                double price = rs.getDouble(6);
                 
                 var obj = new Product(
                         productId, 
                         productName, 
-                        productDescrip,
-                        String.valueOf(categoryId),
-                        String.valueOf(vendorId),
+                        category,
+                        vendor,
                         stockQuantity, 
                         price);
                 
@@ -99,5 +124,46 @@ public class ProductDAO implements DAO<Product>
         }
         
         return products;
+    }
+    
+    public List<Product> getProductsByCategory(String category)
+    {
+        productsCategory = new ArrayList<>();
+        
+        String query = "SELECT * FROM Products WHERE Category = ? "
+                + "ORDER BY Product_Name";
+        
+        try (var pst = this.conn.prepareStatement(query))
+        {
+            pst.setString(1, category);
+            
+            ResultSet rs = pst.executeQuery();
+            
+            while (rs.next())
+            {
+                int productId = rs.getInt(1);
+                String categoryName = rs.getString(2);
+                String vendor = rs.getString(3);
+                String productName = rs.getString(4);
+                int stockQuantity = rs.getInt(5);
+                double price = rs.getDouble(6);
+                
+                var obj = new Product(
+                        productId, 
+                        productName, 
+                        categoryName,
+                        vendor,
+                        stockQuantity, 
+                        price);
+                
+                this.productsCategory.add(obj);
+            }
+            rs.close();
+        }
+        catch (SQLException sqle)
+        {
+            sqle.printStackTrace();
+        }
+        return productsCategory;
     }
 }

@@ -5,14 +5,11 @@
  */
 package za.ac.cput.stock.management.server.dao;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.*;
+import java.util.*;
+import java.util.logging.*;
 import za.ac.cput.stock.management.server.dbconnection.DBConnection;
-import za.ac.cput.stock.management.common.User;
-import za.ac.cput.stock.management.common.UserRole;
+import za.ac.cput.stock.management.common.*;
 
 /**
  * The UserDAO accesses the User Table in database 
@@ -39,25 +36,30 @@ public class UserDAO implements DAO<User>
      * @return 
      */
     @Override
-    public User add(User user)
+    public boolean add(User user)
     {
-        String query = "INSERT INTO Users VALUES(?,?,?,?,?)";
+        boolean isAdd = false;
+        
+        String query = "INSERT INTO Users "
+                    + "(ROLE_ID, USERNAME, PASSWORD, STATUS) "
+                    + "VALUES (?,?,?,?)";
         
         try (var pst = this.conn.prepareStatement(query))
         {
-            pst.setInt(1, user.getUserId());
-            pst.setInt(2, user.getUserRole().getRoleCode());
-            pst.setString(3, user.getUsername());
-            pst.setString(4, user.getPassword());
-            pst.setBoolean(5, user.isStatus());
+            pst.setInt(1, user.getUserRole().getRoleCode());
+            pst.setString(2, user.getUsername());
+            pst.setString(3, user.getPassword());
+            pst.setBoolean(4, user.isStatus());
             
             pst.executeUpdate();
+            
+            isAdd = true;
         }
         catch (SQLException sqle)
         {
             System.out.println("add user db error: " + sqle.getMessage());
         }
-        return user;
+        return isAdd;
     }
 
     @Override
@@ -67,9 +69,27 @@ public class UserDAO implements DAO<User>
     }
 
     @Override
-    public User update(User user)
+    public boolean update(User user)
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+        String updateQuery = "UPDATE USERS SET"
+                    + " ROLE_ID = ?, USERNAME = ?, PASSWORD = ?, STATUS = ?"
+                    + " WHERE USER_ID = ?";
+        boolean isUpdate = false;
+        try (PreparedStatement ps = conn.prepareStatement(updateQuery)){
+            ps.setInt(1, user.getUserRole().getRoleCode());
+            ps.setString(2, user.getUsername());
+            ps.setString(3, user.getPassword());
+            ps.setBoolean(4, user.isStatus());
+            ps.setInt(5, user.getUserId());
+            
+            ps.executeUpdate();
+            isUpdate = true;
+        } catch (SQLException ex) {
+            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        return isUpdate;
     }
     
     /**
@@ -83,7 +103,7 @@ public class UserDAO implements DAO<User>
     {
         this.users = new ArrayList<>();
         
-        String query = "SELECT * FROM Users";
+        String query = "SELECT * FROM Users ORDER BY Username";
         
         try (var pst = this.conn.prepareStatement(query);
                 ResultSet rs = pst.executeQuery())

@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface DAO<T>
 {
-    public T add(T t);
+    public boolean add(T t);
     public T delete(T t);
-    public T update(T t);
+    public boolean update(T t);
     public List<T> getAll();
 }
