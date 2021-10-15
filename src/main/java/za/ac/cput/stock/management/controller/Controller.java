@@ -171,6 +171,23 @@ public class Controller
         return customerNames;
     }
     
+    public String [] getCustomerNamesString()
+    {
+        var customers = client.requestCustomers();
+        
+        var customersLen = customers.size();
+        
+        String [] customerNames = new String [customersLen];
+        
+        for (int i = 0; i < customersLen; i++)
+        {
+            String customerName = customers.get(i).getName();
+            customerNames[i] = customerName.toString();
+        }
+        
+        return customerNames;
+    }
+    
     public void addProduct(
             String productName, 
             int stockQuantity,
@@ -332,7 +349,6 @@ public class Controller
     public List<Sale> getSales(){
         return client.requestSales();
     }
-    
     
     public String getSalesTotal(){
         ArrayList<Sale> sale = (ArrayList<Sale>) getSales();

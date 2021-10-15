@@ -104,11 +104,31 @@ public class AddEmployeeGUI extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getActionCommand().equals("Add")){
+            if (!isEmpty()) return;
            User user = new User(getUserName(),getPassword(), getRole(), true);
            controller.addEmployee(user);
            this.dispose();
         }
     }
+    
+     public boolean isEmpty()
+    {
+        boolean isEmpty = true;
+        
+        if (getUserName().trim().equals("") || getUserName().equals("Enter Employee User Name"))
+        {
+            JOptionPane.showMessageDialog(null, "Employee Name can't be empty.");
+            isEmpty = false;
+        }
+        else if (getPassword().trim().equals("") || 
+                getPassword().equals("Enter Employee Password"))
+        {
+            JOptionPane.showMessageDialog(null, "Password can't be empty.");
+            isEmpty = false;
+        }
+        
+        return isEmpty;
+    }    
 
     public String getUserName() {
         return usernameTxt.getText();

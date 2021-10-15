@@ -430,6 +430,8 @@ public class Client
         {
             out.writeObject("requestCustomerInvoice");
             out.flush();
+            out.writeObject(name);
+            out.flush();
             
             invoice = (List<Invoice>) in.readObject();
         } 

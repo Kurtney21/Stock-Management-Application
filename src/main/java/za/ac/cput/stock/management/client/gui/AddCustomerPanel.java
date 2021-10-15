@@ -139,9 +139,6 @@ public class AddCustomerPanel extends JFrame{
                 JOptionPane.showMessageDialog(null, "No record selected.");
             }
     }
-    public static void main(String[] args) {
-        new AddCustomerPanel();
-    }
     
     public JPanel getAddCustomerPnl() {
         return addCustomerPnl;
