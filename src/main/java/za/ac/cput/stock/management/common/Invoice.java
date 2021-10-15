@@ -6,12 +6,14 @@
 
 package za.ac.cput.stock.management.common;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Kurtney Clyde Jantjies (218138105)
  * @group: Second Year
  */
-public class Invoice {
+public class Invoice implements Serializable {
     private int transaction;
     private String name;
     private int quantity;
@@ -64,9 +66,10 @@ public class Invoice {
 
     @Override
     public String toString() {
-        return "Invoice{" + "transaction=" + transaction + 
-                ", name=" + name + ", quantity=" + quantity + 
-                ", total=" + total + '}';
+        return "Invoice [Transaction_ID " + transaction 
+                + " Product_Name = " + name 
+                + " Product_Quantity = " + quantity 
+                + " Total = " + total + ']';
     }
     
     

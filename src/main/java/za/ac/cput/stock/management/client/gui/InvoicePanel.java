@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import za.ac.cput.stock.management.common.Fonts;
 import za.ac.cput.stock.management.common.Invoice;
 import za.ac.cput.stock.management.controller.Controller;
 
@@ -37,15 +38,14 @@ public class InvoicePanel extends JFrame implements  ItemListener{
     public void initComboBox(){
         //Dummy Values
         String[] trans = {"1328421","1328422","1328423","1328424","1328425"};
+        customerBox = new JComboBox(controller.getCustomerNamesString());
+        transactionBox = new JComboBox(trans);
         
         sc = new JScrollPane();
         txtArea = new JTextArea();
         sc.add(txtArea);
+        txtArea.setEditable(false);
         sc.setPreferredSize(new Dimension(600,300));
-        
-        customerBox = new JComboBox(controller.getCustomerNames());
-        transactionBox = new JComboBox(trans);
-        
     }
     
     public void initPanels(){
@@ -77,9 +77,8 @@ public class InvoicePanel extends JFrame implements  ItemListener{
         westPnl.add(Box.createRigidArea(new Dimension(0,150)));
         
         txtArea.setForeground(new Color(255,255,255));
-        centerPnl.add(sc);
+        centerPnl.add(txtArea);
         customerBox.addItemListener(this);
-        
     }
 
     public JPanel getMainPane() {
@@ -120,8 +119,13 @@ public class InvoicePanel extends JFrame implements  ItemListener{
     
     //FIXME
     public void populateSalesTextArea(){
-        String name = customerBox.getSelectedItem().toString();
+        String name = String.valueOf(customerBox.getSelectedItem());
+        
         ArrayList<Invoice> pop = (ArrayList<Invoice>) controller.getInvoices(name);
+        txtArea.setText("");
+        txtArea.append(name+"\n");
+        
+        
         for(Invoice a : pop){
             txtArea.append(a + "\n");
         }
@@ -131,9 +135,7 @@ public class InvoicePanel extends JFrame implements  ItemListener{
     public void itemStateChanged(ItemEvent e) {
         
         if(e.getStateChange()==ItemEvent.SELECTED){
-            System.out.println("ibsvc");
-            txtArea.append("Koe");
-           // populateSalesTextArea();
+            populateSalesTextArea();
         }
     }
     

@@ -143,10 +143,6 @@ public class AddCustomerGUI extends JFrame implements ActionListener{
     public String getEmail() {
         return this.emailTxt.getText();
     }
-    
-    public static void main(String[] args) {
-        new AddCustomerGUI().setVisible(true);
-    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
