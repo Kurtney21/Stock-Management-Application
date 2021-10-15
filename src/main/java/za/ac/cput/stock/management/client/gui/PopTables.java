@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import za.ac.cput.stock.management.common.Customer;
+import za.ac.cput.stock.management.common.Sale;
 import za.ac.cput.stock.management.common.User;
 import za.ac.cput.stock.management.controller.Controller;
 
@@ -50,6 +51,20 @@ public class PopTables {
             rowData[2] = list.get(i).getPassword();
             rowData[3] = list.get(i).getUserRole();
             rowData[4] = list.get(i).isStatus();
+            model.addRow(rowData);
+        }   
+    }
+    
+    public void populateSalesTable(JTable table) throws SQLException{
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+        ArrayList<Sale> list = (ArrayList<Sale>) controller.getSales();//Read Products from DB method (getAllProducts)
+        Object[] rowData = new Object[5];
+        
+        for(int i = 0; i < list.size();i++){
+            rowData[0] = list.get(i).getName();
+            rowData[1] = list.get(i).getQuantity();
+            rowData[2] = list.get(i).getSubTotal();
             model.addRow(rowData);
         }   
     }

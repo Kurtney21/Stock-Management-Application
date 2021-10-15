@@ -95,7 +95,7 @@ public class AddCustomerGUI extends JFrame implements ActionListener{
        main.add(Box.createRigidArea(new Dimension(0,10)));
     }
     
-    public void populateCustomerTable(JTable table) throws SQLException
+    public void populateCustomerTable(JTable table)
     {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         int rowCount = model.getRowCount();
@@ -103,16 +103,18 @@ public class AddCustomerGUI extends JFrame implements ActionListener{
         for (int i = rowCount - 1; i >= 0; i--) {
             model.removeRow(i);
         }
-
-        java.util.List<Customer> list = controller.getCustomers();//Read Products from DB method (getAllProducts)
-        if(list!=null)
+        
+        //Read Products from DB method (getAllProducts)
+        int customersLen = controller.getCustomers().size();
+        if(customersLen == 0)
         {
+            var record = controller.getCustomers();
             Object[] rowData = new Object[4];
-            for(int i = 0; i < list.size();i++){
-                rowData[0] = list.get(i).getCustomerId();
-                rowData[1] = list.get(i).getName();
-                rowData[2] = list.get(i).getLastname();
-                rowData[3] = list.get(i).getEmail();
+            for(int i = 0; i < customersLen;i++){
+                rowData[0] = record.get(i).getCustomerId();
+                rowData[1] = record.get(i).getName();
+                rowData[2] = record.get(i).getLastname();
+                rowData[3] = record.get(i).getEmail();
                 model.addRow(rowData);
             }
         }

@@ -11,7 +11,9 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.List;
 import za.ac.cput.stock.management.common.Customer;
+import za.ac.cput.stock.management.common.Invoice;
 import za.ac.cput.stock.management.common.Product;
+import za.ac.cput.stock.management.common.Sale;
 import za.ac.cput.stock.management.common.Transaction;
 import za.ac.cput.stock.management.common.User;
 
@@ -401,4 +403,41 @@ public class Client
         }
         return isUpdateUser;
     }
+        
+    public List<Sale> requestSales()
+    {
+        List<Sale> sales = null;
+        
+        try
+        {
+            out.writeObject("requestSales");
+            out.flush();
+            
+            sales = (List<Sale>) in.readObject();
+        } 
+        catch (IOException | ClassNotFoundException ex)
+        {
+            ex.printStackTrace();
+        }
+        return sales;
+    }    
+    
+     public List<Invoice> requestCustomerInvoices(String name)
+    {
+        List<Invoice> invoice = null;
+        
+        try
+        {
+            out.writeObject("requestCustomerInvoice");
+            out.flush();
+            
+            invoice = (List<Invoice>) in.readObject();
+        } 
+        catch (IOException | ClassNotFoundException ex)
+        {
+            ex.printStackTrace();
+        }
+        return invoice;
+    }   
+    
 }

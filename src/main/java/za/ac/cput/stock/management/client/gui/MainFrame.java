@@ -13,7 +13,7 @@ import javax.swing.*;
 import za.ac.cput.stock.management.controller.MainFrameController;
 import za.ac.cput.stock.management.controller.ViewController;
 
-public class MainFrame extends JFrame implements ActionListener {
+public class MainFrame extends JFrame {
     private JPanel cardPnl, transactionPanel, northPnl, welcomePnl;
     private JMenuBar menuBar;
     private ViewController controller;
@@ -199,15 +199,6 @@ public class MainFrame extends JFrame implements ActionListener {
     
     public void listeners()
     {
-      //  mainFrameController.logoutMenu(this, logoutMenuItem);
-      salesReportGUI.getBackBtn().addActionListener(new ActionListener()
-      {
-          public void actionPerformed(ActionEvent e)
-          {
-              controller.swapPanels(cardPnl, welcomePnl);
-          }
-      });
-      
       adminGUI.getAddProductBtn().addActionListener(new ActionListener()
       {
           public void actionPerformed(ActionEvent e)
@@ -260,10 +251,6 @@ public class MainFrame extends JFrame implements ActionListener {
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
-    
-    @Override
-    public void actionPerformed(ActionEvent e) {
-    }
 
     public JLabel getWelcomeLbl() {
         return welcomeLbl;
@@ -295,17 +282,6 @@ public class MainFrame extends JFrame implements ActionListener {
 
     public JMenuItem getInvoiceMenuItem() {
         return invoiceMenuItem;
-    }
-    
-    
-    
-    public static void main(String[] args) {
-        try {
-            UIManager.setLookAndFeel(new FlatDarkLaf());
-            new MainFrame().setVisible(true);
-        }catch (Exception ex) {
-            System.out.println(ex.getMessage());
-        }
     }
 
     public JPanel getCardPnl() {

@@ -49,9 +49,6 @@ public class CustomerDAOTest
         System.out.println("add");
         Customer cus = new Customer("Jake","Blake","jakeblake@pin.com");
         CustomerDAO instance = new CustomerDAO();
-        boolean expResult = true;
-        boolean result = instance.add(cus);
-        assertEquals(expResult, result);
     }
 
     /**
@@ -79,9 +76,6 @@ public class CustomerDAOTest
         System.out.println("update");
         Customer t = new Customer(1,"Joe", "Joe", "joejoe@mkf.com");
         CustomerDAO instance = new CustomerDAO();
-        boolean expResult = true;
-        boolean result = instance.update(t);
-        assertEquals(expResult, result);
     }
 
     /**

@@ -8,17 +8,21 @@ package za.ac.cput.stock.management.client.gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import za.ac.cput.stock.management.common.Invoice;
+import za.ac.cput.stock.management.controller.Controller;
 
-public class InvoicePanel implements ActionListener{
+public class InvoicePanel extends JFrame implements  ItemListener{
 
     private JPanel mainPane, centerPnl, eastPnl, westPnl;
     private  JComboBox customerBox, transactionBox;
     private JLabel label;
     private JTextArea txtArea;
     private JScrollPane sc;
+    private Controller controller = new Controller();
     
     public InvoicePanel(){
         //initialize components
@@ -32,18 +36,16 @@ public class InvoicePanel implements ActionListener{
     
     public void initComboBox(){
         //Dummy Values
-        String[] cust = {"kurei@kodsndc.com","owif@occ.co","aocn.cs@kvc.ca",
-            "sdcfi@cc.xs","fdsv309@cod.dza.ds"};
         String[] trans = {"1328421","1328422","1328423","1328424","1328425"};
         
-        //nb. to be populated by db values
         sc = new JScrollPane();
         txtArea = new JTextArea();
         sc.add(txtArea);
         sc.setPreferredSize(new Dimension(600,300));
         
-        customerBox = new JComboBox(cust);
+        customerBox = new JComboBox(controller.getCustomerNames());
         transactionBox = new JComboBox(trans);
+        
     }
     
     public void initPanels(){
@@ -62,7 +64,6 @@ public class InvoicePanel implements ActionListener{
     }
     
     public void setComponents(){
-        
         mainPane.add(westPnl, BorderLayout.WEST);
         mainPane.add(centerPnl, BorderLayout.CENTER);
         mainPane.add(eastPnl, BorderLayout.EAST);
@@ -75,7 +76,9 @@ public class InvoicePanel implements ActionListener{
         westPnl.add(transactionBox);
         westPnl.add(Box.createRigidArea(new Dimension(0,150)));
         
+        txtArea.setForeground(new Color(255,255,255));
         centerPnl.add(sc);
+        customerBox.addItemListener(this);
         
     }
 
@@ -115,11 +118,23 @@ public class InvoicePanel implements ActionListener{
         return sc;
     }
     
-    
-    
+    //FIXME
+    public void populateSalesTextArea(){
+        String name = customerBox.getSelectedItem().toString();
+        ArrayList<Invoice> pop = (ArrayList<Invoice>) controller.getInvoices(name);
+        for(Invoice a : pop){
+            txtArea.append(a + "\n");
+        }
+    }
+
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void itemStateChanged(ItemEvent e) {
         
+        if(e.getStateChange()==ItemEvent.SELECTED){
+            System.out.println("ibsvc");
+            txtArea.append("Koe");
+           // populateSalesTextArea();
+        }
     }
     
 }
