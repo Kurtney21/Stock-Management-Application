@@ -9,14 +9,13 @@ package za.ac.cput.stock.management.server.dao;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import za.ac.cput.stock.management.common.Product;
 import za.ac.cput.stock.management.common.*;
 import za.ac.cput.stock.management.server.dbconnection.*;
 
-public class SalesReportDAO implements DAO{
+public class SalesReportDAO implements DAO
+{
     private Connection con;
+    ArrayList<Sale> sales;
     
     public SalesReportDAO() throws SQLException{
         con = new DBConnection().getDerbyConnection();
@@ -39,9 +38,10 @@ public class SalesReportDAO implements DAO{
 
     @Override
     public List getAll() {
-        ArrayList<Sale> sales = new ArrayList();
-        String query = "SELECT PRODUCT_NAME," +
-                "SUM(TRANSACTION_QUANTITY) AS TOTAL_QUANTITY," +
+        sales = new ArrayList();
+        
+        String query = "SELECT PRODUCT_NAME, " +
+                "SUM(TRANSACTION_QUANTITY) AS TOTAL_QUANTITY, " +
                 "SUM(TRANSACTION_TOTAL) AS SUB_TOTAL " +
                 "FROM TRANSACTIONS " +
                 "INNER JOIN PRODUCTS " +
@@ -59,12 +59,14 @@ public class SalesReportDAO implements DAO{
                 
                 var obj = new Sale(name,quantity,price);
                 
-                sales.add(obj);
+                this.sales.add(obj);
             }
-        }catch(Exception ea){
+        }
+        catch(Exception ea)
+        {
             ea.printStackTrace();
         }
-        return sales;
+        return this.sales;
     }
     
     

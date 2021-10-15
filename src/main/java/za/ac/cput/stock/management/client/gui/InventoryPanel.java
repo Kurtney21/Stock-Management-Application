@@ -7,6 +7,8 @@
 package za.ac.cput.stock.management.client.gui;
 
 import java.awt.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -18,10 +20,11 @@ import za.ac.cput.stock.management.controller.Controller;
  * @author Kurtney Clyde Jantjies (218138105)
  * @group: Second Year
  */
-public class InventoryPanel {
+public class InventoryPanel implements ItemListener {
 
     private JPanel mainPane, northPnl, eastPnl, centerPnl;
     private JTable inventoryTable;
+    private JComboBox categoryBox;
     private JScrollPane pane;
     private JLabel heading = new JLabel("Inventory");
     private Controller controller = new Controller();
@@ -32,6 +35,7 @@ public class InventoryPanel {
         eastPnl = new JPanel();
         centerPnl = new JPanel();
         
+        setCombox();
         setTable();
         setLayouts();
         setComponents();
@@ -59,13 +63,24 @@ public class InventoryPanel {
         pane.setSize(600,400);
     }
     
+    public void setCombox()
+    {
+        categoryBox = new JComboBox(controller.getCategories());
+        categoryBox.addItemListener(this);
+    }
+    
     public void populateTable()
     {
-        int productsLen = controller.getProducts().size();
+        String category = categoryBox.getSelectedItem().toString();
         
-        for (int i = 0; i < productsLen; i++)
+        int productCategoryLen = 
+                controller.getProductsByCategory(category).size();
+
+        getTableModel().setRowCount(0);
+
+        for (int i = 0; i < productCategoryLen; i++)
         {
-            var record = controller.getProducts().get(i);
+            var record = controller.getProductsByCategory(category).get(i);
             getTableModel().addRow(new Object[] {
                 record.getProductId(), 
                 record.getProuductName(), 
@@ -89,8 +104,20 @@ public class InventoryPanel {
         mainPane.add(centerPnl, BorderLayout.CENTER);
         heading.setFont(new Fonts().getMed());
         northPnl.add(heading);
-        eastPnl.add(Box.createRigidArea(new Dimension(150,0)));
+        eastPnl.add(Box.createRigidArea(new Dimension(200,0)));
+        categoryBox.setAlignmentX(Component.CENTER_ALIGNMENT);
+        categoryBox.setMaximumSize(new Dimension(150, 30));
+        eastPnl.add(categoryBox);
         centerPnl.add(pane);
+    }
+    
+    @Override
+    public void itemStateChanged(ItemEvent e)
+    {
+        if (e.getStateChange() == ItemEvent.SELECTED)
+        {
+            populateTable();
+        }
     }
 
     public JPanel getMainPane() {
@@ -101,4 +128,5 @@ public class InventoryPanel {
     {
         return (DefaultTableModel) inventoryTable.getModel();
     }
+
 }

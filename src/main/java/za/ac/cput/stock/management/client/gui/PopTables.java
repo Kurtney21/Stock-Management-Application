@@ -8,6 +8,7 @@ package za.ac.cput.stock.management.client.gui;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import za.ac.cput.stock.management.common.Customer;
@@ -55,7 +56,7 @@ public class PopTables {
         }   
     }
     
-    public void populateSalesTable(JTable table) throws SQLException{
+    public List populateSalesTable(JTable table) throws SQLException{
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
         ArrayList<Sale> list = (ArrayList<Sale>) controller.getSales();//Read Products from DB method (getAllProducts)
@@ -64,9 +65,10 @@ public class PopTables {
         for(int i = 0; i < list.size();i++){
             rowData[0] = list.get(i).getName();
             rowData[1] = list.get(i).getQuantity();
-            rowData[2] = list.get(i).getSubTotal();
+            rowData[2] = Math.round(list.get(i).getSubTotal()*100.00)/100.00;
             model.addRow(rowData);
-        }   
+        }
+        return list;
     }
 
 }

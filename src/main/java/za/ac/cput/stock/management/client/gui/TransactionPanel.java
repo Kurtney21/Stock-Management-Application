@@ -22,7 +22,7 @@ public class TransactionPanel implements ActionListener
     private JLabel selectLbl;
     private JComboBox catBox, customerBox, productBox;
     private JScrollPane sc; 
-    private JButton addBtn, displayCartBtn, checkoutBtn, cartBtn,backBtn;
+    private JButton addBtn, backBtn;
     private JSpinner quantitySpinner;
     private JTextField priceTxt;
     private SalesReportPanel salesReport = new SalesReportPanel();

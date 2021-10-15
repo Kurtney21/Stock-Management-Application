@@ -6,17 +6,17 @@
 
 package za.ac.cput.stock.management.client.gui;
 
-import com.formdev.flatlaf.FlatDarkLaf;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import za.ac.cput.stock.management.controller.Controller;
 import za.ac.cput.stock.management.controller.MainFrameController;
 import za.ac.cput.stock.management.controller.ViewController;
 
 public class MainFrame extends JFrame {
     private JPanel cardPnl, transactionPanel, northPnl, welcomePnl;
     private JMenuBar menuBar;
-    private ViewController controller;
+    private ViewController viewController;
     private JMenu fileMenu, adminMenu;
     private JMenuItem exitMenuItem, productManagementMenuItem, userManagementMenuItem,
             transactionMenuItem, addCustomerMenuItem,invoiceMenuItem, salesReportMenuItem,
@@ -32,13 +32,14 @@ public class MainFrame extends JFrame {
     private InventoryPanel inventoryPanel;
     private InvoicePanel invoiceGUI;
     private Font ft;
+    private Controller controller = new Controller();
     
     
     public MainFrame() {
         // mainFrameController = new MainFrameController();
         initComponents();
         setFrameSettings();
-        controller = new ViewController();
+        viewController = new ViewController();
     }
     
     private void initComponents() {
@@ -161,38 +162,55 @@ public class MainFrame extends JFrame {
         
         salesReportMenuItem.addActionListener(new ActionListener(){  
                 public void actionPerformed(ActionEvent e){  
-                        controller.swapPanels(cardPnl, salesReportGUI.getSalesReportPnl());
+                        viewController.swapPanels(cardPnl, salesReportGUI.getSalesReportPnl());
                 }  
             });
-        inventoryMenuItem.addActionListener(new ActionListener(){  
-                public void actionPerformed(ActionEvent e){  
-                        controller.swapPanels(cardPnl, inventoryPanel.getMainPane());
-                }  
-            });
+        inventoryMenuItem.addActionListener(new ActionListener()
+        {  
+            public void actionPerformed(ActionEvent e)
+            {  
+                viewController.swapPanels(cardPnl, inventoryPanel.getMainPane());
+                
+                int productsLen = controller.getProducts().size();
+                var tableModel = inventoryPanel.getTableModel();
+                tableModel.setRowCount(0);
+                for (int i = 0; i < productsLen; i++)
+                {
+                    var record = controller.getProducts().get(i);
+                    tableModel.addRow(new Object[] {
+                        record.getProductId(), 
+                        record.getProuductName(), 
+                        record.getStockQuantity(), 
+                        record.getProductPrice(),
+                        record.getVendor()
+                    });
+                }
+            }  
+        });
         productManagementMenuItem.addActionListener(new ActionListener(){  
                 public void actionPerformed(ActionEvent e){
-                    controller.swapPanels(cardPnl, adminGUI.getProductManagePnl());  
+                    viewController.swapPanels(cardPnl, adminGUI.getProductManagePnl());  
                 }  
             });
        
         userManagementMenuItem.addActionListener(new ActionListener(){  
                 public void actionPerformed(ActionEvent e){
-                        controller.swapPanels(cardPnl, adminGUI.getUserManagePnl());
+                        viewController.swapPanels(cardPnl, adminGUI.getUserManagePnl());
                 }  
             });
         transactionMenuItem.addActionListener(new ActionListener(){  
                 public void actionPerformed(ActionEvent e){  
-                        controller.swapPanels(cardPnl, transactionPanel);
+                        viewController.swapPanels(cardPnl, transactionPanel);
                 }  
             }); 
         addCustomerMenuItem.addActionListener(new ActionListener(){  
                 public void actionPerformed(ActionEvent e){  
-                        controller.swapPanels(cardPnl, addCustomerPanel.getAddCustomerPnl());
+                        viewController.swapPanels(cardPnl, addCustomerPanel.getAddCustomerPnl());
                 }  
             });
         invoiceMenuItem.addActionListener(new ActionListener(){  
                 public void actionPerformed(ActionEvent e){  
-                        controller.swapPanels(cardPnl, invoiceGUI.getMainPane());
+                        viewController.swapPanels(cardPnl, invoiceGUI.getMainPane());
                 }  
             });
     }
@@ -210,14 +228,14 @@ public class MainFrame extends JFrame {
       {
           public void actionPerformed(ActionEvent e)
           {
-              controller.swapPanels(cardPnl, welcomePnl);
+              viewController.swapPanels(cardPnl, welcomePnl);
           }
       });*/
       /*adminGUI.getBackUserBtn().addActionListener(new ActionListener()
       {
           public void actionPerformed(ActionEvent e)
           {
-              controller.swapPanels(cardPnl, welcomePnl);
+              viewController.swapPanels(cardPnl, welcomePnl);
           }
       });*/
       adminGUI.getAddUserBtn().addActionListener(new ActionListener()
@@ -231,14 +249,14 @@ public class MainFrame extends JFrame {
       {
           public void actionPerformed(ActionEvent e)
           {  
-                 controller.swapPanels(cardPnl, selectProductPanel.getAddProductPnl());
+                 viewController.swapPanels(cardPnl, selectProductPanel.getAddProductPnl());
           }
       });
       selectProductPanel.getBackBtn().addActionListener(new ActionListener()
       {
           public void actionPerformed(ActionEvent e)
           {
-              controller.swapPanels(cardPnl, welcomePnl);
+              viewController.swapPanels(cardPnl, welcomePnl);
           }
       });
     }
@@ -300,8 +318,8 @@ public class MainFrame extends JFrame {
         return welcomePnl;
     }
 
-    public ViewController getController() {
-        return controller;
+    public ViewController getViewController() {
+        return viewController;
     }
 
     public JMenu getFileMenu() {
@@ -358,5 +376,5 @@ public class MainFrame extends JFrame {
 
     public Font getFt() {
         return ft;
-    }   
+    }
 }

@@ -9,7 +9,11 @@ package za.ac.cput.stock.management.client.gui;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.Date;
 import javax.swing.*;
 import javax.swing.border.*;
 import za.ac.cput.stock.management.common.*;
@@ -127,6 +131,7 @@ public class SalesReportPanel implements ActionListener{
         salesReportButtonsPnl.add(refreshBtn);
         
         refreshBtn.addActionListener(this);
+        exportBtn.addActionListener(this);
     }
     
     public JPanel getSalesReportPnl() {
@@ -143,7 +148,8 @@ public class SalesReportPanel implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-       if(e.getActionCommand().equals("Refresh")){
+       if(e.getActionCommand().equals("Refresh"))
+       {
             refreshTotal();
             try 
             {
@@ -153,6 +159,55 @@ public class SalesReportPanel implements ActionListener{
             {
                 
             }
+       }
+       else if (e.getSource().equals(exportBtn))
+       {
+           Date dateTime = new Date();
+           String filename = "Sales Report - " + dateTime.toString();
+           
+           var salesReport = controller.getSales();
+           String totalSales = controller.getSalesTotal();
+               
+            if (totalSales.equals("0.0"))
+            {
+                JOptionPane.showMessageDialog(null, "No sales occured.");
+                return;
+            }
+           
+           try (FileWriter fileWriter = new FileWriter(filename);
+                   PrintWriter printWriter = new PrintWriter(fileWriter))
+           {
+               String header = "============================== Sales Report ==========================\n";
+               String placeholder = "%-30s\t%-10s\t%-10s\n";
+               String separator = "======================================================================\n";
+               
+               
+               printWriter.print(header);
+               printWriter.printf(placeholder, "Product Name", "Quantity", "Sub-total");
+               printWriter.print(separator);
+               
+               for (int i = 0; i < salesReport.size(); i++)
+               {
+                   printWriter.printf(
+                           placeholder,
+                           salesReport.get(i).getName(),
+                           salesReport.get(i).getQuantity(),
+                           Math.round(salesReport.get(i).getSubTotal()*100.00)/100.00);
+               }
+               
+               printWriter.print(separator);
+               printWriter.printf(
+                       "%-30s\t%-10s\t%-10s\n", 
+                       "",
+                       "Total Sales:",
+                       totalSales);
+               
+               JOptionPane.showMessageDialog(null, "Exported " + filename + ".txt");
+           } 
+           catch (IOException ex)
+           {
+               ex.printStackTrace();
+           } 
        }
     }
     

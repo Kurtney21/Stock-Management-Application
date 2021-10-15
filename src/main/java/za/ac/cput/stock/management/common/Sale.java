@@ -28,8 +28,6 @@ public class Sale implements Serializable{
         this.subTotal = subTotal;
     }
     
-    
-
     public Sale(int id, int quantity, double subTotal, double total) {
         this.id = id;
         this.quantity = quantity;

@@ -37,7 +37,7 @@ public class RequestHandler
     private VendorDAO vendorDAO;
     private CustomerDAO customerDAO;
     private TransactionDAO transactionDAO;
-    private SalesReportDAO salesDAO;
+    private SalesReportDAO salesReportDAO;
     
     public RequestHandler()
     {
@@ -49,7 +49,7 @@ public class RequestHandler
             vendorDAO = new VendorDAO();
             customerDAO = new CustomerDAO();
             transactionDAO = new TransactionDAO();
-            salesDAO  = new SalesReportDAO();
+            salesReportDAO  = new SalesReportDAO();
         } 
         catch (SQLException ex)
         {
@@ -153,12 +153,11 @@ public class RequestHandler
         return this.userDAO.update(user);
     }
 
-    public List<Sale> getSales(){
-        return this.salesDAO.getAll();
+    public List getSales(){
+        return this.salesReportDAO.getAll();
     }
     
     public List<Invoice> getCustomerInvoices(String customerName){
-        return this.salesDAO.getCustomerInvoice(customerName);
-        
+        return this.salesReportDAO.getCustomerInvoice(customerName);
     }
 }
