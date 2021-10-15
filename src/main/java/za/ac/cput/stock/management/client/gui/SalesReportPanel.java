@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -164,11 +165,9 @@ public class SalesReportPanel implements ActionListener{
        }
        else if (e.getSource().equals(exportBtn))
        {
-           //FIXME
-           Date dateTime = new Date();
-           String filename = "SalesReport" + dateTime.toString()+".txt";
-           String  file= filename.replace(" ", "");
-           System.out.println(file);
+           String dateTime = new Date().toString().replace(":", "-");
+           String filename = "Sales Report - ".concat(dateTime).concat(".txt");
+           
            var salesReport = controller.getSales();
            String totalSales = controller.getSalesTotal();
                
@@ -178,7 +177,7 @@ public class SalesReportPanel implements ActionListener{
                 return;
             }
            
-           try (FileWriter fileWriter = new FileWriter("SalesReport" + dateTime.toString()+".txt");
+           try (FileWriter fileWriter = new FileWriter(filename);
                    PrintWriter printWriter = new PrintWriter(fileWriter))
            {
                String header = "============================== Sales Report ==========================\n";
@@ -206,7 +205,7 @@ public class SalesReportPanel implements ActionListener{
                        "Total Sales:",
                        totalSales);
                
-               JOptionPane.showMessageDialog(null, "Exported " + filename + ".txt");
+               JOptionPane.showMessageDialog(null, "Exported " + filename);
            } 
            catch (IOException ex)
            {
