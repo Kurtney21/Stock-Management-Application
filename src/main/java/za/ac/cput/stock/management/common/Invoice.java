@@ -66,11 +66,6 @@ public class Invoice implements Serializable {
 
     @Override
     public String toString() {
-        return "Invoice [Transaction_ID " + transaction 
-                + " Product_Name = " + name 
-                + " Product_Quantity = " + quantity 
-                + " Total = " + total + ']';
+        return String.format("%-40s%-20s\t%-20s\t%-15s",transaction,name,quantity,"R "+total);
     }
-    
-    
 }

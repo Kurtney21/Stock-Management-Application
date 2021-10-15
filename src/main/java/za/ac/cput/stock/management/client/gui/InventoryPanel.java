@@ -90,6 +90,8 @@ public class InventoryPanel {
         heading.setFont(new Fonts().getMed());
         northPnl.add(heading);
         eastPnl.add(Box.createRigidArea(new Dimension(150,0)));
+        //Add Combo Here
+        
         centerPnl.add(pane);
     }
 

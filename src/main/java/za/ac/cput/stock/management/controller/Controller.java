@@ -341,7 +341,6 @@ public class Controller
         return client.requestSales();
     }
     
-    
     public String getSalesTotal(){
         ArrayList<Sale> sale = (ArrayList<Sale>) getSales();
         double total = 0;
