@@ -131,6 +131,31 @@ public class AddCustomerGUI extends JFrame implements ActionListener{
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
+    
+    public boolean isEmpty()
+    {
+        boolean isEmpty = true;
+        
+        if (getName().trim().equals("") || getName().equals("Enter Customer Name"))
+        {
+            JOptionPane.showMessageDialog(null, "Name Name can't be empty.");
+            isEmpty = false;
+        }
+        else if (getSurname().trim().equals("") || 
+                getSurname().equals("Enter Customer Surname"))
+        {
+            JOptionPane.showMessageDialog(null, "Surname can't be empty.");
+            isEmpty = false;
+        }
+        else if (getEmail().trim().equals("") || 
+                getEmail().equals("Enter Customer Email"))
+        {
+            JOptionPane.showMessageDialog(null, "Email can't be empty.");
+            isEmpty = false;
+        }
+        
+        return isEmpty;
+    }  
 
     public String getName() {
         return this.nameTxt.getText();
@@ -147,6 +172,7 @@ public class AddCustomerGUI extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getActionCommand().equals("Add")){
+            if (!isEmpty()) return;
             String name = getName(); 
             String lastname = getSurname();
             String email = getEmail();
